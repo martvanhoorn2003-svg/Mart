@@ -227,8 +227,9 @@ def chart_hours_vs_quality(df: pd.DataFrame) -> dict:
     ax.text(0.99, 0.97,
             f"Weekly hours vs rating: Spearman ρ = {rho:.3f} (p = {pval:.2g}, n={len(d):,})\n"
             f"Transport distance vs capacity: ρ = {rho_cap:.3f} (p = {p_cap:.2g})\n"
-            f"Transport distance vs weekly hours: ρ = {rho_hrs:.3f} (p = {p_hrs:.2g}, not significant)\n"
-            "Transport accessibility doesn't meaningfully move either operational measure.",
+            f"Transport distance vs weekly hours: ρ = {rho_hrs:.3f} (p = {p_hrs:.2g})\n"
+            "Both effect sizes are negligible: transport accessibility isn't a\n"
+            "meaningful lever for capacity or opening hours, even where p < .05.",
             transform=ax.transAxes, ha="right", va="top", fontsize=8, color=INK_SECONDARY,
             bbox=dict(boxstyle="round,pad=0.4", facecolor="#f9f9f7", edgecolor=GRIDLINE))
     for spine in ["top", "right"]:

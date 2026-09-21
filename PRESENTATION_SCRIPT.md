@@ -88,27 +88,30 @@ underperforming services around Perth and Adelaide specifically, which
 means a support team could be deployed to a cluster, not spread across
 an entire state."
 
-### Chart 5 — Ruling out transport as the cause (3:00–3:45)
+### Chart 5 — Does distance from transport hurt quality? (3:00–3:45)
 
 [SHOW 05_transport_vs_quality.png]
 
-"Before recommending a fix, I need to rule out the obvious wrong
-answer. Is this just about how well-connected a service is? I tested
-distance to the nearest train station against rating directly. The
-correlation is effectively zero — statistically detectable only because
-we have sixteen thousand data points, but practically meaningless. This
-matters for the budget question: don't fund transport upgrades expecting
-a quality payoff. That's not where the problem lives."
+"Before recommending a fix, I need to test the obvious hypothesis
+directly: does poor transport access actually damage quality? I looked
+at the share of services falling below the NQS standard — rated Working
+Towards or worse — by distance to the nearest train station. It rises
+from seven-point-six percent for the closest services to ten-point-three
+percent for the furthest. That's real and statistically significant, but
+it's a small effect, not a dominant one. For the budget question: a
+transport upgrade might nudge quality slightly, but it won't close a
+ten-times state-level gap. It's a minor risk factor sitting alongside
+the much bigger drivers we've already found."
 
 ---
 
 ## Problem 2: Are families structurally cut off from services, and where worst? (3:45–5:50)
 
-"Second problem. Transport doesn't explain quality — but it might still
-determine whether a family can use a service at all, which is a
-different, equally real problem. I classified every service urban or
-rural using ABS boundaries, spatially joined to each service's own
-coordinates."
+"Second problem. Transport only explains a small slice of the quality
+picture — but it might still determine whether a family can use a
+service at all, which is a different, larger problem. I classified
+every service urban or rural using ABS boundaries, spatially joined to
+each service's own coordinates."
 
 ### Chart 6 — Transport access, urban vs rural (3:55–4:20)
 
@@ -198,14 +201,16 @@ steady trend only starts in 2013."
 [SHOW 13_hours_vs_quality.png]
 
 "Last check: of everything operational, does anything actually predict
-quality? Opening hours does, modestly — services open under forty-five
-hours a week hit thirty-seven percent Exceeding, falling to eighteen
-percent for the longest-opening services. That's the single largest
-operational effect I found, plausibly a staffing-strain signal worth
-a follow-up study. And to close the loop on Problem 1: transport
-accessibility still doesn't move capacity or hours either. Three
-separate tests now, all pointing the same way — transport is a real
-equity issue, but it is not the lever for quality."
+quality more strongly than transport did? Opening hours does — services
+open under forty-five hours a week hit thirty-seven percent Exceeding,
+falling to eighteen percent for the longest-opening services. That's the
+largest single operational effect I found, bigger than transport's, and
+plausibly a staffing-strain signal worth a follow-up study. And to close
+the loop on Problem 1: transport accessibility still doesn't move
+capacity or hours in any meaningful way — so its small quality effect
+isn't working through operations, it's standing on its own. Transport is
+a real equity issue and a minor quality one; opening hours is the
+bigger, less-discussed lever."
 
 ---
 
@@ -215,13 +220,14 @@ equity issue, but it is not the lever for quality."
 
 "So, back to the budget question I opened with. One: WA and the NT need
 targeted health-and-safety support, not a general audit — that's where
-the money should go first for quality. Two: WA's and the NT's rural
-Bounded Localities are the most underserved places in the country by a
-full order of magnitude — that's where a new service should go first
-for access. And three: don't spend on transport access expecting a
-quality return — three independent tests say it won't pay off; spend
-there for equity reasons instead, with eyes open about what it will and
-won't fix. That's a budget with a reason behind every line. Thank you."
+the money should go first for quality, and it's a far bigger lever than
+transport. Two: WA's and the NT's rural Bounded Localities are the most
+underserved places in the country by a full order of magnitude — that's
+where a new service should go first for access. And three: fund
+transport access for equity, not as a quality play — it has a real but
+small quality upside, dwarfed by the state and opening-hours effects, so
+don't oversell it in the business case. That's a budget with a reason
+behind every line, sized honestly. Thank you."
 
 ---
 
@@ -233,9 +239,10 @@ won't fix. That's a budget with a reason behind every line. Thank you."
   compress the Myanmar catch to one sentence, (2) Chart 8's own beat —
   mention it in passing during Chart 9 instead, (3) Chart 11 — one
   sentence instead of two. Never cut Chart 5 or the transport call-back
-  in Chart 13 — that "we tested it three times, all null" chain is your
-  strongest evidence of rigour for a policy audience, and it's what
-  makes the closing recommendation credible rather than asserted.
+  in Chart 13 — that "small effect, sized honestly against the bigger
+  drivers" chain is your strongest evidence of analytical rigour for a
+  policy audience, and it's what makes the closing recommendation
+  credible rather than asserted.
 - If asked why urban/rural wasn't done with the postcode-allocation
   method: the direct spatial join avoids the many-to-many
   postcode-to-SA1 mapping problem, since the dataset already has

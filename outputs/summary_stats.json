@@ -15,8 +15,10 @@
   "strongest_quality_area_nationally": "QA6 Collaborative partnerships",
   "n_mapped": 17653,
   "n_excluded_suspect_geocode": 0,
-  "transport_quality_spearman_rho": -0.0206,
-  "transport_quality_spearman_p": 0.008964483943696974,
+  "transport_belowstandard_spearman_rho": 0.0259,
+  "transport_belowstandard_spearman_p": 0.0010535622964976603,
+  "belowstandard_pct_closest_bin": 7.6,
+  "belowstandard_pct_farthest_bin": 10.3,
   "n_excluded_remote_outliers": 296,
   "urban_rural_counts": {
     "Urban": 16428,

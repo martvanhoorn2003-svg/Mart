@@ -277,9 +277,16 @@ def chart_spatial_map(df: pd.DataFrame) -> dict:
 def chart_transport_vs_quality(df: pd.DataFrame) -> dict:
     d = rated_only(df["OverallRating"].dropna()).index
     sub = df.loc[d].copy()
-    sub["rating_code"] = sub["OverallRating"].astype(str).map(
-        {v: i for i, v in enumerate(RATING_ORDER_SUBSTANTIVE)}
-    )
+    sub["OverallRating"] = sub["OverallRating"].astype(str)
+    # The question is whether poor transport access has a NEGATIVE impact
+    # on quality, so the outcome plotted is the share falling BELOW the
+    # NQS standard (Working Towards NQS or Significant Improvement
+    # Required) - a direct "at risk" measure - rather than the share
+    # exceeding it.
+    sub["BelowStandard"] = sub["OverallRating"].isin(
+        ["Working Towards NQS", "Significant Improvement Required"]
+    ).astype(int)
+
     # Torres Strait / very remote outliers (>100km, flagged in cleaning)
     # excluded here: they're real but would compress every other bin onto
     # one pixel and are a policy story of their own (see spatial map).
@@ -289,30 +296,29 @@ def chart_transport_vs_quality(df: pd.DataFrame) -> dict:
     bins = [0, 0.5, 1, 2, 5, 10, 100]
     labels = ["<0.5km", "0.5-1km", "1-2km", "2-5km", "5-10km", "10-100km"]
     sub_clean["dist_bin"] = pd.cut(sub_clean["DistanceToTrainStation_km"], bins=bins, labels=labels)
-    sub_clean["OverallRating"] = sub_clean["OverallRating"].astype(str)
-    props = (
-        sub_clean.groupby("dist_bin", observed=True)["OverallRating"]
-        .apply(lambda s: (s == "Exceeding NQS").mean())
-    )
+    props = sub_clean.groupby("dist_bin", observed=True)["BelowStandard"].mean()
     counts = sub_clean["dist_bin"].value_counts().reindex(labels)
 
-    rho, pval = stats.spearmanr(sub_clean["DistanceToTrainStation_km"], sub_clean["rating_code"])
+    rho, pval = stats.spearmanr(sub_clean["DistanceToTrainStation_km"], sub_clean["BelowStandard"])
 
     fig, ax = plt.subplots(figsize=(9, 5))
-    bars = ax.bar(labels, props.reindex(labels).values, color=CAT["blue"], width=0.6,
+    bars = ax.bar(labels, props.reindex(labels).values, color=CAT["red"], width=0.6,
                   edgecolor=SURFACE, linewidth=1.5)
     for i, (bar, lbl) in enumerate(zip(bars, labels)):
-        ax.text(bar.get_x() + bar.get_width() / 2, bar.get_height() + 0.01,
-                f"{bar.get_height():.0%}", ha="center", fontsize=9, color=INK_PRIMARY)
-        ax.text(bar.get_x() + bar.get_width() / 2, -0.035, f"n={counts[lbl]:,}",
+        ax.text(bar.get_x() + bar.get_width() / 2, bar.get_height() + 0.003,
+                f"{bar.get_height():.1%}", ha="center", fontsize=9, color=INK_PRIMARY)
+        ax.text(bar.get_x() + bar.get_width() / 2, -0.012, f"n={counts[lbl]:,}",
                 ha="center", fontsize=7.5, color=INK_MUTED)
-    ax.set_ylim(0, max(props.max() * 1.25, 0.05))
-    ax.set_ylabel("Share rated 'Exceeding NQS'")
-    ax.set_title("Distance to nearest train station vs. share rated 'Exceeding NQS'",
+    ymax = max(props.max() * 1.3, 0.05)
+    ax.set_ylim(0, ymax)
+    ax.set_ylabel("Share rated below the NQS standard")
+    ax.set_title("Does distance from transport hurt quality? Share rated 'Working Towards'\nor 'Significant Improvement Required', by distance to nearest train station",
                  fontsize=12.5, fontweight="bold", color=INK_PRIMARY, loc="left", pad=14)
-    ax.text(0.99, 0.97, f"Spearman ρ = {rho:.3f}  (p = {pval:.3g}, n={len(sub_clean):,})\n"
-                        "Statistically significant but practically ~zero:\ntransport proximity is not a useful predictor of quality.",
-            transform=ax.transAxes, ha="right", va="top", fontsize=8.5, color=INK_SECONDARY,
+    ax.text(0.02, 0.97, f"Spearman ρ = {rho:.3f}  (p = {pval:.3g}, n={len(sub_clean):,})\n"
+                        "A small but real effect: services furthest from transport\n"
+                        "are somewhat more likely to fall below standard - not a\n"
+                        "dominant driver of quality, but not nothing either.",
+            transform=ax.transAxes, ha="left", va="top", fontsize=8.5, color=INK_SECONDARY,
             bbox=dict(boxstyle="round,pad=0.4", facecolor="#f9f9f7", edgecolor=GRIDLINE))
     for spine in ["top", "right"]:
         ax.spines[spine].set_visible(False)
@@ -322,15 +328,20 @@ def chart_transport_vs_quality(df: pd.DataFrame) -> dict:
     fig.savefig(FIG_DIR / "05_transport_vs_quality.png", dpi=200)
     plt.close(fig)
     return {
-        "transport_quality_spearman_rho": round(float(rho), 4),
-        "transport_quality_spearman_p": float(pval),
+        "transport_belowstandard_spearman_rho": round(float(rho), 4),
+        "transport_belowstandard_spearman_p": float(pval),
+        "belowstandard_pct_closest_bin": round(float(props.iloc[0]) * 100, 1),
+        "belowstandard_pct_farthest_bin": round(float(props.iloc[-1]) * 100, 1),
         "n_excluded_remote_outliers": n_excluded,
     }
 
 
 def main():
     df = load_clean()
-    summary = {"n_services_total": int(len(df))}
+    summary = {}
+    if SUMMARY_PATH.exists():
+        summary = json.loads(SUMMARY_PATH.read_text())
+    summary["n_services_total"] = int(len(df))
     summary.update(chart_rating_by_state(df))
     summary.update(chart_rating_by_service_type(df))
     summary.update(chart_quality_area_heatmap(df))

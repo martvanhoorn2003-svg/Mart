@@ -169,9 +169,12 @@ Strait) → Bounded Locality).
   National Law.
 - **Weakest quality area nationally**: QA2 (Children's health & safety).
   **Strongest**: QA6 (Collaborative partnerships).
-- **Transport proximity does not predict quality**: Spearman ρ ≈ -0.02
-  between distance to nearest train station and rating (p < 0.01, so
-  "significant" at n=16,031, but the effect size is negligible).
+- **Distance from transport has a small but real negative effect on
+  quality**: the share of services falling below the NQS standard
+  (Working Towards NQS or Significant Improvement Required) rises from
+  7.6% for the closest services to 10.3% for the furthest (Spearman
+  ρ ≈ 0.026, p < 0.01, n=16,031) — a modest risk factor, not a dominant
+  one, but not nothing either.
 
 **Accessibility & Coverage**
 - **Rural services sit ~8x further from a train station** than urban
@@ -197,10 +200,11 @@ Strait) → Bounded Locality).
   ρ ≈ -0.15, n=9,490) — the largest single operational-factor effect
   found, though still a small-to-moderate one.
 - **Transport accessibility does not meaningfully move capacity or
-  opening hours** (ρ ≈ -0.06 and ρ ≈ 0.02 respectively, the latter not
-  significant) — consistent with the Service Quality stream's finding:
-  transport access is a genuine equity issue, but not an operational or
-  quality lever.
+  opening hours** (ρ ≈ -0.06 and ρ ≈ 0.02 respectively — both negligible
+  in size, even where the latter is technically significant at p < .05).
+  So while the Service Quality stream found a small direct effect of
+  transport distance on quality, that effect isn't operating through
+  capacity or hours — it's a standalone, modest risk factor.
 
 ## Repo layout
 
