@@ -161,35 +161,36 @@ categories were drawn: the transport gap is genuinely widespread."
 
 ---
 
-## Problem 3: Which operational factors actually drive quality — and which just look like they do? (5:55–8:15)
+## Problem 3: Which operational factors actually push a service below the standard — and which just look like they do? (5:55–8:15)
 
 "Third problem, and it's a different kind of test. ACECQA could point to
 four operational levers — size, year-round operation, opening hours, how
-old a service is — and assume any of them explains quality. I tested all
-four directly. Two matter. Two don't."
+old a service is — and assume any of them explains non-compliance. I
+tested all four directly. Two matter. Two don't."
 
-### Chart 10 — Does size predict quality? No. (5:58–6:18)
+### Chart 10 — Does size predict non-compliance? No. (5:58–6:18)
 
 [SHOW 10_capacity_by_type.png]
 
 "Capacity varies a lot by type and by area — sixty-six places typical in
 major cities, twenty-seven in small country towns. But tested directly
-against rating, the correlation is negligible. A bigger centre isn't a
-better- or worse-run one — useful for Problem 2: a new rural service
-doesn't need to match a city-sized centre to be a good one."
+against non-compliance in capacity bands, the smallest services sit at
+nine-point-three percent, the largest at eight-point-six — not even
+statistically significant. A bigger centre is no safer bet — a new
+rural service doesn't need city-sized capacity to meet the standard."
 
-### Chart 11 — Does year-round operation predict quality? Not independently. (6:18–6:40)
+### Chart 11 — Does year-round operation predict non-compliance? Not independently. (6:18–6:40)
 
 [SHOW 11_operating_pattern_by_type.png]
 
-"Long Day Care runs almost entirely year-round and scored lower than
-preschools in Chart 2 — that could look hours-driven. But controlling
-for type, comparing year-round to term-time within Long Day Care only,
-there aren't enough term-time services to draw a conclusion. This is
-mostly standing in for service type, already covered — not an
-independent driver."
+"Nationally, year-round services run slightly higher non-compliance than
+term-time — nine-point-eight percent against seven-point-seven. But
+controlling for type, comparing year-round to term-time within Long Day
+Care only, the direction actually flips, and there aren't enough
+term-time services to draw a conclusion either way. This is mostly
+standing in for service type — not an independent driver."
 
-### Chart 12 — Does approval date predict quality? Yes — the strongest signal here. (6:40–7:30)
+### Chart 12 — Does approval date predict non-compliance? Yes — the strongest signal here. (6:40–7:30)
 
 [SHOW 12_approval_trend.png]
 
@@ -198,23 +199,23 @@ thousand in one year. Read naively, that's explosive growth. It isn't —
 the National Quality Framework commenced that January and bulk-
 transferred every already-operating service onto new numbers, not
 newly opened ones. The right-hand panel is the real story: grouped by
-when they were actually approved, services from 2019 onward sit at just
-eight-point-six percent Exceeding or above, against twenty-two-point-
-eight percent for pre-2012, long-established services. Newer services
-simply haven't had the years of embedded practice yet. That's the
-strongest operational signal in this whole analysis."
+when they were actually approved, services from 2019 onward sit at
+eleven percent non-compliant, against eight-point-four percent for
+pre-2012, long-established services. Newer services simply haven't had
+the years to embed practice yet. That's the strongest operational
+signal in this whole analysis."
 
-### Chart 13 — Does opening hours predict quality? Yes, modestly. (7:30–8:10)
+### Chart 13 — Does opening hours predict non-compliance? Yes, and it's the sharpest jump. (7:30–8:10)
 
 [SHOW 13_hours_vs_quality.png]
 
-"Opening hours does show a real relationship — thirty-seven percent
-Exceeding under forty-five hours a week, down to eighteen percent for
-the longest-opening services. Smaller than the approval-cohort effect,
-but real. And closing the loop on Problem 1: transport still doesn't
-move capacity or hours in any meaningful way — its small quality effect
-from Chart 5 stands on its own. Two of four operational levers actually
-drive quality; two are noise dressed up as insight."
+"Opening hours shows the clearest relationship of the four — seven
+percent non-compliant under forty-five hours a week, rising to nineteen
+percent for the longest-opening services, more than double. And closing
+the loop on Problem 1: transport still doesn't move capacity or hours in
+any meaningful way — its small compliance effect from Chart 5 stands on
+its own. Two of four operational levers actually predict whether a
+service meets the standard; two are noise dressed up as insight."
 
 ---
 
@@ -241,7 +242,7 @@ line. Thank you."
 
 ## Delivery notes
 
-- ~1,326 spoken words. At 140–160 words/minute that's roughly 8:15–9:30
+- ~1,329 spoken words. At 140–160 words/minute that's roughly 8:20–9:30
   — comfortable margin under the 10-minute hard cap even at a
   deliberate, unhurried pace. Practice once to check your own rate.
 - **If you need to cut time**, in order: (1) the "Data & method" beat —

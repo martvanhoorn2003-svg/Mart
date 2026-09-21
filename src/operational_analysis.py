@@ -92,99 +92,122 @@ def chart_capacity_by_type(df: pd.DataFrame, sos_medians: pd.Series) -> dict:
     # registered educator across a scheme, not as a single site limit, so
     # NumberOfApprovedPlaces is populated for only 2 of 417 FDC services -
     # not enough to report a meaningful median.
-    d = df[~df["PrimaryServiceType"].isin(["Other", "Family Day Care"])].dropna(subset=["NumberOfApprovedPlaces"])
-    med = d.groupby("PrimaryServiceType")["NumberOfApprovedPlaces"].median().sort_values(ascending=False)
-    counts = d["PrimaryServiceType"].value_counts()
+    d = df[~df["PrimaryServiceType"].isin(["Other", "Family Day Care"])].copy()
+    d = d.dropna(subset=["NumberOfApprovedPlaces"])
+    d = d[d["OverallRating"].notna()]
+    d["OverallRating"] = d["OverallRating"].astype(str)
+    d = d[d["OverallRating"] != NOT_YET_ASSESSED]
+    d["BelowStandard"] = d["OverallRating"].isin(
+        ["Working Towards NQS", "Significant Improvement Required"]
+    ).astype(int)
 
-    # Does size itself predict quality, independent of type or location?
-    rated = df[df["OverallRating"].notna()].dropna(subset=["NumberOfApprovedPlaces"]).copy()
-    rated["OverallRating"] = rated["OverallRating"].astype(str)
-    rated = rated[rated["OverallRating"] != NOT_YET_ASSESSED]
-    rated["rating_code"] = rated["OverallRating"].map({v: i for i, v in enumerate(RATING_ORDER_SUBSTANTIVE)})
-    rho_cap_quality, p_cap_quality = stats.spearmanr(rated["NumberOfApprovedPlaces"], rated["rating_code"])
+    # Quantile bins (not fixed cutoffs) so each bin has enough services for
+    # a reliable rate and the labels show the real capacity range.
+    d["cap_bin"], edges = pd.qcut(d["NumberOfApprovedPlaces"], q=5, retbins=True, duplicates="drop")
+    labels = [f"{int(edges[i])}-{int(edges[i + 1])}" for i in range(len(edges) - 1)]
+    d["cap_bin"] = pd.qcut(d["NumberOfApprovedPlaces"], q=5, labels=labels, duplicates="drop")
+    props = d.groupby("cap_bin", observed=True)["BelowStandard"].mean()
+    counts = d["cap_bin"].value_counts().reindex(labels)
 
-    fig, ax = plt.subplots(figsize=(9.5, 6.3))
-    bars = ax.barh(med.index, med.values, color=CAT["blue"], height=0.6)
-    for bar, name in zip(bars, med.index):
-        ax.text(bar.get_width() + 1.5, bar.get_y() + bar.get_height() / 2,
-                f"{bar.get_width():.0f} places (n={counts[name]:,})", va="center", fontsize=9)
-    ax.invert_yaxis()
-    ax.set_xlabel("Median approved places")
-    ax.set_title("How big is a typical service, by type — and does size predict quality?",
+    rho, pval = stats.spearmanr(d["NumberOfApprovedPlaces"], d["BelowStandard"])
+
+    ymax = max(props.max() * 1.3, 0.05)
+    fig, ax = plt.subplots(figsize=(9, 5.5))
+    bars = ax.bar(labels, props.reindex(labels).values, color=CAT["blue"], width=0.6, edgecolor=SURFACE, linewidth=1.5)
+    for bar, lbl in zip(bars, labels):
+        ax.text(bar.get_x() + bar.get_width() / 2, bar.get_height() + 0.004, f"{bar.get_height():.1%}",
+                ha="center", fontsize=9, color=INK_PRIMARY, fontweight="bold")
+        ax.text(bar.get_x() + bar.get_width() / 2, -0.13 * ymax, f"n={counts[lbl]:,}",
+                ha="center", fontsize=7.5, color=INK_MUTED)
+    ax.set_ylim(0, ymax)
+    ax.set_xlabel("Approved places (quintile bins)")
+    ax.set_ylabel("Share rated below the NQS standard")
+    ax.set_title("Does service size predict whether it meets the standard? No.",
                  fontsize=12.5, fontweight="bold", color=INK_PRIMARY, loc="left", pad=14)
     sos_line = "  |  ".join(f"{cat}: {sos_medians[cat]:.0f}" for cat in SOS_ORDER)
-    ax.text(0.0, -0.20, f"Median places by area: {sos_line}",
-            transform=ax.transAxes, ha="left", fontsize=8, color=INK_SECONDARY)
-    ax.text(0.0, -0.27,
-            f"Capacity vs rating: Spearman ρ = {rho_cap_quality:.3f} (p = {p_cap_quality:.2g}, n={len(rated):,}) "
-            "— negligible: size alone doesn't predict quality.",
-            transform=ax.transAxes, ha="left", fontsize=8, color=INK_SECONDARY)
-    for spine in ["top", "right", "left"]:
+    ax.text(0.99, 0.97,
+            f"Capacity vs non-compliance: Spearman ρ = {rho:.3f} (p = {pval:.2g}, n={len(d):,})\n"
+            "Not statistically significant - essentially zero relationship\n"
+            "across a 5x range in capacity. A rural service doesn't need\n"
+            "city-sized capacity to meet the standard, and a large centre\n"
+            "is no safer bet either.\n"
+            f"Median places by area: {sos_line}",
+            transform=ax.transAxes, ha="right", va="top", fontsize=8, color=INK_SECONDARY,
+            bbox=dict(boxstyle="round,pad=0.4", facecolor="#f9f9f7", edgecolor=GRIDLINE))
+    for spine in ["top", "right"]:
         ax.spines[spine].set_visible(False)
-    ax.tick_params(left=False)
-    fig.tight_layout(rect=[0, 0.08, 1, 1])
+    ax.spines["left"].set_color(BASELINE); ax.spines["bottom"].set_color(BASELINE)
+    fig.tight_layout()
     fig.savefig(FIG_DIR / "10_capacity_by_type.png", dpi=200)
     plt.close(fig)
     out = {f"median_places_{cat.lower().replace(' ', '_')}": round(float(sos_medians[cat]), 1) for cat in SOS_ORDER}
-    out["capacity_quality_spearman_rho"] = round(float(rho_cap_quality), 4)
-    out["capacity_quality_spearman_p"] = float(p_cap_quality)
+    out["capacity_noncompliance_spearman_rho"] = round(float(rho), 4)
+    out["capacity_noncompliance_spearman_p"] = float(pval)
+    out["noncompliance_pct_smallest_capacity_bin"] = round(float(props.iloc[0]) * 100, 1)
+    out["noncompliance_pct_largest_capacity_bin"] = round(float(props.iloc[-1]) * 100, 1)
     return out
 
 
 def chart_operating_pattern(df: pd.DataFrame) -> dict:
-    d = df[df["PrimaryServiceType"] != "Other"]
-    ct = pd.crosstab(d["PrimaryServiceType"], d["OperatingPattern"], normalize="index")
-    order = ["Year-round", "Term-time only", "Neither / other pattern"]
-    ct = ct.reindex(columns=order, fill_value=0)
-    ct = ct.sort_values("Year-round", ascending=False)
-    counts = d["PrimaryServiceType"].value_counts()
-    ct.index = [f"{i}  (n={counts[i]:,})" for i in ct.index]
+    d = df[df["PrimaryServiceType"] != "Other"].copy()
+    d = d[d["OverallRating"].notna()]
+    d["OverallRating"] = d["OverallRating"].astype(str)
+    d = d[d["OverallRating"] != NOT_YET_ASSESSED]
+    d["BelowStandard"] = d["OverallRating"].isin(
+        ["Working Towards NQS", "Significant Improvement Required"]
+    ).astype(int)
 
-    # Does operating pattern predict quality on its own, or is it just a
-    # proxy for service type (already covered in the Service Quality
-    # stream)? Controlled within Long Day Care - the only type with
-    # enough services in both patterns to compare meaningfully.
+    order = ["Year-round", "Term-time only", "Neither / other pattern"]
+    props = d.groupby("OperatingPattern")["BelowStandard"].mean().reindex(order)
+    counts = d["OperatingPattern"].value_counts().reindex(order)
+
+    # Does operating pattern predict non-compliance on its own, or is it
+    # just a proxy for service type (already covered in the Service
+    # Quality stream)? Controlled within Long Day Care - the only type
+    # with enough services in both patterns to compare meaningfully.
     ldc = df[(df["PrimaryServiceType"] == "Long Day Care") & df["OverallRating"].notna()].copy()
     ldc["OverallRating"] = ldc["OverallRating"].astype(str)
     ldc = ldc[ldc["OverallRating"] != NOT_YET_ASSESSED]
-    ldc_exceeding = ldc.groupby("OperatingPattern")["OverallRating"].apply(
-        lambda s: (s.isin(["Exceeding NQS", "Excellent"])).mean()
-    )
+    ldc["BelowStandard"] = ldc["OverallRating"].isin(
+        ["Working Towards NQS", "Significant Improvement Required"]
+    ).astype(int)
+    ldc_noncompliance = ldc.groupby("OperatingPattern")["BelowStandard"].mean()
     ldc_counts = ldc["OperatingPattern"].value_counts()
 
-    colors = {"Year-round": SEQ_BLUE[5], "Term-time only": CAT["orange"], "Neither / other pattern": GRIDLINE}
-    fig, ax = plt.subplots(figsize=(9, 4.6))
-    left = np.zeros(len(ct))
-    y = np.arange(len(ct))
-    for cat in order:
-        vals = ct[cat].to_numpy()
-        ax.barh(y, vals, left=left, height=0.6, color=colors[cat], edgecolor=SURFACE, linewidth=1.2, label=cat)
-        for i, v in enumerate(vals):
-            if v >= 0.08:
-                ax.text(left[i] + v / 2, y[i], f"{v:.0%}", ha="center", va="center", fontsize=8.5,
-                        color="white" if cat != "Neither / other pattern" else INK_PRIMARY)
-        left += vals
-    ax.set_yticks(y); ax.set_yticklabels(ct.index)
-    ax.set_xlim(0, 1); ax.set_xticks([0, .25, .5, .75, 1.0]); ax.set_xticklabels(["0%", "25%", "50%", "75%", "100%"])
-    ax.invert_yaxis()
-    for spine in ["top", "right", "left"]:
-        ax.spines[spine].set_visible(False)
-    ax.tick_params(left=False)
-    ax.set_title("Year-round vs term-time-only operation, by service type", fontsize=13,
+    colors = {"Year-round": CAT["red"], "Term-time only": CAT["orange"], "Neither / other pattern": BASELINE}
+    ymax = max(props.max() * 1.75, 0.05)  # extra headroom so the annotation box clears every bar label
+    fig, ax = plt.subplots(figsize=(9, 5.8))
+    bars = ax.bar(order, props.values, color=[colors[c] for c in order], width=0.55)
+    for bar, cat in zip(bars, order):
+        v = props[cat]
+        ax.text(bar.get_x() + bar.get_width() / 2, v + 0.005, f"{v:.1%}", ha="center", fontsize=11, fontweight="bold")
+    ax.set_xticks(range(len(order)))
+    ax.set_xticklabels([f"{cat}\n(n={counts[cat]:,})" for cat in order], fontsize=9.5)
+    ax.set_ylim(0, ymax)
+    ax.set_ylabel("Share rated below the NQS standard")
+    ax.set_title("Does operating pattern predict non-compliance?", fontsize=13,
                  fontweight="bold", color=INK_PRIMARY, loc="left", pad=14)
-    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.18), ncol=3, frameon=False, fontsize=9)
-    ax.text(0.99, -0.30,
-            f"Controlling for type (Long Day Care only): {ldc_exceeding.get('Year-round', float('nan')):.0%} Exceeding+ "
-            f"year-round (n={ldc_counts.get('Year-round', 0):,}) vs {ldc_exceeding.get('Term-time only', float('nan')):.0%} "
-            f"term-time (n={ldc_counts.get('Term-time only', 0):,}) — too few term-time LDC services to draw a "
-            "reliable conclusion; this factor is mostly a proxy for service type, not an independent quality driver.",
-            transform=ax.transAxes, ha="right", va="top", fontsize=7.5, color=INK_MUTED, wrap=True)
+    ax.text(0.99, 0.97,
+            "Controlling for type (Long Day Care only):\n"
+            f"{ldc_noncompliance.get('Year-round', float('nan')):.1%} non-compliant year-round "
+            f"(n={ldc_counts.get('Year-round', 0):,}) vs\n"
+            f"{ldc_noncompliance.get('Term-time only', float('nan')):.1%} term-time "
+            f"(n={ldc_counts.get('Term-time only', 0):,}) - too few term-time\n"
+            "LDC services to draw a reliable conclusion; this factor is\n"
+            "mostly a proxy for service type, not an independent driver.",
+            transform=ax.transAxes, ha="right", va="top", fontsize=8, color=INK_SECONDARY,
+            bbox=dict(boxstyle="round,pad=0.4", facecolor="#f9f9f7", edgecolor=GRIDLINE))
+    for spine in ["top", "right"]:
+        ax.spines[spine].set_visible(False)
+    ax.spines["left"].set_color(BASELINE); ax.spines["bottom"].set_color(BASELINE)
     fig.tight_layout()
     fig.savefig(FIG_DIR / "11_operating_pattern_by_type.png", dpi=200)
     plt.close(fig)
     return {
-        "ldc_yearround_exceeding_pct": round(float(ldc_exceeding.get("Year-round", float("nan"))) * 100, 1),
-        "ldc_termtime_exceeding_pct": round(float(ldc_exceeding.get("Term-time only", float("nan"))) * 100, 1),
+        "noncompliance_pct_yearround": round(float(props.get("Year-round", float("nan"))) * 100, 1),
+        "noncompliance_pct_termtime": round(float(props.get("Term-time only", float("nan"))) * 100, 1),
+        "ldc_yearround_noncompliance_pct": round(float(ldc_noncompliance.get("Year-round", float("nan"))) * 100, 1),
+        "ldc_termtime_noncompliance_pct": round(float(ldc_noncompliance.get("Term-time only", float("nan"))) * 100, 1),
     }
 
 
@@ -203,8 +226,8 @@ def chart_approval_trend(df: pd.DataFrame) -> dict:
     bins = [2005, 2012, 2013, 2016, 2019, 2025]
     labels = ["pre-2012", "2012", "2013-15", "2016-18", "2019+"]
     rated["cohort"] = pd.cut(rated["ApprovalYear"], bins=bins, labels=labels, right=False)
-    cohort_exceeding = rated.groupby("cohort", observed=True)["OverallRating"].apply(
-        lambda s: s.isin(["Exceeding NQS", "Excellent"]).mean()
+    cohort_noncompliance = rated.groupby("cohort", observed=True)["OverallRating"].apply(
+        lambda s: s.isin(["Working Towards NQS", "Significant Improvement Required"]).mean()
     )
     cohort_counts = rated["cohort"].value_counts().reindex(labels)
 
@@ -224,16 +247,16 @@ def chart_approval_trend(df: pd.DataFrame) -> dict:
     ax1.spines["left"].set_color(BASELINE); ax1.spines["bottom"].set_color(BASELINE)
 
     bar_colors = [CAT["red"] if lbl == "2012" else CAT["blue"] for lbl in labels]
-    ymax2 = max(cohort_exceeding.max() * 100 * 1.25, 5)
-    bars2 = ax2.bar(labels, (cohort_exceeding.reindex(labels) * 100).values, color=bar_colors, width=0.6)
+    ymax2 = max(cohort_noncompliance.max() * 100 * 1.25, 5)
+    bars2 = ax2.bar(labels, (cohort_noncompliance.reindex(labels) * 100).values, color=bar_colors, width=0.6)
     for bar, lbl in zip(bars2, labels):
         h = bar.get_height()
-        ax2.text(bar.get_x() + bar.get_width() / 2, h + 0.7, f"{h:.1f}%", ha="center", fontsize=9)
+        ax2.text(bar.get_x() + bar.get_width() / 2, h + 0.4, f"{h:.1f}%", ha="center", fontsize=9)
         ax2.text(bar.get_x() + bar.get_width() / 2, -0.13 * ymax2, f"n={cohort_counts[lbl]:,}",
                  ha="center", fontsize=7.5, color=INK_MUTED)
     ax2.set_ylim(0, ymax2)
-    ax2.set_ylabel("Share rated 'Exceeding NQS' or above")
-    ax2.set_title("...and newer services haven't caught up yet", fontsize=12, fontweight="bold",
+    ax2.set_ylabel("Share rated below the NQS standard")
+    ax2.set_title("...and newer services are more likely to fall short", fontsize=12, fontweight="bold",
                   color=INK_PRIMARY, loc="left", pad=12)
     ax2.text(0.98, 0.95, "red = NQF bulk-transfer\ncohort, not new services",
               transform=ax2.transAxes, ha="right", va="top", fontsize=7.5, color=INK_MUTED)
@@ -241,7 +264,7 @@ def chart_approval_trend(df: pd.DataFrame) -> dict:
         ax2.spines[spine].set_visible(False)
     ax2.spines["left"].set_color(BASELINE); ax2.spines["bottom"].set_color(BASELINE)
 
-    fig.suptitle("Approval-date data quality trap, and the real quality-relevant signal underneath it",
+    fig.suptitle("Approval-date data quality trap, and the real compliance-relevant signal underneath it",
                  fontsize=12.5, fontweight="bold", color=INK_PRIMARY, x=0.02, ha="left")
     fig.tight_layout(rect=[0, 0, 1, 0.94])
     fig.savefig(FIG_DIR / "12_approval_trend.png", dpi=200)
@@ -253,8 +276,8 @@ def chart_approval_trend(df: pd.DataFrame) -> dict:
         "approvals_2012_nqf_spike": int(by_year.loc[2012]),
         "approvals_2024": int(trend_years.get(2024, 0)),
         "approvals_2014": int(trend_years.get(2014, 0)),
-        "exceeding_pct_pre2012_cohort": round(float(cohort_exceeding["pre-2012"]) * 100, 1),
-        "exceeding_pct_2019plus_cohort": round(float(cohort_exceeding["2019+"]) * 100, 1),
+        "noncompliance_pct_pre2012_cohort": round(float(cohort_noncompliance["pre-2012"]) * 100, 1),
+        "noncompliance_pct_2019plus_cohort": round(float(cohort_noncompliance["2019+"]) * 100, 1),
     }
 
 
@@ -263,15 +286,17 @@ def chart_hours_vs_quality(df: pd.DataFrame) -> dict:
     d["OverallRating"] = d["OverallRating"].astype(str)
     d = d[d["OverallRating"] != NOT_YET_ASSESSED]
     d = d[d["WeeklyHours"].between(1, 100)]  # exclude the near-zero and near-168h data artifacts
-    d["rating_code"] = d["OverallRating"].map({v: i for i, v in enumerate(RATING_ORDER_SUBSTANTIVE)})
+    d["BelowStandard"] = d["OverallRating"].isin(
+        ["Working Towards NQS", "Significant Improvement Required"]
+    ).astype(int)
 
     bins = [0, 45, 50, 55, 60, 100]
     labels = ["<45h", "45-50h", "50-55h", "55-60h", "60h+"]
     d["hours_bin"] = pd.cut(d["WeeklyHours"], bins=bins, labels=labels)
-    props = d.groupby("hours_bin", observed=True)["OverallRating"].apply(lambda s: (s == "Exceeding NQS").mean())
+    props = d.groupby("hours_bin", observed=True)["BelowStandard"].mean()
     counts = d["hours_bin"].value_counts().reindex(labels)
 
-    rho, pval = stats.spearmanr(d["WeeklyHours"], d["rating_code"])
+    rho, pval = stats.spearmanr(d["WeeklyHours"], d["BelowStandard"])
 
     # Same question the assignment asks for transport: does accessibility
     # influence operational capacity or hours? Tested here rather than as
@@ -292,16 +317,20 @@ def chart_hours_vs_quality(df: pd.DataFrame) -> dict:
         ax.text(bar.get_x() + bar.get_width() / 2, -0.13 * ymax, f"n={counts[lbl]:,}",
                 ha="center", fontsize=7.5, color=INK_MUTED)
     ax.set_ylim(0, ymax)
-    ax.set_ylabel("Share rated 'Exceeding NQS'")
-    ax.set_title("Longer opening hours track with (slightly) lower quality",
+    ax.set_ylabel("Share rated below the NQS standard")
+    ax.set_title("Services open the longest hours are the most likely to fall below standard",
                  fontsize=12.5, fontweight="bold", color=INK_PRIMARY, loc="left", pad=14)
-    ax.text(0.99, 0.97,
-            f"Weekly hours vs rating: Spearman ρ = {rho:.3f} (p = {pval:.2g}, n={len(d):,})\n"
+    ax.text(0.02, 0.97,
+            f"Weekly hours vs non-compliance: Spearman ρ = {rho:.3f} (p = {pval:.2g}, n={len(d):,})\n"
+            "The rank correlation is small, but the gap between bins is real:\n"
+            "non-compliance more than doubles from the shortest to the\n"
+            "longest opening-hours band.\n"
             f"Transport distance vs capacity: ρ = {rho_cap:.3f} (p = {p_cap:.2g})\n"
             f"Transport distance vs weekly hours: ρ = {rho_hrs:.3f} (p = {p_hrs:.2g})\n"
-            "Both effect sizes are negligible: transport accessibility isn't a\n"
-            "meaningful lever for capacity or opening hours, even where p < .05.",
-            transform=ax.transAxes, ha="right", va="top", fontsize=8, color=INK_SECONDARY,
+            "Both transport effect sizes are negligible: transport accessibility\n"
+            "isn't a meaningful lever for capacity or opening hours, even\n"
+            "where p < .05.",
+            transform=ax.transAxes, ha="left", va="top", fontsize=8, color=INK_SECONDARY,
             bbox=dict(boxstyle="round,pad=0.4", facecolor="#f9f9f7", edgecolor=GRIDLINE))
     for spine in ["top", "right"]:
         ax.spines[spine].set_visible(False)
@@ -310,8 +339,10 @@ def chart_hours_vs_quality(df: pd.DataFrame) -> dict:
     fig.savefig(FIG_DIR / "13_hours_vs_quality.png", dpi=200)
     plt.close(fig)
     return {
-        "hours_quality_spearman_rho": round(float(rho), 4),
-        "hours_quality_spearman_p": float(pval),
+        "hours_noncompliance_spearman_rho": round(float(rho), 4),
+        "hours_noncompliance_spearman_p": float(pval),
+        "noncompliance_pct_shortest_hours_bin": round(float(props.iloc[0]) * 100, 1),
+        "noncompliance_pct_longest_hours_bin": round(float(props.iloc[-1]) * 100, 1),
         "transport_capacity_spearman_rho": round(float(rho_cap), 4),
         "transport_hours_spearman_rho": round(float(rho_hrs), 4),
         "transport_hours_spearman_p": float(p_hrs),

@@ -20,11 +20,14 @@ assignment's four requirements directly:
 - Where the transport-underserved services are, mapped directly
 
 **3. Operational Trends**
-- How capacity and operating-hours patterns vary by service type
+- Whether service size (capacity) predicts whether a service meets the
+  NQS standard
+- Whether operating pattern (year-round vs term-time) predicts
+  non-compliance, independent of service type
 - Whether the sector's approval trend reflects genuine growth or a
-  regulatory artifact
-- Whether operational factors — or transport accessibility — relate to
-  quality
+  regulatory artifact, and whether approval cohort predicts compliance
+- Whether opening hours — or transport accessibility — predict
+  non-compliance
 
 ## Run in Google Colab
 
@@ -220,38 +223,44 @@ Strait) → Bounded Locality).
   transport connectivity is a widespread planning failure, not a purely
   rural one.
 
-**Operational Trends — which operational factors actually matter for quality?**
-- **Capacity does not predict quality** (Spearman ρ ≈ -0.063, p < 0.001
-  but a negligible effect size, n=15,970) — bigger centres aren't
-  meaningfully better or worse, despite capacity itself declining sharply
-  from Major Urban (66 places median) to Bounded Locality (27).
+**Operational Trends — do these factors actually predict whether a service meets the standard?**
+- **Capacity does not predict non-compliance** (Spearman ρ ≈ -0.007,
+  p = 0.38, not statistically significant, n=15,967) — the smallest
+  capacity quintile is 9.3% non-compliant, the largest 8.6%, essentially
+  flat across a 5x range in size, despite capacity itself declining
+  sharply from Major Urban (66 places median) to Bounded Locality (27).
 - **Operating pattern (year-round vs term-time) is mostly a proxy for
-  service type, not an independent quality driver**: controlling for
-  type within Long Day Care (the only type with enough services in both
-  patterns to compare), the term-time subgroup is too small (n=59
-  against 8,424 year-round) to draw a reliable conclusion either way.
+  service type, not an independent non-compliance driver**: nationally,
+  year-round services run slightly higher non-compliance than term-time
+  (9.8% vs 7.7%), but controlling for type within Long Day Care (the
+  only type with enough services in both patterns to compare) the
+  direction reverses (9.6% vs 10.2%, n=59 term-time) — too noisy and
+  inconsistent to draw a reliable conclusion either way.
 - **Approval cohort is the strongest operational signal found**: services
-  approved 2019 or later sit at just 8.6% Exceeding+, against 22.8% for
-  pre-2012 established services — newer services haven't had time to
-  build up to "Exceeding" yet. (2012 itself is excluded from this
-  reading — it's the National Quality Framework's bulk-transfer cohort,
-  which is why raw approval counts spike there without a matching
-  quality signal: 32.2% Exceeding+, in line with the other established,
-  pre-existing cohorts, not with genuinely new services.)
-- **Longer opening hours track with modestly lower quality** (Spearman
-  ρ ≈ -0.15, n=9,490) — the largest continuous operational-factor effect
-  found.
+  approved 2019 or later are **11.0% non-compliant**, against **8.4%**
+  for pre-2012 established services — newer services haven't had time
+  to embed practice yet. (2012 itself is excluded from this reading —
+  it's the National Quality Framework's bulk-transfer cohort, which is
+  why raw approval counts spike there without a matching signal: 7.6%
+  non-compliant, in line with the other established, pre-existing
+  cohorts, not with genuinely new services.)
+- **Longer opening hours are a real, visible compliance risk**:
+  non-compliance more than doubles from **7.3%** for the shortest-hours
+  band (under 45h/week) to **19.0%** for the longest (60h+) — the
+  largest operational-factor effect found, even though the Spearman rank
+  correlation itself is small (ρ ≈ 0.031, p < 0.01, n=9,490).
 - **Transport accessibility does not meaningfully move capacity or
   opening hours** (ρ ≈ -0.06 and ρ ≈ 0.02 respectively — both negligible
   in size, even where the latter is technically significant at p < .05).
   So while the Service Quality stream found a small direct effect of
-  transport distance on quality, that effect isn't operating through
+  transport distance on compliance, that effect isn't operating through
   capacity or hours — it's a standalone, modest risk factor.
-- **Bottom line**: of four operational factors tested against quality
-  (capacity, operating pattern, opening hours, approval cohort), two
-  matter — opening hours, and especially service age — and two don't:
-  capacity and operating pattern are confounded with service type and
-  location rather than independent quality drivers.
+- **Bottom line**: of four operational factors tested directly against
+  non-compliance (capacity, operating pattern, opening hours, approval
+  cohort), two show a real, actionable signal — opening hours, and
+  especially service age — and two don't: capacity and operating
+  pattern are confounded with service type and location rather than
+  independent compliance drivers.
 
 ## Repo layout
 
