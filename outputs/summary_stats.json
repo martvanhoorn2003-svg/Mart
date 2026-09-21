@@ -1,9 +1,9 @@
 {
   "n_services_total": 17653,
-  "best_state": "ACT",
-  "worst_state": "WA",
-  "best_state_exceeding_pct": 44.1,
-  "worst_state_exceeding_pct": 4.3,
+  "best_state": "VIC",
+  "worst_state": "NT",
+  "best_state_noncompliance_pct": 4.4,
+  "worst_state_noncompliance_pct": 21.9,
   "service_type_counts": {
     "Long Day Care": 8636,
     "Outside School Hours Care": 4446,

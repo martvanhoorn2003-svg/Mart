@@ -18,15 +18,15 @@ a problem, here's the proof" instead.
 [Face to camera, title slide]
 
 "Hi, I'm [YOUR NAME], and I work for government to improve education and
-care services across Australia. Here's the problem I'm here to help
-solve: ACECQA and state governments have a limited budget for lifting
-service quality and funding new services, spread across seventeen
-thousand approved services nationally. Spent well, that budget closes
-real gaps for families. Spent on the wrong thing, it doesn't move the
-needle at all. So today I'm answering three questions with data: where
-is quality actually failing and why, where are families genuinely cut
-off from services, and — just as important — what should we *stop*
-assuming matters, so we don't waste money chasing it."
+care services across Australia. Here's the problem I'm solving: ACECQA
+and state governments have a limited budget for lifting service quality
+and funding new services, across seventeen thousand approved services
+nationally. Spent well, that budget closes real gaps for families. Spent
+on the wrong thing, it doesn't move the needle. So today, three
+questions with data: where is quality actually failing and why, where
+are families genuinely cut off from services, and — just as important —
+what should we *stop* assuming matters, so we don't waste money chasing
+it."
 
 ### Data & method, briefly (0:45–1:10)
 
@@ -47,14 +47,16 @@ Law. If quality outcomes are wildly inconsistent anyway, that's either a
 resourcing gap or an enforcement gap — and knowing which one matters,
 because they need completely different fixes."
 
-### Chart 1 — Rating by state (1:20–1:55)
+### Chart 1 — Rating by state, ranked by non-compliance (1:20–1:55)
 
 [SHOW 01_rating_by_state.png]
 
-"They are wildly inconsistent. The ACT has forty-four percent of its
-services rated Exceeding NQS or above. Western Australia has four
-percent. Same law, ten-times difference. That's not noise — that's a
-finding that should already be uncomfortable for a national regulator."
+"They are wildly inconsistent — and I'm ranking this by who's actually
+failing the legal minimum, not who's excelling. The Northern Territory
+is worst: twenty-two percent of its services rated Working Towards NQS
+or Significant Improvement Required. Victoria is best, at four percent.
+Same law, five-times difference. That's not noise — that's a finding
+that should already be uncomfortable for a national regulator."
 
 ### Chart 2 — Rating by service type (1:55–2:15)
 
@@ -70,17 +72,15 @@ the volume is."
 
 [SHOW 03_quality_area_heatmap.png]
 
-"This chart deliberately asks a different question to Chart 1 — not
-'who's excelling,' but 'who's actually failing to meet the legal
-standard.' And it splits the problem in two. The Northern Territory and
-Tasmania have the highest non-compliance rates — up to fourteen percent
-of their services rated Working Towards or Significant Improvement
-Required — concentrated in Quality Area 1, educational program, and
-Quality Area 7, governance. Western Australia, despite being worst in
-Chart 1, is actually a different problem: its services mostly clear the
-bar and sit at Meeting, they just rarely reach Exceeding. That's a
-ceiling problem, not a compliance one. NT and Tasmania have a
-compliance problem — real, and more urgent."
+"This chart zooms from the overall number into which specific component
+drives it. The Northern Territory and Tasmania still lead — but by this
+component-level measure, Western Australia and South Australia join
+them near the top, up to fourteen percent non-compliant in a single
+quality area, even though WA ranked only fourth on the overall measure
+in Chart 1. A state's overall rating isn't a simple average of its
+seven components, so a state can look mid-table overall while hiding a
+real problem in one specific area — concentrated here in Quality Area
+1, educational program, and Quality Area 7, governance."
 
 ### Chart 4 — Spatial map of ratings (2:45–3:00)
 
@@ -223,18 +223,19 @@ drive quality; two are noise dressed up as insight."
 
 [Face to camera, optional summary slide]
 
-"Back to the budget question I opened with. One: NT and Tasmania need
-urgent, statewide compliance intervention in educational program and
-governance — a legal-minimum problem, not a generic audit. WA is mostly
-fine broadly, a lower-urgency excellence-coaching fix, except its rural
-Bounded Localities, which hide their own compliance crisis inside a
-healthy state average. Two, and this connects directly: those same
+"Back to the budget question. One: the Northern Territory is the
+clearest case for urgent, statewide compliance intervention in
+educational program and governance — a legal-minimum problem, not a
+generic audit. Tasmania, South Australia and WA aren't far behind, and
+WA deserves its own line: its rural Bounded Localities are almost twice
+as non-compliant as the state average, hiding a real crisis inside an
+unremarkable number. Two, and this connects directly: those same
 Bounded Localities are also the biggest coverage gap in the country —
 one place, two problems, one investment. Three: fund transport for
-equity, not as a quality play — real but small upside, don't oversell
-it. And four: give newly-approved services a support pathway, not a
-compliance one — they just haven't had the years yet. A budget with a
-reason behind every line. Thank you."
+equity, not as a quality play — real but small, don't oversell it. And
+four: give newly-approved services a support pathway, not a compliance
+one — they just haven't had the years yet. A budget with a reason
+behind every line. Thank you."
 
 ---
 

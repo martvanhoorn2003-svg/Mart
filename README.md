@@ -167,19 +167,21 @@ Strait) → Bounded Locality).
 ## Headline findings (see `outputs/summary_stats.json`)
 
 **Service Quality**
-- **State spread is large**: ACT has the highest share of services rated
-  "Exceeding NQS" or above (44.1%), WA the lowest (4.3%) — a ~10x gap
-  between neighbouring regulatory jurisdictions applying the same
-  National Law.
-- **"Worst on Exceeding" and "worst on non-compliance" are two different
-  states**: Chart 3 measures the share of services falling *below* the
-  NQS standard (Working Towards NQS or Significant Improvement
-  Required) rather than the share reaching Exceeding, and by that
-  measure NT and Tasmania are the worst-performing states (up to 14% of
-  services non-compliant in a single Quality Area), not WA — WA's
-  services mostly clear the bar and sit at "Meeting", they just rarely
-  reach "Exceeding". That's a ceiling problem, not a compliance one, and
-  needs a different fix.
+- **State spread is large, and it's a compliance gap, not just an
+  excellence gap**: Chart 1 ranks states by non-compliance (Working
+  Towards NQS or Significant Improvement Required), worst first — the
+  Northern Territory is worst (21.9% of services non-compliant),
+  Victoria best (4.4%) — a ~5x gap between neighbouring regulatory
+  jurisdictions applying the same National Law.
+- **Overall-rating non-compliance and component-level non-compliance
+  don't rank states identically**: Chart 3 averages non-compliance
+  across the seven Quality Area sub-ratings rather than the single
+  overall rating, and by that finer-grained measure WA and SA join NT
+  and Tasmania near the top of the list (up to 14% non-compliant in a
+  single Quality Area) even though WA ranks only 4th on the
+  overall-rating measure in Chart 1 — a service's overall rating isn't
+  a simple average of its seven component scores, so the two views can
+  legitimately disagree about which state looks worst.
 - **Weakest quality area nationally by non-compliance**: QA1
   (Educational program). **Strongest**: QA6 (Collaborative
   partnerships).

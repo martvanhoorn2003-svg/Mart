@@ -138,13 +138,15 @@ def chart_rating_by_state(df: pd.DataFrame) -> dict:
         .value_counts(normalize=True).unstack(fill_value=0)
         .reindex(columns=order, fill_value=0)
     )
-    # sort states by the share meeting-or-better (Exceeding + Excellent), best first
-    props["_score"] = props["Exceeding NQS"] + props["Excellent"]
+    # sort states by non-compliance (Working Towards + Significant
+    # Improvement Required), worst first - consistent with the
+    # non-compliance framing used everywhere else in this stream.
+    props["_score"] = props["Working Towards NQS"] + props["Significant Improvement Required"]
     props = props.sort_values("_score", ascending=False).drop(columns="_score")
 
     fig, ax = plt.subplots(figsize=(9, 5.2))
     _stacked_bar(ax, props, order, RATING_COLORS)
-    ax.set_title("Overall NQS rating by state, ranked by share 'Exceeding' or above",
+    ax.set_title("Overall NQS rating by state, ranked by non-compliance (worst first)",
                  fontsize=13, fontweight="bold", color=INK_PRIMARY, loc="left", pad=14)
     ax.set_xlabel("Share of rated services")
     handles = [Patch(facecolor=RATING_COLORS[c], label=c) for c in order]
@@ -154,10 +156,14 @@ def chart_rating_by_state(df: pd.DataFrame) -> dict:
     fig.savefig(FIG_DIR / "01_rating_by_state.png", dpi=200)
     plt.close(fig)
 
-    best, worst = props.index[0], props.index[-1]
+    worst, best = props.index[0], props.index[-1]
+
+    def noncompliance_pct(state):
+        return round(float(props.loc[state, "Working Towards NQS"] + props.loc[state, "Significant Improvement Required"]) * 100, 1)
+
     return {
-        "best_state": best, "best_state_exceeding_pct": round(float(props.loc[best, "Exceeding NQS"] + props.loc[best, "Excellent"]) * 100, 1),
-        "worst_state": worst, "worst_state_exceeding_pct": round(float(props.loc[worst, "Exceeding NQS"] + props.loc[worst, "Excellent"]) * 100, 1),
+        "best_state": best, "best_state_noncompliance_pct": noncompliance_pct(best),
+        "worst_state": worst, "worst_state_noncompliance_pct": noncompliance_pct(worst),
     }
 
 
