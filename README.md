@@ -9,19 +9,31 @@ extract) enriched with spatial/transport-access fields, focused on the
 - Which of the seven Quality Areas is dragging each state's rating down
 - Whether proximity to public transport correlates with quality
 
-## Setup
+## Run in Google Colab
+
+Open a new Colab notebook and run:
+
+```python
+!git clone -b claude/acecqa-services-analysis-olfr4o https://github.com/martvanhoorn2003-svg/Mart.git
+%cd Mart
+!pip install -q geopandas scipy pyarrow
+```
+
+Then upload/open `ACECQA_Service_Quality_Analysis.ipynb` (File → Upload
+notebook, or File → Open notebook → GitHub and paste the repo URL) and run
+it top to bottom — it's self-contained and produces all 5 figures inline.
+
+## Run locally
 
 ```bash
 pip install -r requirements.txt
-```
-
-The raw dataset lives at `data/education_services.csv`.
-
-## Run
-
-```bash
 python src/quality_analysis.py
 ```
+
+The raw dataset lives at `data/education_services.csv`. `src/clean.py` and
+`src/quality_analysis.py` are the source-of-truth scripts;
+`ACECQA_Service_Quality_Analysis.ipynb` is the same analysis as an
+annotated, Colab-ready notebook for presentation/walkthrough use.
 
 This loads and cleans the data (`src/clean.py`, cached to
 `data/education_services_clean.parquet`), writes 5 figures to
