@@ -1,247 +1,245 @@
 # ACECQA Service Quality, Accessibility & Operations Analysis — Presentation Script
 
-Target length: ~9:30, inside the assignment's hard 5–10 minute window
-(content beyond 10 minutes isn't marked, so there's no benefit to
-running long). `[SHOW ...]` marks when to bring up each chart; keep your
-face visible in a corner the whole time per the assignment requirement.
+Target length: ~9:30, inside the assignment's hard 5–10 minute window.
+`[SHOW ...]` marks when to bring up each chart; keep your face visible
+in a corner the whole time per the assignment requirement.
 
-With 13 charts across three streams, this script keeps each chart to
-2–3 sentences. If you're running over on a practice read, see **"If
-you need to cut time"** at the end — some charts can be shown without
-being individually narrated and it still satisfies the assignment's
-minimum (4+ visualisations, one spatial).
+**Structure:** one central business problem, three angles on it. Every
+section opens by naming the problem or question *before* the chart
+appears — the chart is evidence for a claim you've already made, not a
+pattern you're discovering out loud. If you only remember one thing from
+these delivery notes: never say "here's a chart showing X" — say "X is
+a problem, here's the proof" instead.
 
 ---
 
-### Opening (0:00–0:30)
+### Opening — state the problem, not the topic (0:00–0:45)
 
-[Face to camera, no slide yet, or title slide]
+[Face to camera, title slide]
 
 "Hi, I'm [YOUR NAME], and I work for government to improve education and
-care services across Australia. Today I want to walk you through an
-analysis of the national register of approved education and care
-services — over seventeen thousand services across every state and
-territory — covering three things: where quality is falling short and
-why, where families are genuinely underserved, and what the operational
-data tells us about how the sector actually runs. Every finding here
-points to something ACECQA, a state regulator, or a transport planner
-could act on."
+care services across Australia. Here's the problem I'm here to help
+solve: ACECQA and state governments have a limited budget for lifting
+service quality and funding new services, spread across seventeen
+thousand approved services nationally. Spent well, that budget closes
+real gaps for families. Spent on the wrong thing, it doesn't move the
+needle at all. So today I'm answering three questions with data: where
+is quality actually failing and why, where are families genuinely cut
+off from services, and — just as important — what should we *stop*
+assuming matters, so we don't waste money chasing it."
 
-### Data & method, briefly (0:30–1:00)
+### Data & method, briefly (0:45–1:10)
 
 [SHOW a slide with the dataset summary, or talk over the title slide]
 
-"Quickly on the data: this is the NQA ITS extract — every approved
-service, its ratings across seven quality areas, and location data
-enriched with distance to the nearest train and bus station. Before
-trusting any of it, I checked it for problems. Ten services had no
-address at all, and had all been geocoded to the exact same point — in
-Myanmar. I dropped those. Everything else checked out, including some
-genuinely extreme values, like services on Torres Strait islands nine
-hundred kilometres from the nearest train station — real, not errors,
-but flagged so they don't distort the charts where they'd otherwise
-dominate."
+"Quickly on the data, because a budget decision is only as good as what
+it's based on. This is the national register of every approved service,
+with quality ratings and transport-access data. Before trusting any of
+it, I checked it for problems — ten services had no address at all and
+had all been geocoded to the same point in Myanmar. I dropped those
+rather than guess. Everything else checked out."
 
 ---
 
-## Stream 1: Service Quality (1:00–3:15)
+## Problem 1: Is quality failing consistently, or is it a specific, fixable issue? (1:10–3:45)
 
-### Chart 1 — Rating by state (1:00–1:40)
+"First problem: all eight states and territories apply the same National
+Law. If quality outcomes are wildly inconsistent anyway, that's either a
+resourcing gap or an enforcement gap — and knowing which one matters,
+because they need completely different fixes."
+
+### Chart 1 — Rating by state (1:20–1:55)
 
 [SHOW 01_rating_by_state.png]
 
-"First: how does quality vary by state? All states apply the same
-National Law, so we'd hope for similar outcomes. We don't see that. The
-ACT has the highest share of services rated Exceeding NQS or above —
-forty-four percent. Western Australia has the lowest, at four percent.
-That's roughly a ten-times gap between two jurisdictions running the
-same regulatory framework."
+"They are wildly inconsistent. The ACT has forty-four percent of its
+services rated Exceeding NQS or above. Western Australia has four
+percent. Same law, ten-times difference. That's not noise — that's a
+finding that should already be uncomfortable for a national regulator."
 
-### Chart 2 — Rating by service type (1:40–2:05)
+### Chart 2 — Rating by service type (1:55–2:15)
 
 [SHOW 02_rating_by_service_type.png]
 
-"Quality also splits by service type. Standalone and school-based
-preschools lead, at fifty and forty-six percent Exceeding. Long Day Care
-and Outside School Hours Care trail at eighteen and eleven percent — and
-Long Day Care is the largest category in the whole dataset, so that's
-where the biggest improvement opportunity sits."
+"It's not just geography. Long Day Care — the single largest category
+in the dataset — sits at eighteen percent Exceeding, well behind
+preschools at forty-six to fifty percent. If we're prioritising where a
+quality-improvement dollar does the most good, Long Day Care is where
+the volume is."
 
-### Chart 3 — Which Quality Area drags states down (2:05–2:35)
+### Chart 3 — Which Quality Area drags states down (2:15–2:45)
 
 [SHOW 03_quality_area_heatmap.png]
 
-"Breaking the overall score into its seven components, Quality Area
-2 — children's health and safety — is the weakest area nationally, and
-especially weak in WA and the Northern Territory, the same two
-jurisdictions from the first chart. That's a concrete, area-specific
-lever, not a vague 'improve quality' message."
+"So it's not random — it's concentrated. Breaking the rating into its
+seven components shows Quality Area 2, children's health and safety, is
+the weakest nationally, and specifically weakest in the same two
+states — WA and the NT — that were already trailing. That turns a vague
+'quality is worse in WA' into an actionable brief: WA's improvement
+program should start with health and safety practice, not a generic
+audit."
 
-### Chart 4 — Spatial map of ratings (2:35–2:55)
+### Chart 4 — Spatial map of ratings (2:45–3:00)
 
 [SHOW 04_spatial_ratings_map.png]
 
-"Mapping every service by rating shows where issues cluster
-geographically — concentrations of orange, Working Towards NQS, around
-Perth, Adelaide, and pockets of the eastern seaboard. That's local
-enough to target a support team at, rather than spreading resources
-across an entire state."
+"And it's local enough to act on directly — you can see clusters of
+underperforming services around Perth and Adelaide specifically, which
+means a support team could be deployed to a cluster, not spread across
+an entire state."
 
-### Chart 5 — Transport proximity vs. quality (2:55–3:35)
+### Chart 5 — Ruling out transport as the cause (3:00–3:45)
 
 [SHOW 05_transport_vs_quality.png]
 
-"One hypothesis: does being close to public transport correlate with
-better quality? I tested it with a Spearman correlation, excluding the
-extreme remote outliers. The answer is no — the correlation is
-essentially zero. It's technically significant only because we have
-sixteen thousand data points; the effect size is negligible. That's a
-useful finding on its own: don't treat transport proximity as a quality
-signal. It isn't one."
+"Before recommending a fix, I need to rule out the obvious wrong
+answer. Is this just about how well-connected a service is? I tested
+distance to the nearest train station against rating directly. The
+correlation is effectively zero — statistically detectable only because
+we have sixteen thousand data points, but practically meaningless. This
+matters for the budget question: don't fund transport upgrades expecting
+a quality payoff. That's not where the problem lives."
 
 ---
 
-## Stream 2: Accessibility & Coverage (3:35–5:45)
+## Problem 2: Are families structurally cut off from services, and where worst? (3:45–5:50)
 
-"So transport doesn't predict quality directly. But it might still
-matter for whether families can reach a service at all — which is the
-second half of this analysis. I classified every service urban or rural
-using the ABS's Section of State boundaries, spatially joined against
-each service's own coordinates."
+"Second problem. Transport doesn't explain quality — but it might still
+determine whether a family can use a service at all, which is a
+different, equally real problem. I classified every service urban or
+rural using ABS boundaries, spatially joined to each service's own
+coordinates."
 
-### Chart 6 — Transport access, urban vs rural (3:45–4:15)
+### Chart 6 — Transport access, urban vs rural (3:55–4:20)
 
 [SHOW 06_transport_by_urban_rural.png]
 
-"Here the story flips. Rural services sit a median of nineteen
-kilometres from the nearest train station, against two-point-three
-kilometres for urban services — eight times further. For a family
-without a car in a rural area, that's a real barrier to using the
-service, not a statistic."
+"Rural services sit a median nineteen kilometres from the nearest train
+station — eight times further than urban services. For a family without
+a car, that's not a statistic, that's whether the service is usable at
+all."
 
-### Chart 7 — Quality, urban vs rural (4:15–4:40)
+### Chart 7 — Quality, urban vs rural (4:20–4:40)
 
 [SHOW 07_rating_by_urban_rural.png]
 
-"And unlike raw distance, urban-versus-rural classification does track
-with quality — twenty-two percent of urban services rated Exceeding or
-above, against seventeen percent rural. Smaller than the state-level
-gap, but real."
+"And unlike raw distance, urban-versus-rural status does track with
+quality — twenty-two percent Exceeding in urban areas against seventeen
+in rural. Smaller gap than the state-level one, but it compounds the
+access problem: rural families travel further *and* get slightly lower
+average quality when they arrive."
 
-### Chart 8 — Spatial map, urban vs rural (4:40–5:00)
+### Chart 8 — Spatial map, urban vs rural (4:40–4:55)
 
 [SHOW 08_spatial_urban_rural.png]
 
-"Mapping urban and rural services together shows how concentrated
-Australia's early education footprint is — the overwhelming majority
-sit in a thin coastal band, with a long tail of small services scattered
-across the interior and the north."
+"Mapping it shows how concentrated the whole system is — the vast
+majority of services sit in a thin coastal band, leaving a long, thin
+tail of small services covering the rest of the country."
 
-### Chart 9 — Coverage gaps: where's the nearest alternative? (5:00–5:45)
+### Chart 9 — Where the gap is worst, specifically (4:55–5:50)
 
 [SHOW 09_coverage_gaps.png]
 
-"Last accessibility question: where are families most underserved? Land
-density isn't useful here — most of inland Australia is uninhabited. A
-better measure: for each service, how far is the *next closest* one — the
-fallback if a family's usual centre is full. Western Australia's smaller
-rural towns sit at a median forty-one kilometres to the next service; the
-Northern Territory's equivalent, thirty-one kilometres. Every other
-state-and-area combination is under fifteen. That's not a gradual
-disparity, it's an order-of-magnitude gap — and it's exactly where a new
-service would have the most impact."
+"So where does this problem bite hardest? Land-area density isn't useful
+here — most of inland Australia is uninhabited by definition. The real
+question is: if a family's usual service is full, how far is the next
+one? In Western Australia's smaller rural towns, the answer is a median
+forty-one kilometres. In the Northern Territory's equivalent areas,
+thirty-one kilometres. Everywhere else in the country, it's under
+fifteen. That's not a gradual disparity — it's a specific, fundable gap.
+If ACECQA is choosing where to put a new service, this chart names the
+two places first."
 
 ---
 
-## Stream 3: Operational Trends (5:45–8:15)
+## Problem 3: Are we reading the operational data correctly — and does it change the answer? (5:50–8:10)
 
-"Last stream: what does the operational data — capacity, hours, and
-approval dates — tell us about how the sector actually runs, and whether
-any of that connects back to quality or transport?"
+"Third problem, and it's a bit different: is there anything in how
+services actually operate — size, hours, how the sector's grown — that
+changes what I've just recommended, or that a policymaker could easily
+misread?"
 
-### Chart 10 — Capacity by service type (5:55–6:20)
+### Chart 10 — Capacity by service type (5:58–6:20)
 
 [SHOW 10_capacity_by_type.png]
 
-"Long Day Care centres are the biggest, with a median of seventy-two
-approved places; standalone preschools the smallest, at thirty-two.
-Location matters too: urban services run at a median sixty-two places,
-rural services just thirty — about half the size, which tracks with
-smaller communities needing smaller centres."
+"Rural services run at a median thirty approved places against sixty-two
+in urban areas — about half the size. That's useful context for the
+funding recommendation from Problem 2: a new rural service doesn't need
+to match a city-sized centre to close the gap."
 
-### Chart 11 — Year-round vs term-time operation (6:20–6:50)
+### Chart 11 — Year-round vs term-time operation (6:20–6:45)
 
 [SHOW 11_operating_pattern_by_type.png]
 
-"Service types also split structurally in how they operate. Long Day
-Care and Family Day Care run essentially year-round — ninety-eight and
-eighty-eight percent. Preschools and Outside School Hours Care are
-overwhelmingly term-time only, up to eighty-four percent for OSHC. That's
-not a quality difference, it's a structural one worth knowing before
-comparing these service types on anything operational."
+"One structural fact worth knowing before comparing service types on
+anything: Long Day Care and Family Day Care run essentially year-round,
+while preschools and Outside School Hours Care are overwhelmingly
+term-time only. That's an operating-model difference, not a quality
+difference — important so nobody reads Chart 2's Long Day Care result as
+'these services are open more and that's why they're rated lower.'"
 
-### Chart 12 — Approval trend over time (6:50–7:20)
+### Chart 12 — A trap in the approval data (6:45–7:20)
 
 [SHOW 12_approval_trend.png]
 
-"Here's a data-quality catch worth flagging to any policy audience: 2012
-shows a huge spike in approvals — over four thousand in one year. That's
-not organic growth. The National Quality Framework commenced in January
-2012, and every already-operating service was bulk-transferred onto new
-approval numbers that year. The real growth signal is the steadier trend
-from 2013 onward — reading the raw spike as sector expansion would be a
-mistake."
+"Here's a specific misreading risk I want to flag directly: the
+approvals-per-year data shows a huge spike in 2012 — over four thousand
+services in one year. Read naively, that looks like explosive sector
+growth. It isn't. The National Quality Framework commenced that January,
+and every already-operating service was bulk-transferred onto new
+approval numbers. If this had gone into a growth-forecasting model
+unchecked, it would have produced a badly wrong answer. The real,
+steady trend only starts in 2013."
 
-### Chart 13 — Operational factors, quality, and transport (7:20–8:10)
+### Chart 13 — Does anything operational actually predict quality? (7:20–8:10)
 
 [SHOW 13_hours_vs_quality.png]
 
-"Finally: do operational factors relate to quality? Services open under
-forty-five hours a week have the highest Exceeding rate, at thirty-seven
-percent; that falls as hours climb, down to about eighteen percent for
-the longest-opening services. It's a modest correlation, but the largest
-operational effect I found — possibly reflecting staffing strain across a
-longer working week. And echoing the transport-quality result from
-earlier: transport accessibility doesn't meaningfully move capacity or
-opening hours either. Whatever's driving quality and operational
-differences, it isn't how close a service is to a train station."
+"Last check: of everything operational, does anything actually predict
+quality? Opening hours does, modestly — services open under forty-five
+hours a week hit thirty-seven percent Exceeding, falling to eighteen
+percent for the longest-opening services. That's the single largest
+operational effect I found, plausibly a staffing-strain signal worth
+a follow-up study. And to close the loop on Problem 1: transport
+accessibility still doesn't move capacity or hours either. Three
+separate tests now, all pointing the same way — transport is a real
+equity issue, but it is not the lever for quality."
 
 ---
 
-### Close & recommendations (8:10–8:50)
+### Close — the decision, not a recap (8:10–8:50)
 
 [Face to camera, optional summary slide]
 
-"Bringing this together, three recommendations. One: ACECQA's cross-state
-consistency work should prioritise Western Australia and the Northern
-Territory, specifically children's health-and-safety practices, since
-that's the weakest area dragging both down. Two: don't use transport
-proximity as a quality or operational proxy — it isn't one — but do treat
-it as an equity issue, since rural families face meaningfully worse
-transport access regardless of service quality or size. And three: if
-new services are being funded, Western Australia's and the Northern
-Territory's rural towns are the most concrete, defensible place to
-start, based on how far families there already have to travel for an
-alternative. Thank you."
+"So, back to the budget question I opened with. One: WA and the NT need
+targeted health-and-safety support, not a general audit — that's where
+the money should go first for quality. Two: WA's and the NT's rural
+Bounded Localities are the most underserved places in the country by a
+full order of magnitude — that's where a new service should go first
+for access. And three: don't spend on transport access expecting a
+quality return — three independent tests say it won't pay off; spend
+there for equity reasons instead, with eyes open about what it will and
+won't fix. That's a budget with a reason behind every line. Thank you."
 
 ---
 
 ## Delivery notes
 
-- Full script reads at roughly 140–160 words/minute, landing at about
-  9:30 with normal pacing and pauses — leaves a buffer under the 10-minute
-  hard cap, but practice once and trim if you're a slower reader.
-- **If you need to cut time:** the safest cuts, in order, are (1) the
-  "Data & method" paragraph — mention the Myanmar catch in one sentence
-  instead, (2) Chart 8 (spatial urban/rural) — show it during the Chart 9
-  narration instead of giving it its own beat, (3) Chart 2 (rating by
-  service type) — one sentence instead of two. Don't cut Chart 5 or
-  Chart 13's transport-null findings; they're your strongest "we tested
-  this properly" evidence for a policy audience.
-- If asked why urban/rural wasn't done with the simpler
-  postcode-allocation method: you used the direct spatial join since the
-  dataset already has coordinates for every service, avoiding the
-  many-to-many postcode-to-SA1 mapping problem entirely.
+- Reads at ~140–160 words/minute, landing at about 9:30 — practice once
+  and trim if you're a slower reader.
+- **If you need to cut time**, in order: (1) the "Data & method" beat —
+  compress the Myanmar catch to one sentence, (2) Chart 8's own beat —
+  mention it in passing during Chart 9 instead, (3) Chart 11 — one
+  sentence instead of two. Never cut Chart 5 or the transport call-back
+  in Chart 13 — that "we tested it three times, all null" chain is your
+  strongest evidence of rigour for a policy audience, and it's what
+  makes the closing recommendation credible rather than asserted.
+- If asked why urban/rural wasn't done with the postcode-allocation
+  method: the direct spatial join avoids the many-to-many
+  postcode-to-SA1 mapping problem, since the dataset already has
+  coordinates for every service.
 - Keep the Family Day Care data-quality catches (capacity populated for
   only 2 of 417 services; "hours" meaning something structurally
   different for a scheme vs a single centre) in your back pocket for
