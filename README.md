@@ -1,18 +1,26 @@
-# ACECQA Education & Care Services — Service Quality & Accessibility Analysis
+# ACECQA Education & Care Services — Full Analysis (Quality, Accessibility, Operations)
 
 Python code for the ACECQA data analysis assignment. Analyses the national
 register of approved education and care services (17,663 rows, NQA ITS
-extract) enriched with spatial/transport-access fields, across two streams:
+extract) enriched with spatial/transport-access fields, across all three
+suggested streams:
 
-**Service Quality**
+**1. Service Quality**
 - How NQS ratings vary by state and by service type
 - Which of the seven Quality Areas is dragging each state's rating down
 - Whether proximity to public transport correlates with quality
 
-**Accessibility & Coverage**
+**2. Accessibility & Coverage**
 - How much worse transport access is for rural services vs urban ones
 - Whether the urban/rural split shows up in quality outcomes too
 - Where families are most underserved (furthest from an alternative service)
+
+**3. Operational Trends**
+- How capacity and operating-hours patterns vary by service type
+- Whether the sector's approval trend reflects genuine growth or a
+  regulatory artifact
+- Whether operational factors — or transport accessibility — relate to
+  quality
 
 ## Run in Google Colab
 
@@ -32,7 +40,7 @@ Or manually: open a new Colab notebook, run
 ```
 
 then upload/open `ACECQA_Service_Quality_Analysis.ipynb` and run top to
-bottom — it's self-contained and produces all 9 figures inline.
+bottom — it's self-contained and produces all 13 figures inline.
 
 ## Run locally
 
@@ -40,17 +48,29 @@ bottom — it's self-contained and produces all 9 figures inline.
 pip install -r requirements.txt
 python src/quality_analysis.py
 python src/accessibility_analysis.py
+python src/operational_analysis.py
 ```
 
 The raw dataset lives at `data/education_services.csv`. `src/clean.py`,
-`src/urban_rural.py`, `src/quality_analysis.py` and
-`src/accessibility_analysis.py` are the source-of-truth scripts;
-`ACECQA_Service_Quality_Analysis.ipynb` is the same analysis as an
-annotated, Colab-ready notebook for presentation/walkthrough use.
+`src/urban_rural.py`, `src/quality_analysis.py`,
+`src/accessibility_analysis.py` and `src/operational_analysis.py` are the
+source-of-truth scripts; `ACECQA_Service_Quality_Analysis.ipynb` is the
+same analysis as an annotated, Colab-ready notebook for
+presentation/walkthrough use.
 
 `quality_analysis.py` writes figures 01-05 (Service Quality);
 `accessibility_analysis.py` writes figures 06-09 (Accessibility &
-Coverage) and appends to the same `outputs/summary_stats.json`.
+Coverage); `operational_analysis.py` writes figures 10-13 (Operational
+Trends). All three append to the same `outputs/summary_stats.json`.
+
+**Notebook design note:** every chart's headline stats are written into
+the running `summary` dict immediately after that chart is drawn, not
+recomputed later from leftover variables. An earlier version had a bug
+where a later cell's reused variable name (`worst`) silently overwrote an
+earlier cell's value before the final summary was written, corrupting
+`worst_state` in the saved JSON — caught by re-reading the committed
+output rather than trusting the "notebook ran with no errors" signal
+alone. Fixed by making each section self-contained.
 
 ## Data cleaning decisions
 
@@ -73,20 +93,37 @@ Coverage) and appends to the same `outputs/summary_stats.json`.
   station for Torres Strait Island campuses of Tagai State College) are
   genuine, not data errors, and are flagged (`train_dist_outlier`,
   `bus_dist_outlier`, threshold >100km) rather than deleted. They are
-  excluded from the transport-vs-quality chart only, since at national
-  scale they'd compress every other distance bin onto a single pixel;
-  they remain visible on the spatial map.
+  excluded from the transport-vs-quality and transport-vs-operations
+  charts only, since at national scale they'd compress every other
+  distance bin onto a single pixel; they remain visible on the spatial
+  map.
+- **`NumberOfApprovedPlaces` is missing for 415 of 417 Family Day Care
+  services** — structurally, not by omission: FDC capacity is recorded
+  per individually-registered educator across a scheme, not as a single
+  site limit. FDC is excluded from the capacity-by-type chart rather
+  than reported on 2 data points.
+- **Weekly operating hours are undefined for Family Day Care schemes**:
+  the "Annual" opening-hours columns record round-the-clock availability
+  across the whole educator network (median ~168h/week — i.e. "always
+  open"), which isn't a comparable figure to a single centre's opening
+  hours, so FDC is excluded from the hours-vs-quality analysis.
+- **The 2012 spike in approvals (4,706 services in one year) is a
+  regulatory artifact, not organic growth**: the National Quality
+  Framework commenced in January 2012 and every already-operating
+  service was bulk-transferred onto new approval numbers that year. The
+  approval-trend chart flags this explicitly rather than presenting it
+  as a genuine sector expansion.
 
 ## Service-type categorisation
 
 The dataset carries both a coarse `ServiceType` column (Centre-Based Care
 / Family Day Care) and seven non-exclusive detailed flags (a service can
 be "Yes" on more than one, e.g. Long Day Care + Vacation Care). For the
-by-type quality comparison, `quality_analysis.primary_service_type()`
-assigns each service exactly one label using a fixed priority order
-(Family Day Care > Long Day Care > Preschool standalone > Preschool
-school-based > Outside School Hours Care > Other) so services aren't
-double-counted. This is stated explicitly here per the assignment brief.
+by-type comparisons, `quality_analysis.primary_service_type()` assigns
+each service exactly one label using a fixed priority order (Family Day
+Care > Long Day Care > Preschool standalone > Preschool school-based >
+Outside School Hours Care > Other) so services aren't double-counted.
+This is stated explicitly here per the assignment brief.
 
 ## Urban/rural classification
 
@@ -134,10 +171,7 @@ Strait) → Bounded Locality).
   **Strongest**: QA6 (Collaborative partnerships).
 - **Transport proximity does not predict quality**: Spearman ρ ≈ -0.02
   between distance to nearest train station and rating (p < 0.01, so
-  "significant" at n=16,031, but the effect size is negligible — the
-  share rated "Exceeding" is ~20-22% at every distance band from <0.5km
-  to 100km). This is a useful null result: ACECQA and transport agencies
-  shouldn't treat transport access as a quality lever.
+  "significant" at n=16,031, but the effect size is negligible).
 
 **Accessibility & Coverage**
 - **Rural services sit ~8x further from a train station** than urban
@@ -152,17 +186,34 @@ Strait) → Bounded Locality).
   an order of magnitude worse than any other state/category
   combination, and a concrete target for "where should a new service go".
 
+**Operational Trends**
+- **Rural services are about half the size of urban ones** (30 vs 62
+  median approved places).
+- **Long Day Care and Family Day Care run year-round** (98% and 88%);
+  **Preschools and Outside School Hours Care are overwhelmingly
+  term-time only** (57-84%) — a structural split by service type, not a
+  quality difference.
+- **Longer opening hours track with modestly lower quality** (Spearman
+  ρ ≈ -0.15, n=9,490) — the largest single operational-factor effect
+  found, though still a small-to-moderate one.
+- **Transport accessibility does not meaningfully move capacity or
+  opening hours** (ρ ≈ -0.06 and ρ ≈ 0.02 respectively, the latter not
+  significant) — consistent with the Service Quality stream's finding:
+  transport access is a genuine equity issue, but not an operational or
+  quality lever.
+
 ## Repo layout
 
 ```
 data/education_services.csv                    raw dataset (as supplied)
 data/external/au_states.geojson                 AU state boundaries (basemap only)
-data/external/sos_2021/SOS_2021_AUST_GDA2020.*   ABS Section of State boundaries (urban/rural join)
-src/clean.py                                     loading + cleaning
-src/urban_rural.py                               ABS SOS spatial join
-src/quality_analysis.py                          figures 01-05 (Service Quality)
-src/accessibility_analysis.py                    figures 06-09 (Accessibility & Coverage)
-outputs/figures/                                 generated PNGs
-outputs/summary_stats.json                       headline numbers for slides
-ACECQA_Service_Quality_Analysis.ipynb            Colab-ready notebook, both streams
+data/external/sos_2021/SOS_2021_AUST_GDA2020.*  ABS Section of State boundaries (urban/rural join)
+src/clean.py                                    loading + cleaning
+src/urban_rural.py                              ABS SOS spatial join
+src/quality_analysis.py                         figures 01-05 (Service Quality)
+src/accessibility_analysis.py                   figures 06-09 (Accessibility & Coverage)
+src/operational_analysis.py                     figures 10-13 (Operational Trends)
+outputs/figures/                                generated PNGs
+outputs/summary_stats.json                      headline numbers for slides
+ACECQA_Service_Quality_Analysis.ipynb           Colab-ready notebook, all three streams
 ```
