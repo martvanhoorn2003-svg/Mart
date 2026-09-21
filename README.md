@@ -191,23 +191,38 @@ Strait) → Bounded Locality).
   an order of magnitude worse than any other state/category
   combination, and a concrete target for "where should a new service go".
 
-**Operational Trends**
-- **Capacity declines from Major Urban (66 places median) to Bounded
-  Locality (27) and Rural Balance (30)** — smaller communities, smaller
-  centres.
-- **Long Day Care and Family Day Care run year-round** (98% and 88%);
-  **Preschools and Outside School Hours Care are overwhelmingly
-  term-time only** (57-84%) — a structural split by service type, not a
-  quality difference.
+**Operational Trends — which operational factors actually matter for quality?**
+- **Capacity does not predict quality** (Spearman ρ ≈ -0.063, p < 0.001
+  but a negligible effect size, n=15,970) — bigger centres aren't
+  meaningfully better or worse, despite capacity itself declining sharply
+  from Major Urban (66 places median) to Bounded Locality (27).
+- **Operating pattern (year-round vs term-time) is mostly a proxy for
+  service type, not an independent quality driver**: controlling for
+  type within Long Day Care (the only type with enough services in both
+  patterns to compare), the term-time subgroup is too small (n=59
+  against 8,424 year-round) to draw a reliable conclusion either way.
+- **Approval cohort is the strongest operational signal found**: services
+  approved 2019 or later sit at just 8.6% Exceeding+, against 22.8% for
+  pre-2012 established services — newer services haven't had time to
+  build up to "Exceeding" yet. (2012 itself is excluded from this
+  reading — it's the National Quality Framework's bulk-transfer cohort,
+  which is why raw approval counts spike there without a matching
+  quality signal: 32.2% Exceeding+, in line with the other established,
+  pre-existing cohorts, not with genuinely new services.)
 - **Longer opening hours track with modestly lower quality** (Spearman
-  ρ ≈ -0.15, n=9,490) — the largest single operational-factor effect
-  found, though still a small-to-moderate one.
+  ρ ≈ -0.15, n=9,490) — the largest continuous operational-factor effect
+  found.
 - **Transport accessibility does not meaningfully move capacity or
   opening hours** (ρ ≈ -0.06 and ρ ≈ 0.02 respectively — both negligible
   in size, even where the latter is technically significant at p < .05).
   So while the Service Quality stream found a small direct effect of
   transport distance on quality, that effect isn't operating through
   capacity or hours — it's a standalone, modest risk factor.
+- **Bottom line**: of four operational factors tested against quality
+  (capacity, operating pattern, opening hours, approval cohort), two
+  matter — opening hours, and especially service age — and two don't:
+  capacity and operating pattern are confounded with service type and
+  location rather than independent quality drivers.
 
 ## Repo layout
 

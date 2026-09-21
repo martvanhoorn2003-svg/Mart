@@ -1,6 +1,6 @@
 # ACECQA Service Quality, Accessibility & Operations Analysis — Presentation Script
 
-Target length: ~9:30, inside the assignment's hard 5–10 minute window.
+Target length: ~9:00, inside the assignment's hard 5–10 minute window.
 `[SHOW ...]` marks when to bring up each chart; keep your face visible
 in a corner the whole time per the assignment requirement.
 
@@ -161,62 +161,60 @@ two places first."
 
 ---
 
-## Problem 3: Are we reading the operational data correctly — and does it change the answer? (5:50–8:10)
+## Problem 3: Which operational factors actually drive quality — and which just look like they do? (5:50–8:10)
 
-"Third problem, and it's a bit different: is there anything in how
-services actually operate — size, hours, how the sector's grown — that
-changes what I've just recommended, or that a policymaker could easily
-misread?"
+"Third problem, and it's a different kind of test. ACECQA could point to
+four operational levers — size, year-round operation, opening hours, how
+old a service is — and assume any of them explains quality. I tested all
+four directly. Two matter. Two don't."
 
-### Chart 10 — Capacity by service type (5:58–6:20)
+### Chart 10 — Does size predict quality? No. (5:58–6:18)
 
 [SHOW 10_capacity_by_type.png]
 
-"Capacity follows the same four-category pattern — sixty-six approved
-places typical in major cities, down to twenty-seven in small country
-towns. That's useful context for the funding recommendation from
-Problem 2: a new rural service doesn't need to match a city-sized centre
-to close the gap."
+"Capacity varies a lot by type and by area — sixty-six places typical in
+major cities, twenty-seven in small country towns. But tested directly
+against rating, the correlation is negligible. A bigger centre isn't a
+better- or worse-run one — useful for Problem 2: a new rural service
+doesn't need to match a city-sized centre to be a good one."
 
-### Chart 11 — Year-round vs term-time operation (6:20–6:45)
+### Chart 11 — Does year-round operation predict quality? Not independently. (6:18–6:40)
 
 [SHOW 11_operating_pattern_by_type.png]
 
-"One structural fact worth knowing before comparing service types on
-anything: Long Day Care and Family Day Care run essentially year-round,
-while preschools and Outside School Hours Care are overwhelmingly
-term-time only. That's an operating-model difference, not a quality
-difference — important so nobody reads Chart 2's Long Day Care result as
-'these services are open more and that's why they're rated lower.'"
+"Long Day Care runs almost entirely year-round and scored lower than
+preschools in Chart 2 — that could look hours-driven. But controlling
+for type, comparing year-round to term-time within Long Day Care only,
+there aren't enough term-time services to draw a conclusion. This is
+mostly standing in for service type, already covered — not an
+independent driver."
 
-### Chart 12 — A trap in the approval data (6:45–7:20)
+### Chart 12 — Does approval date predict quality? Yes — the strongest signal here. (6:40–7:30)
 
 [SHOW 12_approval_trend.png]
 
-"Here's a specific misreading risk I want to flag directly: the
-approvals-per-year data shows a huge spike in 2012 — over four thousand
-services in one year. Read naively, that looks like explosive sector
-growth. It isn't. The National Quality Framework commenced that January,
-and every already-operating service was bulk-transferred onto new
-approval numbers. If this had gone into a growth-forecasting model
-unchecked, it would have produced a badly wrong answer. The real,
-steady trend only starts in 2013."
+"A data trap first: approvals-per-year spikes in 2012 — over four
+thousand in one year. Read naively, that's explosive growth. It isn't —
+the National Quality Framework commenced that January and bulk-
+transferred every already-operating service onto new numbers, not
+newly opened ones. The right-hand panel is the real story: grouped by
+when they were actually approved, services from 2019 onward sit at just
+eight-point-six percent Exceeding or above, against twenty-two-point-
+eight percent for pre-2012, long-established services. Newer services
+simply haven't had the years of embedded practice yet. That's the
+strongest operational signal in this whole analysis."
 
-### Chart 13 — Does anything operational actually predict quality? (7:20–8:10)
+### Chart 13 — Does opening hours predict quality? Yes, modestly. (7:30–8:10)
 
 [SHOW 13_hours_vs_quality.png]
 
-"Last check: of everything operational, does anything actually predict
-quality more strongly than transport did? Opening hours does — services
-open under forty-five hours a week hit thirty-seven percent Exceeding,
-falling to eighteen percent for the longest-opening services. That's the
-largest single operational effect I found, bigger than transport's, and
-plausibly a staffing-strain signal worth a follow-up study. And to close
-the loop on Problem 1: transport accessibility still doesn't move
-capacity or hours in any meaningful way — so its small quality effect
-isn't working through operations, it's standing on its own. Transport is
-a real equity issue and a minor quality one; opening hours is the
-bigger, less-discussed lever."
+"Opening hours does show a real relationship — thirty-seven percent
+Exceeding under forty-five hours a week, down to eighteen percent for
+the longest-opening services. Smaller than the approval-cohort effect,
+but real. And closing the loop on Problem 1: transport still doesn't
+move capacity or hours in any meaningful way — its small quality effect
+from Chart 5 stands on its own. Two of four operational levers actually
+drive quality; two are noise dressed up as insight."
 
 ---
 
@@ -225,22 +223,23 @@ bigger, less-discussed lever."
 [Face to camera, optional summary slide]
 
 "So, back to the budget question I opened with. One: WA and the NT need
-targeted health-and-safety support, not a general audit — that's where
-the money should go first for quality, and it's a far bigger lever than
-transport. Two: WA's and the NT's rural Bounded Localities are the most
-underserved places in the country by a full order of magnitude — that's
-where a new service should go first for access. And three: fund
-transport access for equity, not as a quality play — it has a real but
-small quality upside, dwarfed by the state and opening-hours effects, so
-don't oversell it in the business case. That's a budget with a reason
-behind every line, sized honestly. Thank you."
+targeted health-and-safety support, not a general audit — a far bigger
+lever than transport. Two: WA's and the NT's rural Bounded Localities
+are the most underserved places in the country by a full order of
+magnitude — that's where a new service should go first. Three: fund
+transport access for equity, not as a quality play — real but small
+upside, don't oversell it. And four: give newly-approved services a
+support pathway, not a compliance one — they're not underperforming,
+they just haven't had the years yet. A budget with a reason behind
+every line. Thank you."
 
 ---
 
 ## Delivery notes
 
-- Reads at ~140–160 words/minute, landing at about 9:30 — practice once
-  and trim if you're a slower reader.
+- ~1,320 spoken words. At 140–160 words/minute that's roughly 8:15–9:25
+  — comfortable margin under the 10-minute hard cap even at a
+  deliberate, unhurried pace. Practice once to check your own rate.
 - **If you need to cut time**, in order: (1) the "Data & method" beat —
   compress the Myanmar catch to one sentence, (2) Chart 8's own beat —
   mention it in passing during Chart 9 instead, (3) Chart 11 — one

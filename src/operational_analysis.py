@@ -96,27 +96,39 @@ def chart_capacity_by_type(df: pd.DataFrame, sos_medians: pd.Series) -> dict:
     med = d.groupby("PrimaryServiceType")["NumberOfApprovedPlaces"].median().sort_values(ascending=False)
     counts = d["PrimaryServiceType"].value_counts()
 
-    fig, ax = plt.subplots(figsize=(8.5, 5))
+    # Does size itself predict quality, independent of type or location?
+    rated = df[df["OverallRating"].notna()].dropna(subset=["NumberOfApprovedPlaces"]).copy()
+    rated["OverallRating"] = rated["OverallRating"].astype(str)
+    rated = rated[rated["OverallRating"] != NOT_YET_ASSESSED]
+    rated["rating_code"] = rated["OverallRating"].map({v: i for i, v in enumerate(RATING_ORDER_SUBSTANTIVE)})
+    rho_cap_quality, p_cap_quality = stats.spearmanr(rated["NumberOfApprovedPlaces"], rated["rating_code"])
+
+    fig, ax = plt.subplots(figsize=(9.5, 6.3))
     bars = ax.barh(med.index, med.values, color=CAT["blue"], height=0.6)
     for bar, name in zip(bars, med.index):
         ax.text(bar.get_width() + 1.5, bar.get_y() + bar.get_height() / 2,
                 f"{bar.get_width():.0f} places (n={counts[name]:,})", va="center", fontsize=9)
     ax.invert_yaxis()
     ax.set_xlabel("Median approved places")
-    ax.set_title("How big is a typical service, by type?", fontsize=13, fontweight="bold",
-                 color=INK_PRIMARY, loc="left", pad=14)
+    ax.set_title("How big is a typical service, by type — and does size predict quality?",
+                 fontsize=12.5, fontweight="bold", color=INK_PRIMARY, loc="left", pad=14)
     sos_line = "  |  ".join(f"{cat}: {sos_medians[cat]:.0f}" for cat in SOS_ORDER)
-    ax.text(0.99, 0.03, f"Median places by area: {sos_line}",
-            transform=ax.transAxes, ha="right", fontsize=8, color=INK_SECONDARY)
+    ax.text(0.0, -0.20, f"Median places by area: {sos_line}",
+            transform=ax.transAxes, ha="left", fontsize=8, color=INK_SECONDARY)
+    ax.text(0.0, -0.27,
+            f"Capacity vs rating: Spearman ρ = {rho_cap_quality:.3f} (p = {p_cap_quality:.2g}, n={len(rated):,}) "
+            "— negligible: size alone doesn't predict quality.",
+            transform=ax.transAxes, ha="left", fontsize=8, color=INK_SECONDARY)
     for spine in ["top", "right", "left"]:
         ax.spines[spine].set_visible(False)
     ax.tick_params(left=False)
-    fig.tight_layout()
+    fig.tight_layout(rect=[0, 0.08, 1, 1])
     fig.savefig(FIG_DIR / "10_capacity_by_type.png", dpi=200)
     plt.close(fig)
-    return {
-        f"median_places_{cat.lower().replace(' ', '_')}": round(float(sos_medians[cat]), 1) for cat in SOS_ORDER
-    }
+    out = {f"median_places_{cat.lower().replace(' ', '_')}": round(float(sos_medians[cat]), 1) for cat in SOS_ORDER}
+    out["capacity_quality_spearman_rho"] = round(float(rho_cap_quality), 4)
+    out["capacity_quality_spearman_p"] = float(p_cap_quality)
+    return out
 
 
 def chart_operating_pattern(df: pd.DataFrame) -> dict:
@@ -128,8 +140,20 @@ def chart_operating_pattern(df: pd.DataFrame) -> dict:
     counts = d["PrimaryServiceType"].value_counts()
     ct.index = [f"{i}  (n={counts[i]:,})" for i in ct.index]
 
+    # Does operating pattern predict quality on its own, or is it just a
+    # proxy for service type (already covered in the Service Quality
+    # stream)? Controlled within Long Day Care - the only type with
+    # enough services in both patterns to compare meaningfully.
+    ldc = df[(df["PrimaryServiceType"] == "Long Day Care") & df["OverallRating"].notna()].copy()
+    ldc["OverallRating"] = ldc["OverallRating"].astype(str)
+    ldc = ldc[ldc["OverallRating"] != NOT_YET_ASSESSED]
+    ldc_exceeding = ldc.groupby("OperatingPattern")["OverallRating"].apply(
+        lambda s: (s.isin(["Exceeding NQS", "Excellent"])).mean()
+    )
+    ldc_counts = ldc["OperatingPattern"].value_counts()
+
     colors = {"Year-round": SEQ_BLUE[5], "Term-time only": CAT["orange"], "Neither / other pattern": GRIDLINE}
-    fig, ax = plt.subplots(figsize=(9, 4.2))
+    fig, ax = plt.subplots(figsize=(9, 4.6))
     left = np.zeros(len(ct))
     y = np.arange(len(ct))
     for cat in order:
@@ -148,33 +172,78 @@ def chart_operating_pattern(df: pd.DataFrame) -> dict:
     ax.tick_params(left=False)
     ax.set_title("Year-round vs term-time-only operation, by service type", fontsize=13,
                  fontweight="bold", color=INK_PRIMARY, loc="left", pad=14)
-    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.14), ncol=3, frameon=False, fontsize=9)
+    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.18), ncol=3, frameon=False, fontsize=9)
+    ax.text(0.99, -0.30,
+            f"Controlling for type (Long Day Care only): {ldc_exceeding.get('Year-round', float('nan')):.0%} Exceeding+ "
+            f"year-round (n={ldc_counts.get('Year-round', 0):,}) vs {ldc_exceeding.get('Term-time only', float('nan')):.0%} "
+            f"term-time (n={ldc_counts.get('Term-time only', 0):,}) — too few term-time LDC services to draw a "
+            "reliable conclusion; this factor is mostly a proxy for service type, not an independent quality driver.",
+            transform=ax.transAxes, ha="right", va="top", fontsize=7.5, color=INK_MUTED, wrap=True)
     fig.tight_layout()
     fig.savefig(FIG_DIR / "11_operating_pattern_by_type.png", dpi=200)
     plt.close(fig)
-    return {}
+    return {
+        "ldc_yearround_exceeding_pct": round(float(ldc_exceeding.get("Year-round", float("nan"))) * 100, 1),
+        "ldc_termtime_exceeding_pct": round(float(ldc_exceeding.get("Term-time only", float("nan"))) * 100, 1),
+    }
 
 
 def chart_approval_trend(df: pd.DataFrame) -> dict:
     d = df[df["ApprovalYear"].between(2006, 2024)]  # drop the handful of pre-2006 / 2025-partial-year points
     by_year = d.groupby("ApprovalYear").size()
 
-    fig, ax = plt.subplots(figsize=(9.5, 5))
-    colors = [CAT["red"] if y == 2012 else CAT["blue"] for y in by_year.index]
-    ax.bar(by_year.index, by_year.values, color=colors, width=0.7)
-    ax.annotate(
-        "2012: National Quality Framework\ncommenced - existing services bulk-\ntransferred to new approval numbers,\nnot genuine new openings",
-        xy=(2012, by_year.loc[2012]), xytext=(2013.5, by_year.loc[2012] * 0.92),
-        fontsize=8.5, color=INK_SECONDARY,
-        arrowprops=dict(arrowstyle="->", color=INK_MUTED),
+    # The real payoff question: does WHEN a service was approved relate to
+    # its quality today? Cohorts, not raw year, since individual-year
+    # samples get noisy - "2012" is kept separate as the NQF bulk-transfer
+    # cohort (mostly long-established services, not new ones, despite the
+    # approval date).
+    rated = d[d["OverallRating"].notna()].copy()
+    rated["OverallRating"] = rated["OverallRating"].astype(str)
+    rated = rated[rated["OverallRating"] != NOT_YET_ASSESSED]
+    bins = [2005, 2012, 2013, 2016, 2019, 2025]
+    labels = ["pre-2012", "2012", "2013-15", "2016-18", "2019+"]
+    rated["cohort"] = pd.cut(rated["ApprovalYear"], bins=bins, labels=labels, right=False)
+    cohort_exceeding = rated.groupby("cohort", observed=True)["OverallRating"].apply(
+        lambda s: s.isin(["Exceeding NQS", "Excellent"]).mean()
     )
-    ax.set_ylabel("Services approved")
-    ax.set_title("Services approved per year — mind the 2012 regulatory transition",
-                 fontsize=12.5, fontweight="bold", color=INK_PRIMARY, loc="left", pad=14)
+    cohort_counts = rated["cohort"].value_counts().reindex(labels)
+
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(13, 5.2))
+
+    colors = [CAT["red"] if y == 2012 else CAT["blue"] for y in by_year.index]
+    ax1.bar(by_year.index, by_year.values, color=colors, width=0.7)
+    ax1.annotate(
+        "2012: NQF commenced -\nexisting services bulk-\ntransferred, not new\nopenings",
+        xy=(2012, by_year.loc[2012]), xytext=(2013.3, by_year.loc[2012] * 0.85),
+        fontsize=8, color=INK_SECONDARY, arrowprops=dict(arrowstyle="->", color=INK_MUTED),
+    )
+    ax1.set_ylabel("Services approved")
+    ax1.set_title("Services approved per year", fontsize=12, fontweight="bold", color=INK_PRIMARY, loc="left", pad=12)
     for spine in ["top", "right"]:
-        ax.spines[spine].set_visible(False)
-    ax.spines["left"].set_color(BASELINE); ax.spines["bottom"].set_color(BASELINE)
-    fig.tight_layout()
+        ax1.spines[spine].set_visible(False)
+    ax1.spines["left"].set_color(BASELINE); ax1.spines["bottom"].set_color(BASELINE)
+
+    bar_colors = [CAT["red"] if lbl == "2012" else CAT["blue"] for lbl in labels]
+    ymax2 = max(cohort_exceeding.max() * 100 * 1.25, 5)
+    bars2 = ax2.bar(labels, (cohort_exceeding.reindex(labels) * 100).values, color=bar_colors, width=0.6)
+    for bar, lbl in zip(bars2, labels):
+        h = bar.get_height()
+        ax2.text(bar.get_x() + bar.get_width() / 2, h + 0.7, f"{h:.1f}%", ha="center", fontsize=9)
+        ax2.text(bar.get_x() + bar.get_width() / 2, -0.13 * ymax2, f"n={cohort_counts[lbl]:,}",
+                 ha="center", fontsize=7.5, color=INK_MUTED)
+    ax2.set_ylim(0, ymax2)
+    ax2.set_ylabel("Share rated 'Exceeding NQS' or above")
+    ax2.set_title("...and newer services haven't caught up yet", fontsize=12, fontweight="bold",
+                  color=INK_PRIMARY, loc="left", pad=12)
+    ax2.text(0.98, 0.95, "red = NQF bulk-transfer\ncohort, not new services",
+              transform=ax2.transAxes, ha="right", va="top", fontsize=7.5, color=INK_MUTED)
+    for spine in ["top", "right"]:
+        ax2.spines[spine].set_visible(False)
+    ax2.spines["left"].set_color(BASELINE); ax2.spines["bottom"].set_color(BASELINE)
+
+    fig.suptitle("Approval-date data quality trap, and the real quality-relevant signal underneath it",
+                 fontsize=12.5, fontweight="bold", color=INK_PRIMARY, x=0.02, ha="left")
+    fig.tight_layout(rect=[0, 0, 1, 0.94])
     fig.savefig(FIG_DIR / "12_approval_trend.png", dpi=200)
     plt.close(fig)
 
@@ -184,6 +253,8 @@ def chart_approval_trend(df: pd.DataFrame) -> dict:
         "approvals_2012_nqf_spike": int(by_year.loc[2012]),
         "approvals_2024": int(trend_years.get(2024, 0)),
         "approvals_2014": int(trend_years.get(2014, 0)),
+        "exceeding_pct_pre2012_cohort": round(float(cohort_exceeding["pre-2012"]) * 100, 1),
+        "exceeding_pct_2019plus_cohort": round(float(cohort_exceeding["2019+"]) * 100, 1),
     }
 
 
