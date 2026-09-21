@@ -11,9 +11,13 @@ suggested streams:
 - Whether proximity to public transport correlates with quality
 
 **2. Accessibility & Coverage**
-- How much worse transport access is for rural services vs urban ones
-- Whether the urban/rural split shows up in quality outcomes too
-- Where families are most underserved (furthest from an alternative service)
+- Whether distance from transport pushes more services below the NQS
+  compliance standard — and whether that holds in every state
+- Whether non-compliance concentrates in rural areas, and which
+  state × area-type combinations are worst
+- Where families are most underserved (furthest from an alternative
+  service), and whether that coverage gap actually predicts
+  non-compliance or is a separate problem
 
 **3. Operational Trends**
 - How capacity and operating-hours patterns vary by service type
@@ -186,20 +190,27 @@ Strait) → Bounded Locality).
   ρ ≈ 0.026, p < 0.01, n=16,031) — a modest risk factor, not a dominant
   one, but not nothing either.
 
-**Accessibility & Coverage**
-- **Transport access worsens moving from major cities to rural areas,
-  but not monotonically**: Bounded Localities (small country towns) are
-  actually furthest from a train station (29.3km median) — further than
-  the more sparsely-populated Rural Balance category (12.6km) — while
-  Major Urban sits at 2.1km. Collapsing to a simple urban/rural binary
-  would have hidden this.
-- **Quality declines steadily across the four categories**: 22.1%
-  Exceeding+ in Major Urban, down to 20.0% in Other Urban and 16.9-17.0%
-  in Bounded Locality and Rural Balance — a real, if modest, gradient.
-- **WA's and NT's Bounded Localities are the standout coverage gaps**:
-  median 41.0km and 30.5km respectively to the nearest other service —
-  an order of magnitude worse than any other state/category
-  combination, and a concrete target for "where should a new service go".
+**Accessibility & Coverage — is it transport/location, or is it the state?**
+- **Non-compliance by distance-to-transport is basically flat within
+  most states**: NSW, VIC, QLD, WA and SA each sit within a couple of
+  percentage points of their own state average regardless of how far a
+  service is from a train station. What varies enormously is *which
+  state a service is in* — VIC ~4-5% non-compliant across every
+  distance band, the NT up to 26%. Distance from transport is not the
+  driver; the regulatory jurisdiction is.
+- **Non-compliance by area type reveals state-specific rural crises a
+  national average completely hides**: WA's Bounded Localities sit at
+  29% non-compliant and QLD's at 27% — both far above those states'
+  own averages (5.8% and 4.5%) — while the NT's Rural Balance areas are
+  worst overall nationally, at 31%.
+- **Coverage gaps and non-compliance are largely separate problems**:
+  across 27 state × area-type combinations, there is no overall
+  relationship between how far the nearest alternative service is and
+  how non-compliant an area is (Spearman ρ ≈ 0.011, p = 0.96). The one
+  cell that's bad on both: **WA's Bounded Localities**, which combine
+  the single biggest coverage gap in the country (41.0km median to the
+  next service) with 28.9% non-compliance — the clearest, most
+  concrete case for where a new, well-supported service should go.
 
 **Operational Trends — which operational factors actually matter for quality?**
 - **Capacity does not predict quality** (Spearman ρ ≈ -0.063, p < 0.001

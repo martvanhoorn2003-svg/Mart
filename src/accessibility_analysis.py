@@ -3,10 +3,13 @@ Accessibility & Coverage Analysis stream for the ACECQA education & care
 services dataset.
 
 Business questions this answers for ACECQA:
-  - How much worse is transport access for rural services vs urban ones?
-  - Does that urban/rural split show up in quality outcomes too?
-  - Where geographically are families most underserved - i.e. where is
-    the nearest alternative service furthest away?
+  - Does distance from transport push more services below the NQS
+    compliance standard - and does that hold in every state?
+  - Does non-compliance concentrate in rural areas specifically, and
+    which state x area-type combinations are worst?
+  - Where geographically are families most underserved (furthest from
+    an alternative service), and does that coverage gap actually
+    predict non-compliance, or are they separate problems?
 
 Urban/rural classification: ABS Section of State (SOS) 2021, joined by
 point-in-polygon on each service's own coordinates (see src/urban_rural.py
@@ -26,6 +29,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from matplotlib.patches import Patch
+from scipy import stats
 from scipy.spatial import cKDTree
 
 from clean import NOT_YET_ASSESSED, load_clean
@@ -90,78 +94,95 @@ def add_nearest_service_distance(df: pd.DataFrame) -> pd.DataFrame:
     return d
 
 
-def chart_transport_by_urban_rural(df: pd.DataFrame) -> dict:
-    d = df[df["SOS_Category"].notna()]
-    medians = d.groupby("SOS_Category")[["DistanceToTrainStation_km", "DistanceToBusStation_km"]].median()
-    medians = medians.reindex(SOS_ORDER)
+MIN_CELL_N = 15  # cells below this are masked - too few services for a reliable rate
 
-    fig, ax = plt.subplots(figsize=(9, 5.2))
-    x = np.arange(len(SOS_ORDER))
-    w = 0.32
-    ax.bar(x - w / 2, medians["DistanceToTrainStation_km"], width=w, color=CAT["blue"], label="Train station")
-    ax.bar(x + w / 2, medians["DistanceToBusStation_km"], width=w, color=CAT["orange"], label="Bus station")
-    for i, cat in enumerate(SOS_ORDER):
-        ax.text(i - w / 2, medians.loc[cat, "DistanceToTrainStation_km"] + 0.8,
-                f"{medians.loc[cat, 'DistanceToTrainStation_km']:.1f}km", ha="center", fontsize=9)
-        ax.text(i + w / 2, medians.loc[cat, "DistanceToBusStation_km"] + 0.8,
-                f"{medians.loc[cat, 'DistanceToBusStation_km']:.1f}km", ha="center", fontsize=9)
-    ax.set_xticks(x); ax.set_xticklabels(SOS_ORDER)
-    ax.set_ylabel("Median distance (km)")
-    ax.set_title("Transport access gets worse moving from major cities to rural areas\n(though not perfectly monotonically)",
-                 fontsize=12.5, fontweight="bold", color=INK_PRIMARY, loc="left", pad=14)
-    ax.legend(frameon=False, loc="upper left")
-    for spine in ["top", "right"]:
-        ax.spines[spine].set_visible(False)
-    ax.spines["left"].set_color(BASELINE); ax.spines["bottom"].set_color(BASELINE)
+
+def _noncompliance_grid(df: pd.DataFrame, row_col: str, col_col: str, col_order: list[str]) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Share of services rated below the NQS standard, gridded by two dimensions."""
+    d = df[df[row_col].notna() & df[col_col].notna() & df["OverallRating"].notna()].copy()
+    d["OverallRating"] = d["OverallRating"].astype(str)
+    d = d[d["OverallRating"] != NOT_YET_ASSESSED]
+    d["BelowStandard"] = d["OverallRating"].isin(["Working Towards NQS", "Significant Improvement Required"]).astype(int)
+    grid = d.groupby([row_col, col_col])["BelowStandard"].mean().unstack().reindex(columns=col_order)
+    counts = d.groupby([row_col, col_col]).size().unstack().reindex(columns=col_order)
+    grid = grid.where(counts >= MIN_CELL_N)
+    return grid, counts
+
+
+def _plot_noncompliance_heatmap(grid: pd.DataFrame, counts: pd.DataFrame, title: str, subtitle: str, fname: str):
+    grid = grid.loc[grid.mean(axis=1, skipna=True).sort_values(ascending=False).index]  # worst state first
+    counts = counts.loc[grid.index]
+    vals = grid.values.astype(float)
+
+    fig, ax = plt.subplots(figsize=(9, 5.3))
+    im = ax.imshow(np.ma.masked_invalid(vals), cmap="Reds", vmin=0, aspect="auto")
+    ax.set_xticks(range(len(grid.columns))); ax.set_xticklabels(grid.columns, rotation=20, ha="right")
+    ax.set_yticks(range(len(grid.index))); ax.set_yticklabels(grid.index)
+    vmax = np.nanmax(vals) if np.isfinite(vals).any() else 1.0
+    for i in range(vals.shape[0]):
+        for j in range(vals.shape[1]):
+            v = vals[i, j]
+            if np.isnan(v):
+                ax.text(j, i, "n/a", ha="center", va="center", fontsize=7.5, color=INK_MUTED)
+                continue
+            txt_color = "white" if v > vmax * 0.55 else INK_PRIMARY
+            n = counts.values[i, j]
+            ax.text(j, i, f"{v:.0%}\n(n={n:.0f})", ha="center", va="center", fontsize=8, color=txt_color)
+    for spine in ax.spines.values():
+        spine.set_visible(False)
+    cbar = fig.colorbar(im, ax=ax, fraction=0.035, pad=0.02)
+    cbar.set_label("Share rated below the NQS standard", color=INK_SECONDARY, fontsize=9)
+    ax.set_title(title, fontsize=12.5, fontweight="bold", color=INK_PRIMARY, loc="left", pad=28)
+    ax.text(0, 1.06, subtitle, transform=ax.transAxes, fontsize=9, color=INK_SECONDARY)
     fig.tight_layout()
-    fig.savefig(FIG_DIR / "06_transport_by_urban_rural.png", dpi=200)
+    fig.savefig(FIG_DIR / fname, dpi=200)
     plt.close(fig)
-    out = {f"{cat.lower().replace(' ', '_')}_median_train_km": round(float(medians.loc[cat, "DistanceToTrainStation_km"]), 2)
-           for cat in SOS_ORDER}
-    return out
+    return grid
+
+
+def chart_transport_by_urban_rural(df: pd.DataFrame) -> dict:
+    # Does distance from transport push MORE services below the NQS
+    # standard - and does that hold in every state, or only some?
+    d = df[~df["train_dist_outlier"]].copy()
+    bins = [0, 2, 5, 100]
+    labels = ["<2km", "2-5km", "5km+"]
+    d["dist_bin"] = pd.cut(d["DistanceToTrainStation_km"], bins=bins, labels=labels)
+
+    grid, counts = _noncompliance_grid(d, "State", "dist_bin", labels)
+    grid = _plot_noncompliance_heatmap(
+        grid, counts,
+        "Does distance from transport push more services below standard? State by state",
+        "Share of services rated 'Working Towards NQS' or 'Significant Improvement Required', by distance to nearest train station",
+        "06_transport_by_urban_rural.png",
+    )
+    worst_cell = grid.stack().idxmax()
+    return {
+        "worst_state_transport_noncompliance_cell": f"{worst_cell[0]} / {worst_cell[1]}",
+        "worst_state_transport_noncompliance_pct": round(float(grid.stack().max()) * 100, 1),
+    }
 
 
 def chart_rating_by_urban_rural(df: pd.DataFrame) -> dict:
-    d = df[df["SOS_Category"].notna() & df["OverallRating"].notna()].copy()
-    d["OverallRating"] = d["OverallRating"].astype(str)
-    d = d[d["OverallRating"] != NOT_YET_ASSESSED]
-    props = (
-        d.groupby("SOS_Category")["OverallRating"].value_counts(normalize=True)
-        .unstack(fill_value=0).reindex(columns=RATING_ORDER_SUBSTANTIVE, fill_value=0)
-        .reindex(SOS_ORDER)
+    # Same question, but by area type (Major Urban -> Rural Balance)
+    # instead of raw transport distance - does non-compliance concentrate
+    # in rural areas in every state, or is it state-specific?
+    grid, counts = _noncompliance_grid(df, "State", "SOS_Category", SOS_ORDER)
+    grid = _plot_noncompliance_heatmap(
+        grid, counts,
+        "Where does non-compliance concentrate: urban vs rural? State by state",
+        "Share of services rated 'Working Towards NQS' or 'Significant Improvement Required', by ABS Section of State",
+        "07_rating_by_urban_rural.png",
     )
-    counts = d["SOS_Category"].value_counts()
-    props.index = [f"{i}  (n={counts[i]:,})" for i in props.index]
-
-    fig, ax = plt.subplots(figsize=(9, 4.4))
-    left = np.zeros(len(props))
-    y = np.arange(len(props))
-    for cat in RATING_ORDER_SUBSTANTIVE:
-        vals = props[cat].to_numpy()
-        ax.barh(y, vals, left=left, height=0.55, color=RATING_COLORS[cat], edgecolor=SURFACE, linewidth=1.2, label=cat)
-        for i, v in enumerate(vals):
-            if v >= 0.06:
-                ax.text(left[i] + v / 2, y[i], f"{v:.0%}", ha="center", va="center", fontsize=9, color="white")
-        left += vals
-    ax.set_yticks(y); ax.set_yticklabels(props.index)
-    ax.set_xlim(0, 1); ax.set_xticks([0, .25, .5, .75, 1.0])
-    ax.set_xticklabels(["0%", "25%", "50%", "75%", "100%"])
-    ax.invert_yaxis()
-    for spine in ["top", "right", "left"]:
-        ax.spines[spine].set_visible(False)
-    ax.tick_params(left=False)
-    ax.set_title("Overall NQS rating, by ABS Section of State", fontsize=13,
-                 fontweight="bold", color=INK_PRIMARY, loc="left", pad=14)
-    handles = [Patch(facecolor=RATING_COLORS[c], label=c) for c in RATING_ORDER_SUBSTANTIVE]
-    ax.legend(handles=handles, loc="upper center", bbox_to_anchor=(0.5, -0.22), ncol=3, frameon=False, fontsize=9)
-    fig.tight_layout()
-    fig.savefig(FIG_DIR / "07_rating_by_urban_rural.png", dpi=200)
-    plt.close(fig)
-
-    exceeding_by_cat = props[["Exceeding NQS", "Excellent"]].sum(axis=1)
-    out = {}
-    for cat, label in zip(SOS_ORDER, exceeding_by_cat.index):
-        out[f"{cat.lower().replace(' ', '_')}_exceeding_pct"] = round(float(exceeding_by_cat[label]) * 100, 1)
+    worst_cell = grid.stack().idxmax()
+    out = {
+        "worst_state_sos_noncompliance_cell": f"{worst_cell[0]} / {worst_cell[1]}",
+        "worst_state_sos_noncompliance_pct": round(float(grid.stack().max()) * 100, 1),
+    }
+    for cat in SOS_ORDER:
+        if cat in grid.columns:
+            out[f"national_noncompliance_{cat.lower().replace(' ', '_')}_pct"] = round(
+                float(grid[cat].mean(skipna=True)) * 100, 1
+            )
     return out
 
 
@@ -197,37 +218,92 @@ def chart_spatial_sos(df: pd.DataFrame) -> dict:
 def chart_coverage_gaps(df: pd.DataFrame) -> dict:
     d = add_nearest_service_distance(df)
     d = d[d["State"].notna() & d["SOS_Category"].notna()]
-    grid = d.groupby(["State", "SOS_Category"])["nearest_service_km"].median().unstack()
-    grid = grid.reindex(columns=SOS_ORDER)
-    grid = grid.loc[grid.mean(axis=1, skipna=True).sort_values(ascending=False).index]
 
-    fig, ax = plt.subplots(figsize=(8.5, 5))
-    vals = grid.values.astype(float)
-    im = ax.imshow(np.ma.masked_invalid(vals), cmap="Blues", aspect="auto")
-    ax.set_xticks(range(len(grid.columns))); ax.set_xticklabels(grid.columns, rotation=20, ha="right")
-    ax.set_yticks(range(len(grid.index))); ax.set_yticklabels(grid.index)
+    gap_grid = d.groupby(["State", "SOS_Category"])["nearest_service_km"].median().unstack().reindex(columns=SOS_ORDER)
+    gap_grid = gap_grid.loc[gap_grid.mean(axis=1, skipna=True).sort_values(ascending=False).index]
+    flat_gap = gap_grid.stack()
+    worst_gap = flat_gap.idxmax()  # (state, sos) with the biggest coverage gap
+
+    # Direct test: does a bigger coverage gap (nearest OTHER service further
+    # away) actually predict non-compliance, cell by cell? One point per
+    # state x area-type combination, masked below MIN_CELL_N.
+    rated = d[d["OverallRating"].notna()].copy()
+    rated["OverallRating"] = rated["OverallRating"].astype(str)
+    rated = rated[rated["OverallRating"] != NOT_YET_ASSESSED]
+    rated["BelowStandard"] = rated["OverallRating"].isin(["Working Towards NQS", "Significant Improvement Required"]).astype(int)
+    cell = rated.groupby(["State", "SOS_Category"]).agg(
+        nearest_km=("nearest_service_km", "median"),
+        noncompliance=("BelowStandard", "mean"),
+        n=("BelowStandard", "size"),
+    ).reset_index()
+    cell = cell[cell["n"] >= MIN_CELL_N]
+    rho, pval = stats.spearmanr(cell["nearest_km"], cell["noncompliance"])
+
+    # The chart's real payoff: is the single worst coverage-gap cell (left
+    # panel) ALSO bad on non-compliance (right panel)? Same cell, both axes.
+    worst_cell_row = cell[(cell["State"] == worst_gap[0]) & (cell["SOS_Category"] == worst_gap[1])].iloc[0]
+
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 5.5))
+
+    vals = gap_grid.values.astype(float)
+    im = ax1.imshow(np.ma.masked_invalid(vals), cmap="Blues", aspect="auto")
+    ax1.set_xticks(range(len(gap_grid.columns))); ax1.set_xticklabels(gap_grid.columns, rotation=20, ha="right")
+    ax1.set_yticks(range(len(gap_grid.index))); ax1.set_yticklabels(gap_grid.index)
     for i in range(vals.shape[0]):
         for j in range(vals.shape[1]):
             v = vals[i, j]
             if np.isnan(v):
                 continue
             txt_color = "white" if v > np.nanmax(vals) * 0.55 else INK_PRIMARY
-            ax.text(j, i, f"{v:.1f}", ha="center", va="center", fontsize=8.5, color=txt_color)
-    for spine in ax.spines.values():
+            ax1.text(j, i, f"{v:.1f}", ha="center", va="center", fontsize=8.5, color=txt_color)
+    for spine in ax1.spines.values():
         spine.set_visible(False)
-    cbar = fig.colorbar(im, ax=ax, fraction=0.035, pad=0.02)
-    cbar.set_label("Median distance to nearest other service (km)", color=INK_SECONDARY, fontsize=9)
-    ax.set_title("Where is the next service furthest away? (coverage gaps by state)",
-                 fontsize=12, fontweight="bold", color=INK_PRIMARY, loc="left", pad=14)
-    fig.tight_layout()
+    cbar = fig.colorbar(im, ax=ax1, fraction=0.045, pad=0.02)
+    cbar.set_label("Median km to nearest other service", color=INK_SECONDARY, fontsize=8.5)
+    ax1.set_title("Coverage gap: how far to the next service?", fontsize=11.5, fontweight="bold",
+                  color=INK_PRIMARY, loc="left", pad=12)
+
+    state_markers = {s: m for s, m in zip(sorted(cell["State"].unique()),
+                     ["o", "s", "^", "D", "v", "P", "X", "*"])}
+    for state in sorted(cell["State"].unique()):
+        sub = cell[cell["State"] == state]
+        ax2.scatter(sub["nearest_km"], sub["noncompliance"] * 100, s=sub["n"] / 3 + 30,
+                   marker=state_markers[state], color=CAT["blue"], alpha=0.75, edgecolors=INK_PRIMARY,
+                   linewidths=0.4, label=state)
+    ax2.set_xscale("log")
+    ax2.set_ylim(0, cell["noncompliance"].max() * 100 * 1.3)  # headroom for the annotation
+    ax2.annotate(
+        f"{worst_cell_row['State']} / {worst_cell_row['SOS_Category']}\n"
+        f"(the biggest coverage gap - also\nnon-compliant {worst_cell_row['noncompliance']:.0%} of the time)",
+        xy=(worst_cell_row["nearest_km"], worst_cell_row["noncompliance"] * 100),
+        xytext=(-70, 25), textcoords="offset points", fontsize=7.5, color=INK_SECONDARY,
+        ha="left", arrowprops=dict(arrowstyle="->", color=INK_MUTED, lw=0.8))
+    ax2.set_xlabel("Median km to nearest other service (log scale)")
+    ax2.set_ylabel("Share below NQS standard")
+    ax2.set_title("Does a bigger coverage gap predict non-compliance?", fontsize=11.5, fontweight="bold",
+                  color=INK_PRIMARY, loc="left", pad=12)
+    ax2.text(0.02, 0.97, f"Spearman ρ = {rho:.3f} (p = {pval:.2g}, n={len(cell)} state×area cells)\n"
+                        "No overall relationship: coverage gaps and non-compliance\n"
+                        "are largely separate problems, needing separate fixes.",
+            transform=ax2.transAxes, ha="left", va="top", fontsize=7.5, color=INK_SECONDARY,
+            bbox=dict(boxstyle="round,pad=0.4", facecolor="#f9f9f7", edgecolor=GRIDLINE))
+    ax2.legend(loc="lower right", frameon=False, fontsize=7.5, ncol=2, title="state", title_fontsize=7.5)
+    for spine in ["top", "right"]:
+        ax2.spines[spine].set_visible(False)
+    ax2.spines["left"].set_color(BASELINE); ax2.spines["bottom"].set_color(BASELINE)
+
+    fig.suptitle("Where is the next service furthest away, and does that gap predict non-compliance?",
+                 fontsize=13, fontweight="bold", color=INK_PRIMARY, x=0.02, ha="left")
+    fig.tight_layout(rect=[0, 0, 1, 0.93])
     fig.savefig(FIG_DIR / "09_coverage_gaps.png", dpi=200)
     plt.close(fig)
 
-    flat = grid.stack()
-    worst = flat.idxmax()
     return {
-        "most_underserved_state_sos": f"{worst[0]} / {worst[1]}",
-        "most_underserved_median_km": round(float(flat.max()), 1),
+        "most_underserved_state_sos": f"{worst_gap[0]} / {worst_gap[1]}",
+        "most_underserved_median_km": round(float(flat_gap.max()), 1),
+        "coverage_gap_noncompliance_spearman_rho": round(float(rho), 4),
+        "coverage_gap_noncompliance_spearman_p": float(pval),
+        "worst_coverage_gap_cell_noncompliance_pct": round(float(worst_cell_row["noncompliance"]) * 100, 1),
     }
 
 
