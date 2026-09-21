@@ -31,23 +31,11 @@ assignment's four requirements directly, plus one bridging chart:
 
 ## Run in Google Colab
 
-Open directly from GitHub (bookmark this — it always loads the current
-version, no upload needed):
-
-```
-https://colab.research.google.com/github/martvanhoorn2003-svg/Mart/blob/claude/acecqa-services-analysis-olfr4o/ACECQA_Service_Quality_Analysis.ipynb
-```
-
-Or manually: open a new Colab notebook, run
-
-```python
-!git clone -b claude/acecqa-services-analysis-olfr4o https://github.com/martvanhoorn2003-svg/Mart.git
-%cd Mart
-!pip install -q geopandas scipy pyarrow
-```
-
-then upload/open `ACECQA_Service_Quality_Analysis.ipynb` and run top to
-bottom — it's self-contained and produces all 13 figures inline.
+Upload `ACECQA_Service_Quality_Analysis.ipynb` together with the `data/`
+folder (`education_services.csv` and the `external/` subfolder) to your
+Colab session, keeping the same relative layout as this repo, then run
+top to bottom — it installs `geopandas`, `scipy` and `pyarrow` if
+needed and produces all 13 figures inline.
 
 ## Run locally
 
