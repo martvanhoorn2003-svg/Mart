@@ -36,6 +36,28 @@
   "most_underserved_state_sos": "WA / Bounded Locality",
   "most_underserved_median_km": 41.0,
   "n_regions_over_20km_to_next_service": 2,
+  "state_rural_share_pct": {
+    "ACT": 0.8,
+    "NSW": 5.7,
+    "NT": 21.7,
+    "QLD": 7.1,
+    "SA": 10.5,
+    "TAS": 11.7,
+    "VIC": 7.7,
+    "WA": 4.0
+  },
+  "state_poorly_connected_pct": {
+    "ACT": 31.7,
+    "NSW": 16.2,
+    "NT": 45.0,
+    "QLD": 17.9,
+    "SA": 21.2,
+    "TAS": 39.1,
+    "VIC": 13.7,
+    "WA": 9.6
+  },
+  "state_rurality_connectivity_spearman_rho": 0.5714,
+  "state_rurality_connectivity_spearman_p": 0.13895995716070672,
   "national_poorly_connected_pct": 16.6,
   "poorly_connected_major_urban_pct": 8.7,
   "poorly_connected_other_urban_pct": 37.1,

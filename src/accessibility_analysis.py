@@ -2,14 +2,19 @@
 Accessibility & Coverage Analysis stream for the ACECQA education & care
 services dataset.
 
-Four charts, each answering one of the assignment's four Accessibility &
-Coverage requirements directly, with a concrete claim the chart proves
-rather than a neutral description of the data:
+Four charts answer the assignment's four Accessibility & Coverage
+requirements directly, each with a concrete claim the chart proves
+rather than a neutral description of the data, plus one bridging chart
+between requirements 2 and 3:
 
   1. Geographical distribution: services are ~12,000x more concentrated
      per square kilometre in major cities than in rural areas.
   2. Where new services are needed most: a ranked list of the specific
      state x area-type combinations furthest from an alternative service.
+  - Bridge: is a state's transport-connectivity problem just how rural
+    it is? Mostly, but WA is the exception - its worst coverage gap
+    (requirement 2) sits inside a state that's otherwise well-connected,
+    because so little of WA's service base is rural.
   3. Transport connectivity: most services nationally are well-connected
      to public transport, which makes the real gap in small country
      towns and rural areas stand out clearly rather than being buried
@@ -34,6 +39,7 @@ import geopandas as gpd
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+from scipy import stats
 from scipy.spatial import cKDTree
 
 from clean import load_clean
@@ -178,6 +184,60 @@ def chart_underserved_regions(df: pd.DataFrame) -> dict:
     }
 
 
+# --- Bridge: is a state's connectivity problem just how rural it is? ---
+def chart_state_connectivity_vs_rurality(df: pd.DataFrame) -> dict:
+    d = add_connectivity_flag(df)
+    d = d[d["State"].notna()]
+    poorly_connected = d.groupby("State")["WellConnected"].apply(lambda s: (~s).mean() * 100)
+    rural_share = df[df["State"].notna()].groupby("State")["SOS_Category"].apply(
+        lambda s: s.isin(["Bounded Locality", "Rural Balance"]).mean() * 100
+    )
+    counts = d["State"].value_counts()
+    states = list(poorly_connected.index)
+    rural_share = rural_share.reindex(states)
+
+    rho, pval = stats.spearmanr(rural_share, poorly_connected)
+
+    fig, ax = plt.subplots(figsize=(9, 6.5))
+    sizes = (counts.reindex(states) ** 0.5) * 3
+    colors = [CAT["red"] if s in ("NT", "TAS") else (CAT["orange"] if s == "WA" else CAT["blue"]) for s in states]
+    ax.scatter(rural_share, poorly_connected, s=sizes, color=colors, alpha=0.85,
+               edgecolors=INK_PRIMARY, linewidths=0.6, zorder=3)
+    for s in states:
+        ax.annotate(s, (rural_share[s], poorly_connected[s]), xytext=(7, 5), textcoords="offset points",
+                    fontsize=10, fontweight="bold", color=INK_PRIMARY)
+    ax.set_xlim(-2, 26)
+    ax.set_ylim(0, 52)
+    ax.set_xlabel("Share of a state's services in a rural area type (Bounded Locality + Rural Balance)")
+    ax.set_ylabel("Share of a state's services NOT well-connected to transport")
+    ax.set_title("Is a state's connectivity problem just how rural it is? Not for WA.",
+                 fontsize=13, fontweight="bold", color=INK_PRIMARY, loc="left", pad=14)
+    ax.text(0.02, 0.97,
+            "NT and Tasmania (red) are bad on both fronts - high rural\n"
+            "share and poor state-wide connectivity, a uniform problem.\n"
+            "WA (orange) is the opposite: despite having the single\n"
+            "biggest coverage gap in the country (Chart 7 - 41km to the\n"
+            "nearest alternative service), only 4% of its services are\n"
+            "rural, so its statewide connectivity average looks best in\n"
+            "the country - a concentrated pocket, not a statewide gap.\n"
+            f"Spearman ρ = {rho:.2f} (p = {pval:.2g}, n=8 states) - a small\n"
+            "sample, illustrative rather than conclusive.",
+            transform=ax.transAxes, ha="left", va="top", fontsize=8, color=INK_SECONDARY,
+            bbox=dict(boxstyle="round,pad=0.4", facecolor="#f9f9f7", edgecolor=GRIDLINE))
+    for spine in ["top", "right"]:
+        ax.spines[spine].set_visible(False)
+    ax.spines["left"].set_color(BASELINE); ax.spines["bottom"].set_color(BASELINE)
+    fig.tight_layout()
+    fig.savefig(FIG_DIR / "08_state_connectivity_vs_rurality.png", dpi=200)
+    plt.close(fig)
+    return {
+        "state_rural_share_pct": {s: round(float(rural_share[s]), 1) for s in states},
+        "state_poorly_connected_pct": {s: round(float(poorly_connected[s]), 1) for s in states},
+        "state_rurality_connectivity_spearman_rho": round(float(rho), 4),
+        "state_rurality_connectivity_spearman_p": float(pval),
+    }
+
+
 # --- Requirement 3: are services well-connected to public transport? ---
 def chart_transport_connectivity(df: pd.DataFrame) -> dict:
     d = add_connectivity_flag(df)
@@ -214,7 +274,7 @@ def chart_transport_connectivity(df: pd.DataFrame) -> dict:
         ax.spines[spine].set_visible(False)
     ax.spines["left"].set_color(BASELINE); ax.spines["bottom"].set_color(BASELINE)
     fig.tight_layout()
-    fig.savefig(FIG_DIR / "08_transport_connectivity.png", dpi=200)
+    fig.savefig(FIG_DIR / "09_transport_connectivity.png", dpi=200)
     plt.close(fig)
     out = {"national_poorly_connected_pct": round(float(national_poor), 1)}
     for cat in SOS_ORDER:
@@ -248,7 +308,7 @@ def chart_spatial_connectivity(df: pd.DataFrame) -> dict:
                  fontsize=13, fontweight="bold", color=INK_PRIMARY, loc="left", pad=10)
     ax.legend(loc="lower left", frameon=False, fontsize=9, markerscale=3)
     fig.tight_layout()
-    fig.savefig(FIG_DIR / "09_spatial_connectivity.png", dpi=200)
+    fig.savefig(FIG_DIR / "10_spatial_connectivity.png", dpi=200)
     plt.close(fig)
     return {"n_poorly_connected": int(len(poor)), "n_well_connected": int(len(connected))}
 
@@ -262,6 +322,7 @@ def main():
 
     summary.update(chart_geographic_distribution(df))
     summary.update(chart_underserved_regions(df))
+    summary.update(chart_state_connectivity_vs_rurality(df))
     summary.update(chart_transport_connectivity(df))
     summary.update(chart_spatial_connectivity(df))
     summary["sos_category_counts"] = df["SOS_Category"].value_counts(dropna=False).to_dict()

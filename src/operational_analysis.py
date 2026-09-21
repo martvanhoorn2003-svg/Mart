@@ -134,7 +134,7 @@ def chart_capacity_by_type(df: pd.DataFrame, sos_medians: pd.Series) -> dict:
         ax.spines[spine].set_visible(False)
     ax.spines["left"].set_color(BASELINE); ax.spines["bottom"].set_color(BASELINE)
     fig.tight_layout()
-    fig.savefig(FIG_DIR / "10_capacity_by_type.png", dpi=200)
+    fig.savefig(FIG_DIR / "11_capacity_by_type.png", dpi=200)
     plt.close(fig)
     out = {f"median_places_{cat.lower().replace(' ', '_')}": round(float(sos_medians[cat]), 1) for cat in SOS_ORDER}
     out["capacity_noncompliance_spearman_rho"] = round(float(rho), 4)
@@ -200,7 +200,7 @@ def chart_approval_trend(df: pd.DataFrame) -> dict:
     fig.suptitle("Approval-date data quality trap, and the real compliance-relevant signal underneath it",
                  fontsize=12.5, fontweight="bold", color=INK_PRIMARY, x=0.02, ha="left")
     fig.tight_layout(rect=[0, 0, 1, 0.94])
-    fig.savefig(FIG_DIR / "11_approval_trend.png", dpi=200)
+    fig.savefig(FIG_DIR / "12_approval_trend.png", dpi=200)
     plt.close(fig)
 
     post_2013 = d[d["ApprovalYear"] >= 2013]
@@ -269,7 +269,7 @@ def chart_hours_vs_quality(df: pd.DataFrame) -> dict:
         ax.spines[spine].set_visible(False)
     ax.spines["left"].set_color(BASELINE); ax.spines["bottom"].set_color(BASELINE)
     fig.tight_layout()
-    fig.savefig(FIG_DIR / "12_hours_vs_quality.png", dpi=200)
+    fig.savefig(FIG_DIR / "13_hours_vs_quality.png", dpi=200)
     plt.close(fig)
     return {
         "hours_noncompliance_spearman_rho": round(float(rho), 4),

@@ -137,45 +137,56 @@ The Northern Territory's Bounded Localities are second, at thirty
 kilometres. These are the two places a new-service dollar should go
 first — not a general 'rural funding' line, a named list."
 
-### Chart 8 — Are services well-connected to public transport? (4:35–5:05)
+### Chart 8 — Is a state's connectivity problem just how rural it is? (4:35–4:58)
 
-[SHOW 08_transport_connectivity.png]
+[SHOW 08_state_connectivity_vs_rurality.png]
 
-"Third: transport connectivity specifically, using the actual
-distance-to-station and distance-to-bus-stop fields — and I've set a
-deliberately generous bar here, five kilometres to a train station or
-ten to a bus stop, a short drive, not a walk, so the result isn't
-distorted by an unrealistically strict threshold. Even so, eighty-three
-percent of services nationally clear it. But that collapses to just
-twenty-one percent in small country towns and thirty-four percent in
-the most rural areas — a seventy-point gap against major cities, even
-on a generous bar. That's a real rural transport gap, not a
-threshold artefact."
+"One gut check: are NT and Tasmania — already flagged worst on
+compliance — just showing up again here because they're the most
+rural? Plotting rural share against statewide connectivity: yes for
+them, a genuinely statewide problem. But Western Australia breaks the
+pattern — despite the country's biggest coverage gap, from Chart 7,
+only four percent of its services are rural, so its statewide
+connectivity average is actually the best in the country. Same state,
+two different problems."
 
-### Chart 9 — Where do the transport gaps concentrate? (5:05–5:50)
+### Chart 9 — Are services well-connected to public transport? (4:58–5:28)
 
-[SHOW 09_spatial_connectivity.png]
+[SHOW 09_transport_connectivity.png]
+
+"Third requirement: transport connectivity, using the actual
+distance-to-station and distance-to-bus-stop fields — with a
+deliberately generous bar, five kilometres to a train station or ten to
+a bus stop, a short drive, not a walk. Even so, eighty-three percent of
+services nationally clear it. But that collapses to twenty-one percent
+in small country towns and thirty-four in the most rural areas — a
+seventy-point gap against major cities, on a generous bar. A real rural
+transport gap, not a threshold artefact."
+
+### Chart 10 — Where do the transport gaps concentrate? (5:28–6:10)
+
+[SHOW 10_spatial_connectivity.png]
 
 "Fourth: mapping every poorly-connected service directly, rather than
 just a state or area-type average. Roughly twenty-seven hundred
 services, in red, more than a short drive from any train or bus stop —
 concentrated in small towns and rural stretches away from the main rail
-corridors, not scattered randomly. That confirms Chart 8's area
+corridors, not scattered randomly. That confirms Chart 9's area
 breakdown directly: this is a genuine, geographically concentrated
 rural access gap."
 
 ---
 
-## Problem 3: Which operational factors actually push a service below the standard — and which just look like they do? (5:55–7:50)
+## Problem 3: Which operational factors actually push a service below the standard — and which just look like they do? (6:10–8:05)
 
 "Third problem, and it's a different kind of test. ACECQA could point to
 three operational levers — size, opening hours, how old a service is —
 and assume any of them explains non-compliance. I tested all three
 directly. Two matter. One doesn't."
 
-### Chart 10 — Does size predict non-compliance? No. (5:58–6:20)
+### Chart 11 — Does size predict non-compliance? No. (6:13–6:35)
 
-[SHOW 10_capacity_by_type.png]
+[SHOW 11_capacity_by_type.png]
 
 "Capacity varies a lot by type and by area — sixty-six places typical in
 major cities, twenty-seven in small country towns. But tested directly
@@ -184,9 +195,9 @@ nine-point-three percent, the largest at eight-point-six — not even
 statistically significant. A bigger centre is no safer bet — a new
 rural service doesn't need city-sized capacity to meet the standard."
 
-### Chart 11 — Does approval date predict non-compliance? Yes — the strongest signal here. (6:20–7:05)
+### Chart 12 — Does approval date predict non-compliance? Yes — the strongest signal here. (6:35–7:20)
 
-[SHOW 11_approval_trend.png]
+[SHOW 12_approval_trend.png]
 
 "A data trap first: approvals-per-year spikes in 2012 — over four
 thousand in one year. Read naively, that's explosive growth. It isn't —
@@ -199,9 +210,9 @@ pre-2012, long-established services. Newer services simply haven't had
 the years to embed practice yet. That's the strongest operational
 signal in this whole analysis."
 
-### Chart 12 — Does opening hours predict non-compliance? Yes, and it's the sharpest jump. (7:05–7:45)
+### Chart 13 — Does opening hours predict non-compliance? Yes, and it's the sharpest jump. (7:20–8:00)
 
-[SHOW 12_hours_vs_quality.png]
+[SHOW 13_hours_vs_quality.png]
 
 "Opening hours shows the clearest relationship of the three — seven
 percent non-compliant under forty-five hours a week, rising to nineteen
@@ -213,7 +224,7 @@ service meets the standard; one is noise dressed up as insight."
 
 ---
 
-### Close — the decision, not a recap (7:50–8:30)
+### Close — the decision, not a recap (8:00–8:40)
 
 [Face to camera, optional summary slide]
 
@@ -221,33 +232,30 @@ service meets the standard; one is noise dressed up as insight."
 clearest case for urgent, statewide compliance intervention in
 educational program and governance — a legal-minimum problem, not a
 generic audit. Tasmania, South Australia and WA aren't far behind. Two:
-new-service funding has a named destination, not a general rural line —
-WA's and the NT's Bounded Localities, forty-one and thirty kilometres
-respectively from a family's nearest backup option. Three: transport
-connectivity is squarely a rural investment priority — even on a
-generous, drivable bar, small country towns sit at twenty-one percent
-well-connected against ninety-one in major cities, a seventy-point gap.
-As a quality lever it's real but small, so fund it for equity, not as a
-compliance play — don't oversell it. And four: give
-newly-approved services a support pathway, not a compliance one — they
-just haven't had the years yet. A budget with a reason behind every
-line. Thank you."
+new-service funding has a named destination — WA's and the NT's Bounded
+Localities, forty-one and thirty kilometres from a family's nearest
+backup option. Three: transport connectivity is a rural investment
+priority, real but small as a quality lever — fund it for equity, don't
+oversell it. And four: give newly-approved services a support pathway,
+not a compliance one — they just haven't had the years yet. A budget
+with a reason behind every line. Thank you."
 
 ---
 
 ## Delivery notes
 
-- ~1,322 spoken words. At 140–160 words/minute that's roughly 8:15–9:30
+- ~1,346 spoken words. At 140–160 words/minute that's roughly 8:25–9:40
   — comfortable margin under the 10-minute hard cap even at a
   deliberate, unhurried pace. Practice once to check your own rate.
 - **If you need to cut time**, in order: (1) the "Data & method" beat —
-  compress the Myanmar catch to one sentence, (2) Chart 9's own beat —
-  the "confirms Chart 8" line can be one sentence instead of two. Never
-  cut Chart 5 or the transport call-back in Chart 12 — that "small
-  effect, sized honestly against the bigger drivers" chain is your
-  strongest evidence of analytical rigour for a policy audience, and
-  it's what makes the closing recommendation credible rather than
-  asserted.
+  compress the Myanmar catch to one sentence, (2) Chart 10's own beat —
+  the "confirms Chart 9" line can be one sentence instead of two, (3)
+  Chart 8's bridge beat can be trimmed to the WA callout alone, dropping
+  the NT/Tasmania comparison sentence. Never cut Chart 5 or the
+  transport call-back in Chart 13 — that "small effect, sized honestly
+  against the bigger drivers" chain is your strongest evidence of
+  analytical rigour for a policy audience, and it's what makes the
+  closing recommendation credible rather than asserted.
 - If asked why urban/rural wasn't done with the postcode-allocation
   method: the direct spatial join avoids the many-to-many
   postcode-to-SA1 mapping problem, since the dataset already has

@@ -11,11 +11,13 @@ suggested streams:
 - Whether proximity to public transport correlates with quality
 
 **2. Accessibility & Coverage** — four charts, each answering one of the
-assignment's four requirements directly:
+assignment's four requirements directly, plus one bridging chart:
 - The geographical distribution of services, and the scale of the
   urban/rural disparity in provision
 - Which specific regions need additional services most, ranked by
   distance to the nearest alternative service
+- *(bridge)* Whether a state's transport-connectivity problem is just a
+  function of how rural it is, or concentrated in a specific pocket
 - Whether services are well-connected to public transport infrastructure
 - Where the transport-underserved services are, mapped directly
 
@@ -45,7 +47,7 @@ Or manually: open a new Colab notebook, run
 ```
 
 then upload/open `ACECQA_Service_Quality_Analysis.ipynb` and run top to
-bottom — it's self-contained and produces all 12 figures inline.
+bottom — it's self-contained and produces all 13 figures inline.
 
 ## Run locally
 
@@ -64,8 +66,8 @@ same analysis as an annotated, Colab-ready notebook for
 presentation/walkthrough use.
 
 `quality_analysis.py` writes figures 01-05 (Service Quality);
-`accessibility_analysis.py` writes figures 06-09 (Accessibility &
-Coverage); `operational_analysis.py` writes figures 10-12 (Operational
+`accessibility_analysis.py` writes figures 06-10 (Accessibility &
+Coverage); `operational_analysis.py` writes figures 11-13 (Operational
 Trends). All three append to the same `outputs/summary_stats.json`.
 
 **Notebook design note:** every chart's headline stats are written into
@@ -210,7 +212,19 @@ Strait) → Bounded Locality).
   followed by **NT's Bounded Localities** at 30.5km. Two region ×
   area-type combinations sit above the 20km mark, where a family whose
   usual centre is full or closed has no realistic backup option.
-- **Transport connectivity (Chart 8)**: **83.4%** of services nationally
+- **Is a state's connectivity problem just how rural it is? (Chart 8,
+  bridge)**: mostly, but not for WA. The Northern Territory and Tasmania
+  are bad on both fronts — high rural share (21.7% and 11.7% of their
+  services respectively) *and* poor statewide connectivity (45.0% and
+  39.1% poorly connected) — a uniform, statewide problem. WA is the
+  exact opposite: despite having the single biggest coverage gap in the
+  country (Chart 7), only **4.0%** of its services sit in a rural area
+  type, so its statewide connectivity average is the **best in the
+  country** (9.6% poorly connected). WA's problem is a concentrated
+  pocket, not a statewide gap — a different fix than NT's or Tasmania's
+  (Spearman ρ ≈ 0.57, p = 0.14, n=8 states — descriptive given the small
+  sample, not a statistically conclusive test).
+- **Transport connectivity (Chart 9)**: **83.4%** of services nationally
   are well-connected to public transport (within a generous, drivable
   5km of a train station or 10km of a bus stop — deliberately set so the
   national majority clears it, rather than an unrealistically strict
@@ -220,10 +234,10 @@ Strait) → Bounded Locality).
   just **21.4%** in Bounded Localities and **33.5%** in Rural Balance —
   a 70-point and 58-point gap respectively. This is a genuine rural
   transport gap, not a threshold artefact.
-- **Spatially identifying underserved areas (Chart 9)**: mapping all
+- **Spatially identifying underserved areas (Chart 10)**: mapping all
   2,688 poorly-connected services (against 13,511 well-connected) shows
   them concentrated in small towns and rural stretches away from the
-  main rail corridors, consistent with Chart 8's area-type breakdown.
+  main rail corridors, consistent with Chart 9's area-type breakdown.
 
 **Operational Trends — do these factors actually predict whether a service meets the standard?**
 - **Capacity does not predict non-compliance** (Spearman ρ ≈ -0.007,
@@ -264,8 +278,8 @@ data/external/sos_2021/SOS_2021_AUST_GDA2020.*  ABS Section of State boundaries 
 src/clean.py                                    loading + cleaning
 src/urban_rural.py                              ABS SOS spatial join
 src/quality_analysis.py                         figures 01-05 (Service Quality)
-src/accessibility_analysis.py                   figures 06-09 (Accessibility & Coverage)
-src/operational_analysis.py                     figures 10-12 (Operational Trends)
+src/accessibility_analysis.py                   figures 06-10 (Accessibility & Coverage)
+src/operational_analysis.py                     figures 11-13 (Operational Trends)
 outputs/figures/                                generated PNGs
 outputs/summary_stats.json                      headline numbers for slides
 ACECQA_Service_Quality_Analysis.ipynb           Colab-ready notebook, all three streams
