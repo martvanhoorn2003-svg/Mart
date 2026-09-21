@@ -181,14 +181,17 @@ def chart_rating_by_service_type(df: pd.DataFrame) -> dict:
         .reindex(columns=order, fill_value=0)
     )
     counts = d["PrimaryServiceType"].value_counts()
-    props["_score"] = props["Exceeding NQS"] + props["Excellent"]
+    # Ranked by non-compliance, worst first - consistent with Chart 1 and
+    # Chart 3's framing (who's actually failing the legal minimum, not who's
+    # excelling).
+    props["_score"] = props["Working Towards NQS"] + props["Significant Improvement Required"]
     props = props.sort_values("_score", ascending=False).drop(columns="_score")
     props.index = [f"{i}  (n={counts[i]:,})" for i in props.index]
 
-    fig, ax = plt.subplots(figsize=(9, 4.6))
+    fig, ax = plt.subplots(figsize=(9, 5.0))
     _stacked_bar(ax, props, order, RATING_COLORS)
-    ax.set_title("Overall NQS rating by primary service type", fontsize=13,
-                 fontweight="bold", color=INK_PRIMARY, loc="left", pad=14)
+    ax.set_title("Overall NQS rating by primary service type,\nranked by non-compliance (worst first)",
+                 fontsize=13, fontweight="bold", color=INK_PRIMARY, loc="left", pad=14)
     ax.set_xlabel("Share of rated services (assessed services only)")
     handles = [Patch(facecolor=RATING_COLORS[c], label=c) for c in order]
     ax.legend(handles=handles, loc="upper center", bbox_to_anchor=(0.5, -0.16),

@@ -58,15 +58,16 @@ or Significant Improvement Required. Victoria is best, at four percent.
 Same law, five-times difference. That's not noise — that's a finding
 that should already be uncomfortable for a national regulator."
 
-### Chart 2 — Rating by service type (1:55–2:15)
+### Chart 2 — Rating by service type, ranked by non-compliance (1:55–2:15)
 
 [SHOW 02_rating_by_service_type.png]
 
-"It's not just geography. Long Day Care — the single largest category
-in the dataset — sits at eighteen percent Exceeding, well behind
-preschools at forty-six to fifty percent. If we're prioritising where a
-quality-improvement dollar does the most good, Long Day Care is where
-the volume is."
+"It's not just geography, either. Ranked the same way as Chart 1 — worst
+compliance first — Family Day Care is the clear outlier: twenty-two
+percent non-compliant, roughly double Long Day Care and Outside School
+Hours Care, and miles behind standalone preschools at under two percent.
+Family Day Care is a small slice of the sector by numbers, but it's the
+single worst-performing service type in the country."
 
 ### Chart 3 — Which Quality Area drags states down (2:15–2:50)
 
@@ -141,23 +142,27 @@ first — not a general 'rural funding' line, a named list."
 [SHOW 08_transport_connectivity.png]
 
 "Third: transport connectivity specifically, using the actual
-distance-to-station and distance-to-bus-stop fields. Fifty-five percent
-of services nationally aren't within a short trip of either. And here's
-the finding that should reframe this as a transport-planning problem,
-not just a rural one: even inside Major Urban areas, half of all
-services fail this test. This isn't only about remote Australia — it's a
-gap inside our own cities."
+distance-to-station and distance-to-bus-stop fields — and I've set a
+deliberately generous bar here, five kilometres to a train station or
+ten to a bus stop, a short drive, not a walk, so the result isn't
+distorted by an unrealistically strict threshold. Even so, eighty-three
+percent of services nationally clear it. But that collapses to just
+twenty-one percent in small country towns and thirty-four percent in
+the most rural areas — a seventy-point gap against major cities, even
+on a generous bar. That's a real rural transport gap, not a
+threshold artefact."
 
 ### Chart 9 — Where do the transport gaps concentrate? (5:05–5:50)
 
 [SHOW 09_spatial_connectivity.png]
 
 "Fourth: mapping every poorly-connected service directly, rather than
-just a state or area-type average. Almost nine thousand services, in
-red, more than a short trip from any train or bus stop — and look at
-where the red sits inside the coastal cities too, not only out past the
-urban fringe. That confirms Chart 8 isn't an artefact of how the
-categories were drawn: the transport gap is genuinely widespread."
+just a state or area-type average. Roughly twenty-seven hundred
+services, in red, more than a short drive from any train or bus stop —
+concentrated in small towns and rural stretches away from the main rail
+corridors, not scattered randomly. That confirms Chart 8's area
+breakdown directly: this is a genuine, geographically concentrated
+rural access gap."
 
 ---
 
@@ -219,10 +224,11 @@ generic audit. Tasmania, South Australia and WA aren't far behind. Two:
 new-service funding has a named destination, not a general rural line —
 WA's and the NT's Bounded Localities, forty-one and thirty kilometres
 respectively from a family's nearest backup option. Three: transport
-connectivity needs its own budget line separate from rural funding —
-half of Major Urban services fail the same connectivity test as remote
-ones, so this is a city-planning fix as much as a remote-access one, and
-real but small as a quality lever, don't oversell it. And four: give
+connectivity is squarely a rural investment priority — even on a
+generous, drivable bar, small country towns sit at twenty-one percent
+well-connected against ninety-one in major cities, a seventy-point gap.
+As a quality lever it's real but small, so fund it for equity, not as a
+compliance play — don't oversell it. And four: give
 newly-approved services a support pathway, not a compliance one — they
 just haven't had the years yet. A budget with a reason behind every
 line. Thank you."
@@ -231,7 +237,7 @@ line. Thank you."
 
 ## Delivery notes
 
-- ~1,271 spoken words. At 140–160 words/minute that's roughly 7:55–9:05
+- ~1,322 spoken words. At 140–160 words/minute that's roughly 8:15–9:30
   — comfortable margin under the 10-minute hard cap even at a
   deliberate, unhurried pace. Practice once to check your own rate.
 - **If you need to cut time**, in order: (1) the "Data & method" beat —

@@ -186,6 +186,10 @@ Strait) → Bounded Locality).
 - **Weakest quality area nationally by non-compliance**: QA1
   (Educational program). **Strongest**: QA6 (Collaborative
   partnerships).
+- **Ranked by non-compliance, Family Day Care is the worst-performing
+  service type** (Chart 2): 22.3% non-compliant, roughly double Outside
+  School Hours Care (11.0%) and Long Day Care (9.6%), and well above
+  standalone Preschools, the best-performing type at 1.6%.
 - **Distance from transport has a small but real negative effect on
   quality**: the share of services falling below the NQS standard
   (Working Towards NQS or Significant Improvement Required) rises from
@@ -206,20 +210,20 @@ Strait) → Bounded Locality).
   followed by **NT's Bounded Localities** at 30.5km. Two region ×
   area-type combinations sit above the 20km mark, where a family whose
   usual centre is full or closed has no realistic backup option.
-- **Transport connectivity (Chart 8)**: **55.1%** of services nationally
-  aren't well-connected to public transport (within 2km of a train
-  station or 1km of a bus stop) — and critically, this **isn't only a
-  rural problem**: even in Major Urban areas, **50.3%** of services fail
-  this test, rising through Other Urban (66.6%) and Bounded Locality
-  (86.9%) to Rural Balance (94.1%). Half of city services being
-  effectively car-dependent is a transport-planning gap, not a remoteness
-  problem.
+- **Transport connectivity (Chart 8)**: **83.4%** of services nationally
+  are well-connected to public transport (within a generous, drivable
+  5km of a train station or 10km of a bus stop — deliberately set so the
+  national majority clears it, rather than an unrealistically strict
+  walking-distance bar that would make nearly everywhere look
+  "underserved"). Against that generous bar, connectivity still
+  **collapses in the country**: 91.3% well-connected in Major Urban vs
+  just **21.4%** in Bounded Localities and **33.5%** in Rural Balance —
+  a 70-point and 58-point gap respectively. This is a genuine rural
+  transport gap, not a threshold artefact.
 - **Spatially identifying underserved areas (Chart 9)**: mapping all
-  8,923 poorly-connected services (against 7,276 well-connected) shows
-  the gap concentrated not just in the interior but inside the dense
-  coastal urban corridors — visually confirming Chart 8's finding that
-  transport connectivity is a widespread planning failure, not a purely
-  rural one.
+  2,688 poorly-connected services (against 13,511 well-connected) shows
+  them concentrated in small towns and rural stretches away from the
+  main rail corridors, consistent with Chart 8's area-type breakdown.
 
 **Operational Trends — do these factors actually predict whether a service meets the standard?**
 - **Capacity does not predict non-compliance** (Spearman ρ ≈ -0.007,
