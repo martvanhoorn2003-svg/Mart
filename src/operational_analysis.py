@@ -50,6 +50,7 @@ RATING_ORDER_SUBSTANTIVE = [
 ]
 
 DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+SOS_ORDER = ["Major Urban", "Other Urban", "Bounded Locality", "Rural Balance"]
 
 plt.rcParams.update({
     "figure.facecolor": SURFACE, "axes.facecolor": SURFACE, "axes.edgecolor": BASELINE,
@@ -86,7 +87,7 @@ def add_operational_fields(df: pd.DataFrame) -> pd.DataFrame:
     return d
 
 
-def chart_capacity_by_type(df: pd.DataFrame, urban_rural_medians: pd.Series) -> dict:
+def chart_capacity_by_type(df: pd.DataFrame, sos_medians: pd.Series) -> dict:
     # Family Day Care excluded: capacity is recorded per individually-
     # registered educator across a scheme, not as a single site limit, so
     # NumberOfApprovedPlaces is populated for only 2 of 417 FDC services -
@@ -104,9 +105,9 @@ def chart_capacity_by_type(df: pd.DataFrame, urban_rural_medians: pd.Series) -> 
     ax.set_xlabel("Median approved places")
     ax.set_title("How big is a typical service, by type?", fontsize=13, fontweight="bold",
                  color=INK_PRIMARY, loc="left", pad=14)
-    ax.text(0.99, 0.03, f"Urban services: {urban_rural_medians['Urban']:.0f} places (median)  |  "
-                        f"Rural services: {urban_rural_medians['Rural']:.0f} places (median)",
-            transform=ax.transAxes, ha="right", fontsize=8.5, color=INK_SECONDARY)
+    sos_line = "  |  ".join(f"{cat}: {sos_medians[cat]:.0f}" for cat in SOS_ORDER)
+    ax.text(0.99, 0.03, f"Median places by area: {sos_line}",
+            transform=ax.transAxes, ha="right", fontsize=8, color=INK_SECONDARY)
     for spine in ["top", "right", "left"]:
         ax.spines[spine].set_visible(False)
     ax.tick_params(left=False)
@@ -114,8 +115,7 @@ def chart_capacity_by_type(df: pd.DataFrame, urban_rural_medians: pd.Series) -> 
     fig.savefig(FIG_DIR / "10_capacity_by_type.png", dpi=200)
     plt.close(fig)
     return {
-        "median_places_urban": round(float(urban_rural_medians["Urban"]), 1),
-        "median_places_rural": round(float(urban_rural_medians["Rural"]), 1),
+        f"median_places_{cat.lower().replace(' ', '_')}": round(float(sos_medians[cat]), 1) for cat in SOS_ORDER
     }
 
 
@@ -255,8 +255,8 @@ def main():
     if SUMMARY_PATH.exists():
         summary = json.loads(SUMMARY_PATH.read_text())
 
-    urban_rural_medians = df.groupby("UrbanRural")["NumberOfApprovedPlaces"].median()
-    summary.update(chart_capacity_by_type(df, urban_rural_medians))
+    sos_medians = df.groupby("SOS_Category")["NumberOfApprovedPlaces"].median()
+    summary.update(chart_capacity_by_type(df, sos_medians))
     summary.update(chart_operating_pattern(df))
     summary.update(chart_approval_trend(df))
     summary.update(chart_hours_vs_quality(df))

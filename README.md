@@ -177,21 +177,24 @@ Strait) → Bounded Locality).
   one, but not nothing either.
 
 **Accessibility & Coverage**
-- **Rural services sit ~8x further from a train station** than urban
-  ones (19.1km vs 2.3km median) and ~4x further from a bus stop — unlike
-  raw distance, the urban/rural *category* is a strong transport-access
-  signal.
-- **Rural services also skew slightly lower quality** (17.0% Exceeding+
-  vs 21.7% urban) — a real, if modest, quality gap tracking the
-  urban/rural divide.
+- **Transport access worsens moving from major cities to rural areas,
+  but not monotonically**: Bounded Localities (small country towns) are
+  actually furthest from a train station (29.3km median) — further than
+  the more sparsely-populated Rural Balance category (12.6km) — while
+  Major Urban sits at 2.1km. Collapsing to a simple urban/rural binary
+  would have hidden this.
+- **Quality declines steadily across the four categories**: 22.1%
+  Exceeding+ in Major Urban, down to 20.0% in Other Urban and 16.9-17.0%
+  in Bounded Locality and Rural Balance — a real, if modest, gradient.
 - **WA's and NT's Bounded Localities are the standout coverage gaps**:
   median 41.0km and 30.5km respectively to the nearest other service —
   an order of magnitude worse than any other state/category
   combination, and a concrete target for "where should a new service go".
 
 **Operational Trends**
-- **Rural services are about half the size of urban ones** (30 vs 62
-  median approved places).
+- **Capacity declines from Major Urban (66 places median) to Bounded
+  Locality (27) and Rural Balance (30)** — smaller communities, smaller
+  centres.
 - **Long Day Care and Family Day Care run year-round** (98% and 88%);
   **Preschools and Outside School Hours Care are overwhelmingly
   term-time only** (57-84%) — a structural split by service type, not a

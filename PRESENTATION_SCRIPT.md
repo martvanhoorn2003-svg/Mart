@@ -113,24 +113,29 @@ service at all, which is a different, larger problem. I classified
 every service urban or rural using ABS boundaries, spatially joined to
 each service's own coordinates."
 
-### Chart 6 — Transport access, urban vs rural (3:55–4:20)
+### Chart 6 — Transport access across all four area types (3:55–4:20)
 
 [SHOW 06_transport_by_urban_rural.png]
 
-"Rural services sit a median nineteen kilometres from the nearest train
-station — eight times further than urban services. For a family without
-a car, that's not a statistic, that's whether the service is usable at
-all."
+"I used all four of the ABS's area categories here, not just a simple
+urban-or-rural split, because collapsing it would have hidden something.
+Major cities sit two kilometres from the nearest train station. But the
+worst-served category isn't the most remote one — it's small country
+towns, what the ABS calls Bounded Localities, at a median twenty-nine
+kilometres. That's further than the more sparsely populated Rural
+Balance areas around them. For a family without a car, that's not a
+statistic, that's whether the service is usable at all — and it's a more
+specific target than 'rural' would have given us."
 
-### Chart 7 — Quality, urban vs rural (4:20–4:40)
+### Chart 7 — Quality across all four area types (4:20–4:40)
 
 [SHOW 07_rating_by_urban_rural.png]
 
-"And unlike raw distance, urban-versus-rural status does track with
-quality — twenty-two percent Exceeding in urban areas against seventeen
-in rural. Smaller gap than the state-level one, but it compounds the
-access problem: rural families travel further *and* get slightly lower
-average quality when they arrive."
+"Quality itself does decline more predictably — twenty-two percent
+Exceeding in major cities, stepping down to seventeen percent in the two
+most rural categories. Smaller gap than the state-level one, but it
+compounds the access problem: families in smaller towns travel further
+*and* get somewhat lower average quality when they arrive."
 
 ### Chart 8 — Spatial map, urban vs rural (4:40–4:55)
 
@@ -167,10 +172,11 @@ misread?"
 
 [SHOW 10_capacity_by_type.png]
 
-"Rural services run at a median thirty approved places against sixty-two
-in urban areas — about half the size. That's useful context for the
-funding recommendation from Problem 2: a new rural service doesn't need
-to match a city-sized centre to close the gap."
+"Capacity follows the same four-category pattern — sixty-six approved
+places typical in major cities, down to twenty-seven in small country
+towns. That's useful context for the funding recommendation from
+Problem 2: a new rural service doesn't need to match a city-sized centre
+to close the gap."
 
 ### Chart 11 — Year-round vs term-time operation (6:20–6:45)
 

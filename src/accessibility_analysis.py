@@ -91,24 +91,24 @@ def add_nearest_service_distance(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def chart_transport_by_urban_rural(df: pd.DataFrame) -> dict:
-    d = df[df["UrbanRural"].notna()]
-    medians = d.groupby("UrbanRural")[["DistanceToTrainStation_km", "DistanceToBusStation_km"]].median()
-    medians = medians.reindex(["Urban", "Rural"])
+    d = df[df["SOS_Category"].notna()]
+    medians = d.groupby("SOS_Category")[["DistanceToTrainStation_km", "DistanceToBusStation_km"]].median()
+    medians = medians.reindex(SOS_ORDER)
 
-    fig, ax = plt.subplots(figsize=(7.5, 5))
-    x = np.arange(2)
+    fig, ax = plt.subplots(figsize=(9, 5.2))
+    x = np.arange(len(SOS_ORDER))
     w = 0.32
     ax.bar(x - w / 2, medians["DistanceToTrainStation_km"], width=w, color=CAT["blue"], label="Train station")
     ax.bar(x + w / 2, medians["DistanceToBusStation_km"], width=w, color=CAT["orange"], label="Bus station")
-    for i, cat in enumerate(["Urban", "Rural"]):
-        ax.text(i - w / 2, medians.loc[cat, "DistanceToTrainStation_km"] + 0.5,
+    for i, cat in enumerate(SOS_ORDER):
+        ax.text(i - w / 2, medians.loc[cat, "DistanceToTrainStation_km"] + 0.8,
                 f"{medians.loc[cat, 'DistanceToTrainStation_km']:.1f}km", ha="center", fontsize=9)
-        ax.text(i + w / 2, medians.loc[cat, "DistanceToBusStation_km"] + 0.5,
+        ax.text(i + w / 2, medians.loc[cat, "DistanceToBusStation_km"] + 0.8,
                 f"{medians.loc[cat, 'DistanceToBusStation_km']:.1f}km", ha="center", fontsize=9)
-    ax.set_xticks(x); ax.set_xticklabels(["Urban", "Rural"])
+    ax.set_xticks(x); ax.set_xticklabels(SOS_ORDER)
     ax.set_ylabel("Median distance (km)")
-    ax.set_title("Rural services sit far further from public transport",
-                 fontsize=13, fontweight="bold", color=INK_PRIMARY, loc="left", pad=14)
+    ax.set_title("Transport access gets worse moving from major cities to rural areas\n(though not perfectly monotonically)",
+                 fontsize=12.5, fontweight="bold", color=INK_PRIMARY, loc="left", pad=14)
     ax.legend(frameon=False, loc="upper left")
     for spine in ["top", "right"]:
         ax.spines[spine].set_visible(False)
@@ -116,25 +116,24 @@ def chart_transport_by_urban_rural(df: pd.DataFrame) -> dict:
     fig.tight_layout()
     fig.savefig(FIG_DIR / "06_transport_by_urban_rural.png", dpi=200)
     plt.close(fig)
-    return {
-        "rural_median_train_km": round(float(medians.loc["Rural", "DistanceToTrainStation_km"]), 2),
-        "urban_median_train_km": round(float(medians.loc["Urban", "DistanceToTrainStation_km"]), 2),
-    }
+    out = {f"{cat.lower().replace(' ', '_')}_median_train_km": round(float(medians.loc[cat, "DistanceToTrainStation_km"]), 2)
+           for cat in SOS_ORDER}
+    return out
 
 
 def chart_rating_by_urban_rural(df: pd.DataFrame) -> dict:
-    d = df[df["UrbanRural"].notna() & df["OverallRating"].notna()].copy()
+    d = df[df["SOS_Category"].notna() & df["OverallRating"].notna()].copy()
     d["OverallRating"] = d["OverallRating"].astype(str)
     d = d[d["OverallRating"] != NOT_YET_ASSESSED]
     props = (
-        d.groupby("UrbanRural")["OverallRating"].value_counts(normalize=True)
+        d.groupby("SOS_Category")["OverallRating"].value_counts(normalize=True)
         .unstack(fill_value=0).reindex(columns=RATING_ORDER_SUBSTANTIVE, fill_value=0)
-        .reindex(["Urban", "Rural"])
+        .reindex(SOS_ORDER)
     )
-    counts = d["UrbanRural"].value_counts()
+    counts = d["SOS_Category"].value_counts()
     props.index = [f"{i}  (n={counts[i]:,})" for i in props.index]
 
-    fig, ax = plt.subplots(figsize=(9, 3.2))
+    fig, ax = plt.subplots(figsize=(9, 4.4))
     left = np.zeros(len(props))
     y = np.arange(len(props))
     for cat in RATING_ORDER_SUBSTANTIVE:
@@ -151,20 +150,19 @@ def chart_rating_by_urban_rural(df: pd.DataFrame) -> dict:
     for spine in ["top", "right", "left"]:
         ax.spines[spine].set_visible(False)
     ax.tick_params(left=False)
-    ax.set_title("Overall NQS rating: urban vs rural services", fontsize=13,
+    ax.set_title("Overall NQS rating, by ABS Section of State", fontsize=13,
                  fontweight="bold", color=INK_PRIMARY, loc="left", pad=14)
     handles = [Patch(facecolor=RATING_COLORS[c], label=c) for c in RATING_ORDER_SUBSTANTIVE]
-    ax.legend(handles=handles, loc="upper center", bbox_to_anchor=(0.5, -0.28), ncol=3, frameon=False, fontsize=9)
+    ax.legend(handles=handles, loc="upper center", bbox_to_anchor=(0.5, -0.22), ncol=3, frameon=False, fontsize=9)
     fig.tight_layout()
     fig.savefig(FIG_DIR / "07_rating_by_urban_rural.png", dpi=200)
     plt.close(fig)
 
-    urban_exceeding = props.iloc[0][["Exceeding NQS", "Excellent"]].sum()
-    rural_exceeding = props.iloc[1][["Exceeding NQS", "Excellent"]].sum()
-    return {
-        "urban_exceeding_pct": round(float(urban_exceeding) * 100, 1),
-        "rural_exceeding_pct": round(float(rural_exceeding) * 100, 1),
-    }
+    exceeding_by_cat = props[["Exceeding NQS", "Excellent"]].sum(axis=1)
+    out = {}
+    for cat, label in zip(SOS_ORDER, exceeding_by_cat.index):
+        out[f"{cat.lower().replace(' ', '_')}_exceeding_pct"] = round(float(exceeding_by_cat[label]) * 100, 1)
+    return out
 
 
 def chart_spatial_sos(df: pd.DataFrame) -> dict:
