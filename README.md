@@ -167,8 +167,18 @@ Strait) → Bounded Locality).
   "Exceeding NQS" or above (44.1%), WA the lowest (4.3%) — a ~10x gap
   between neighbouring regulatory jurisdictions applying the same
   National Law.
-- **Weakest quality area nationally**: QA2 (Children's health & safety).
-  **Strongest**: QA6 (Collaborative partnerships).
+- **"Worst on Exceeding" and "worst on non-compliance" are two different
+  states**: Chart 3 measures the share of services falling *below* the
+  NQS standard (Working Towards NQS or Significant Improvement
+  Required) rather than the share reaching Exceeding, and by that
+  measure NT and Tasmania are the worst-performing states (up to 14% of
+  services non-compliant in a single Quality Area), not WA — WA's
+  services mostly clear the bar and sit at "Meeting", they just rarely
+  reach "Exceeding". That's a ceiling problem, not a compliance one, and
+  needs a different fix.
+- **Weakest quality area nationally by non-compliance**: QA1
+  (Educational program). **Strongest**: QA6 (Collaborative
+  partnerships).
 - **Distance from transport has a small but real negative effect on
   quality**: the share of services falling below the NQS standard
   (Working Towards NQS or Significant Improvement Required) rises from

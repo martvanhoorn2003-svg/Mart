@@ -202,14 +202,19 @@ def chart_quality_area_heatmap(df: pd.DataFrame) -> dict:
         for col in qa_cols:
             s = g[col].astype(str)
             s = s[(s != "nan") & (s != NOT_YET_ASSESSED)]
-            row[QUALITY_AREA_LABELS[col]] = (s == "Exceeding NQS").mean() if len(s) else np.nan
+            # Non-compliance: rated below the NQS standard (Working Towards
+            # NQS or Significant Improvement Required) - the areas actively
+            # failing to meet the National Law, not just short of "Exceeding".
+            row[QUALITY_AREA_LABELS[col]] = (
+                s.isin(["Working Towards NQS", "Significant Improvement Required"]).mean() if len(s) else np.nan
+            )
         rows.append(pd.Series(row, name=state))
     heat = pd.DataFrame(rows)
-    # order states by overall mean exceeding-rate across QAs, best first
+    # order states by overall mean non-compliance, worst first
     heat = heat.loc[heat.mean(axis=1).sort_values(ascending=False).index]
 
     fig, ax = plt.subplots(figsize=(9.5, 5))
-    im = ax.imshow(heat.values, cmap="Blues", vmin=0, vmax=heat.values.max(), aspect="auto")
+    im = ax.imshow(heat.values, cmap="Reds", vmin=0, vmax=heat.values.max(), aspect="auto")
     ax.set_xticks(range(len(heat.columns)))
     ax.set_xticklabels(heat.columns, rotation=35, ha="right", fontsize=9)
     ax.set_yticks(range(len(heat.index)))
@@ -222,15 +227,15 @@ def chart_quality_area_heatmap(df: pd.DataFrame) -> dict:
     for spine in ax.spines.values():
         spine.set_visible(False)
     cbar = fig.colorbar(im, ax=ax, fraction=0.035, pad=0.02)
-    cbar.set_label("Share rated 'Exceeding NQS'", color=INK_SECONDARY, fontsize=9)
-    ax.set_title("Where quality areas drag states down: % 'Exceeding NQS' by Quality Area",
+    cbar.set_label("Share NOT yet meeting NQS", color=INK_SECONDARY, fontsize=9)
+    ax.set_title("Where non-compliance concentrates: % rated below NQS standard, by Quality Area",
                  fontsize=12.5, fontweight="bold", color=INK_PRIMARY, loc="left", pad=14)
     fig.tight_layout()
     fig.savefig(FIG_DIR / "03_quality_area_heatmap.png", dpi=200)
     plt.close(fig)
 
-    weakest_area = heat.mean(axis=0).idxmin()
-    strongest_area = heat.mean(axis=0).idxmax()
+    weakest_area = heat.mean(axis=0).idxmax()  # highest non-compliance
+    strongest_area = heat.mean(axis=0).idxmin()  # lowest non-compliance
     return {"weakest_quality_area_nationally": weakest_area, "strongest_quality_area_nationally": strongest_area}
 
 

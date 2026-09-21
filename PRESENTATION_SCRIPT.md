@@ -32,12 +32,11 @@ assuming matters, so we don't waste money chasing it."
 
 [SHOW a slide with the dataset summary, or talk over the title slide]
 
-"Quickly on the data, because a budget decision is only as good as what
-it's based on. This is the national register of every approved service,
-with quality ratings and transport-access data. Before trusting any of
-it, I checked it for problems — ten services had no address at all and
-had all been geocoded to the same point in Myanmar. I dropped those
-rather than guess. Everything else checked out."
+"Quickly on the data: this is the national register of every approved
+service, with quality ratings and transport-access data. Before
+trusting it, I checked it — ten services had no address at all and had
+all been geocoded to the same point in Myanmar. I dropped those rather
+than guess. Everything else checked out."
 
 ---
 
@@ -67,17 +66,21 @@ preschools at forty-six to fifty percent. If we're prioritising where a
 quality-improvement dollar does the most good, Long Day Care is where
 the volume is."
 
-### Chart 3 — Which Quality Area drags states down (2:15–2:45)
+### Chart 3 — Which Quality Area drags states down (2:15–2:50)
 
 [SHOW 03_quality_area_heatmap.png]
 
-"So it's not random — it's concentrated. Breaking the rating into its
-seven components shows Quality Area 2, children's health and safety, is
-the weakest nationally, and specifically weakest in the same two
-states — WA and the NT — that were already trailing. That turns a vague
-'quality is worse in WA' into an actionable brief: WA's improvement
-program should start with health and safety practice, not a generic
-audit."
+"This chart deliberately asks a different question to Chart 1 — not
+'who's excelling,' but 'who's actually failing to meet the legal
+standard.' And it splits the problem in two. The Northern Territory and
+Tasmania have the highest non-compliance rates — up to fourteen percent
+of their services rated Working Towards or Significant Improvement
+Required — concentrated in Quality Area 1, educational program, and
+Quality Area 7, governance. Western Australia, despite being worst in
+Chart 1, is actually a different problem: its services mostly clear the
+bar and sit at Meeting, they just rarely reach Exceeding. That's a
+ceiling problem, not a compliance one. NT and Tasmania have a
+compliance problem — real, and more urgent."
 
 ### Chart 4 — Spatial map of ratings (2:45–3:00)
 
@@ -92,16 +95,14 @@ an entire state."
 
 [SHOW 05_transport_vs_quality.png]
 
-"Before recommending a fix, I need to test the obvious hypothesis
-directly: does poor transport access actually damage quality? I looked
-at the share of services falling below the NQS standard — rated Working
-Towards or worse — by distance to the nearest train station. It rises
-from seven-point-six percent for the closest services to ten-point-three
-percent for the furthest. That's real and statistically significant, but
-it's a small effect, not a dominant one. For the budget question: a
-transport upgrade might nudge quality slightly, but it won't close a
-ten-times state-level gap. It's a minor risk factor sitting alongside
-the much bigger drivers we've already found."
+"Before recommending a fix, I need to test the obvious hypothesis:
+does poor transport access damage quality? I looked at the share of
+services rated below the NQS standard by distance to the nearest train
+station. It rises from seven-point-six percent for the closest services
+to ten-point-three for the furthest — real and significant, but small.
+A transport upgrade might nudge quality slightly; it won't close a
+ten-times state-level gap. A minor risk factor beside much bigger
+drivers."
 
 ---
 
@@ -149,15 +150,13 @@ tail of small services covering the rest of the country."
 
 [SHOW 09_coverage_gaps.png]
 
-"So where does this problem bite hardest? Land-area density isn't useful
-here — most of inland Australia is uninhabited by definition. The real
-question is: if a family's usual service is full, how far is the next
-one? In Western Australia's smaller rural towns, the answer is a median
-forty-one kilometres. In the Northern Territory's equivalent areas,
-thirty-one kilometres. Everywhere else in the country, it's under
-fifteen. That's not a gradual disparity — it's a specific, fundable gap.
-If ACECQA is choosing where to put a new service, this chart names the
-two places first."
+"Where does this bite hardest? Land-area density isn't useful here —
+most of inland Australia is uninhabited by definition. The real
+question: if a family's usual service is full, how far is the next one?
+In WA's smaller rural towns, a median forty-one kilometres. In the NT's
+equivalent areas, thirty-one. Everywhere else, under fifteen. Not a
+gradual disparity — a specific, fundable gap, and this chart names the
+two places to fund first."
 
 ---
 
@@ -222,15 +221,18 @@ drive quality; two are noise dressed up as insight."
 
 [Face to camera, optional summary slide]
 
-"So, back to the budget question I opened with. One: WA and the NT need
-targeted health-and-safety support, not a general audit — a far bigger
-lever than transport. Two: WA's and the NT's rural Bounded Localities
-are the most underserved places in the country by a full order of
-magnitude — that's where a new service should go first. Three: fund
-transport access for equity, not as a quality play — real but small
-upside, don't oversell it. And four: give newly-approved services a
-support pathway, not a compliance one — they're not underperforming,
-they just haven't had the years yet. A budget with a reason behind
+"So, back to the budget question I opened with. One: NT and Tasmania
+need urgent compliance intervention in educational program and
+governance specifically — that's a legal-minimum problem, not a
+generic audit. WA needs a different, lower-urgency fix: excellence
+coaching to push already-compliant services from Meeting to Exceeding.
+Two: WA's and the NT's rural Bounded Localities are the most
+underserved places in the country by a full order of magnitude — that's
+where a new service should go first. Three: fund transport access for
+equity, not as a quality play — real but small upside, don't oversell
+it. And four: give newly-approved services a support pathway, not a
+compliance one — they're not underperforming, they just haven't had
+the years yet. A budget with a reason behind
 every line. Thank you."
 
 ---
