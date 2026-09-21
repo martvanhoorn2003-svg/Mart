@@ -10,14 +10,14 @@ suggested streams:
 - Which of the seven Quality Areas is dragging each state's rating down
 - Whether proximity to public transport correlates with quality
 
-**2. Accessibility & Coverage**
-- Whether distance from transport pushes more services below the NQS
-  compliance standard — and whether that holds in every state
-- Whether non-compliance concentrates in rural areas, and which
-  state × area-type combinations are worst
-- Where families are most underserved (furthest from an alternative
-  service), and whether that coverage gap actually predicts
-  non-compliance or is a separate problem
+**2. Accessibility & Coverage** — four charts, each answering one of the
+assignment's four requirements directly:
+- The geographical distribution of services, and the scale of the
+  urban/rural disparity in provision
+- Which specific regions need additional services most, ranked by
+  distance to the nearest alternative service
+- Whether services are well-connected to public transport infrastructure
+- Where the transport-underserved services are, mapped directly
 
 **3. Operational Trends**
 - How capacity and operating-hours patterns vary by service type
@@ -192,27 +192,33 @@ Strait) → Bounded Locality).
   ρ ≈ 0.026, p < 0.01, n=16,031) — a modest risk factor, not a dominant
   one, but not nothing either.
 
-**Accessibility & Coverage — is it transport/location, or is it the state?**
-- **Non-compliance by distance-to-transport is basically flat within
-  most states**: NSW, VIC, QLD, WA and SA each sit within a couple of
-  percentage points of their own state average regardless of how far a
-  service is from a train station. What varies enormously is *which
-  state a service is in* — VIC ~4-5% non-compliant across every
-  distance band, the NT up to 26%. Distance from transport is not the
-  driver; the regulatory jurisdiction is.
-- **Non-compliance by area type reveals state-specific rural crises a
-  national average completely hides**: WA's Bounded Localities sit at
-  29% non-compliant and QLD's at 27% — both far above those states'
-  own averages (5.8% and 4.5%) — while the NT's Rural Balance areas are
-  worst overall nationally, at 31%.
-- **Coverage gaps and non-compliance are largely separate problems**:
-  across 27 state × area-type combinations, there is no overall
-  relationship between how far the nearest alternative service is and
-  how non-compliant an area is (Spearman ρ ≈ 0.011, p = 0.96). The one
-  cell that's bad on both: **WA's Bounded Localities**, which combine
-  the single biggest coverage gap in the country (41.0km median to the
-  next service) with 28.9% non-compliance — the clearest, most
-  concrete case for where a new, well-supported service should go.
+**Accessibility & Coverage — four requirements, four proofs**
+- **Geographical distribution (Chart 6)**: services are **~12,000x more
+  concentrated per km²** in Major Urban areas (954.4 services per
+  1,000km²) than in Rural Balance areas (0.08 per 1,000km²) — a gap
+  orders of magnitude larger than any reasonable population-driven
+  demand ratio, not just a smaller population being served by fewer
+  services proportionally.
+- **Regions where additional services are needed most (Chart 7)**: **WA's
+  Bounded Localities** are the single most underserved combination in
+  the country — a median **41.0km** to the nearest alternative service —
+  followed by **NT's Bounded Localities** at 30.5km. Two region ×
+  area-type combinations sit above the 20km mark, where a family whose
+  usual centre is full or closed has no realistic backup option.
+- **Transport connectivity (Chart 8)**: **55.1%** of services nationally
+  aren't well-connected to public transport (within 2km of a train
+  station or 1km of a bus stop) — and critically, this **isn't only a
+  rural problem**: even in Major Urban areas, **50.3%** of services fail
+  this test, rising through Other Urban (66.6%) and Bounded Locality
+  (86.9%) to Rural Balance (94.1%). Half of city services being
+  effectively car-dependent is a transport-planning gap, not a remoteness
+  problem.
+- **Spatially identifying underserved areas (Chart 9)**: mapping all
+  8,923 poorly-connected services (against 7,276 well-connected) shows
+  the gap concentrated not just in the interior but inside the dense
+  coastal urban corridors — visually confirming Chart 8's finding that
+  transport connectivity is a widespread planning failure, not a purely
+  rural one.
 
 **Operational Trends — which operational factors actually matter for quality?**
 - **Capacity does not predict quality** (Spearman ρ ≈ -0.063, p < 0.001

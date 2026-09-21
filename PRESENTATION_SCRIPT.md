@@ -108,57 +108,56 @@ drivers."
 
 ## Problem 2: Are families structurally cut off from services, and where worst? (3:45–5:50)
 
-"Second problem, and I'm asking it the same direct way as Problem 1: not
-'how far is transport' but 'does that distance push more services below
-the legal standard' — and does the answer depend on which state you're
-in? I classified every service into four ABS area types, spatially
-joined to its own coordinates, so I can grid non-compliance by state and
-by location together."
+"Second problem, and the assignment sets four specific questions here. I'm
+answering each one directly, with a chart built to prove a claim, not
+just describe a distribution."
 
-### Chart 6 — Does distance from transport push more non-compliance? State by state. (3:55–4:20)
+### Chart 6 — How concentrated is provision in cities versus the country? (3:45–4:10)
 
-[SHOW 06_transport_by_urban_rural.png]
+[SHOW 06_geographic_distribution.png]
 
-"Gridding non-compliance by state and by distance band: within most
-states it's flat. New South Wales, Victoria, Queensland sit within a
-couple of points of their own average no matter how far a service is
-from a station. What actually swings the number is which state you're
-in — Victoria around four to five percent everywhere, the Northern
-Territory up to twenty-six percent. Distance from transport is not the
-driver here. The jurisdiction is."
+"First: the geographic disparity itself. Measuring services per square
+kilometre by ABS area type, Major Urban areas have about twelve thousand
+times the density of Rural Balance areas. That's not just 'cities have
+more people' — it's an order of magnitude beyond any population ratio
+you could justify. Provision is structurally concentrated, not just
+naturally uneven."
 
-### Chart 7 — Where does non-compliance concentrate: urban vs rural? State by state. (4:20–4:45)
+### Chart 7 — Where are additional services needed most? (4:10–4:35)
 
-[SHOW 07_rating_by_urban_rural.png]
+[SHOW 07_underserved_regions.png]
 
-"Same test, gridded by area type instead of raw distance — and this is
-where using all four ABS categories instead of a simple rural label
-earns its keep. Western Australia's small country towns: twenty-nine
-percent non-compliant. Queensland's: twenty-seven. Both far above those
-states' own overall averages. The Northern Territory's most rural
-areas are worst nationally, at thirty-one percent. A national rural/urban
-average would have buried every one of these."
+"Second: where specifically should ACECQA add capacity? I measured, for
+every service, the distance to its nearest alternative — the real
+question a family asks when their usual centre is full or closed. Ranked
+worst first: Western Australia's Bounded Localities are the single worst
+case in the country, a median forty-one kilometres to a backup option.
+The Northern Territory's Bounded Localities are second, at thirty
+kilometres. These are the two places a new-service dollar should go
+first — not a general 'rural funding' line, a named list."
 
-### Chart 8 — Spatial map, urban vs rural (4:45–5:00)
+### Chart 8 — Are services well-connected to public transport? (4:35–5:05)
 
-[SHOW 08_spatial_urban_rural.png]
+[SHOW 08_transport_connectivity.png]
 
-"Mapping it shows how concentrated the whole system is — the vast
-majority of services sit in a thin coastal band, leaving a long, thin
-tail of small services covering the rest of the country."
+"Third: transport connectivity specifically, using the actual
+distance-to-station and distance-to-bus-stop fields. Fifty-five percent
+of services nationally aren't within a short trip of either. And here's
+the finding that should reframe this as a transport-planning problem,
+not just a rural one: even inside Major Urban areas, half of all
+services fail this test. This isn't only about remote Australia — it's a
+gap inside our own cities."
 
-### Chart 9 — Does a bigger coverage gap actually predict non-compliance? (5:00–5:55)
+### Chart 9 — Where do the transport gaps concentrate? (5:05–5:50)
 
-[SHOW 09_coverage_gaps.png]
+[SHOW 09_spatial_connectivity.png]
 
-"Two questions in one chart. Left: where's the next service furthest
-away if a family's usual one is full? WA's smaller rural towns — a
-median forty-one kilometres, the biggest gap in the country. Right: does
-that gap actually predict non-compliance? Across twenty-seven state-area
-combinations, no — essentially zero correlation. Separate problems,
-separate fixes. Except one cell breaks the pattern: WA's Bounded
-Localities are bad on both — biggest coverage gap, twenty-nine percent
-non-compliant. One place, one investment, two problems solved."
+"Fourth: mapping every poorly-connected service directly, rather than
+just a state or area-type average. Almost nine thousand services, in
+red, more than a short trip from any train or bus stop — and look at
+where the red sits inside the coastal cities too, not only out past the
+urban fringe. That confirms Chart 8 isn't an artefact of how the
+categories were drawn: the transport gap is genuinely widespread."
 
 ---
 
@@ -226,28 +225,29 @@ drive quality; two are noise dressed up as insight."
 "Back to the budget question. One: the Northern Territory is the
 clearest case for urgent, statewide compliance intervention in
 educational program and governance — a legal-minimum problem, not a
-generic audit. Tasmania, South Australia and WA aren't far behind, and
-WA deserves its own line: its rural Bounded Localities are almost twice
-as non-compliant as the state average, hiding a real crisis inside an
-unremarkable number. Two, and this connects directly: those same
-Bounded Localities are also the biggest coverage gap in the country —
-one place, two problems, one investment. Three: fund transport for
-equity, not as a quality play — real but small, don't oversell it. And
-four: give newly-approved services a support pathway, not a compliance
-one — they just haven't had the years yet. A budget with a reason
-behind every line. Thank you."
+generic audit. Tasmania, South Australia and WA aren't far behind. Two:
+new-service funding has a named destination, not a general rural line —
+WA's and the NT's Bounded Localities, forty-one and thirty kilometres
+respectively from a family's nearest backup option. Three: transport
+connectivity needs its own budget line separate from rural funding —
+half of Major Urban services fail the same connectivity test as remote
+ones, so this is a city-planning fix as much as a remote-access one, and
+real but small as a quality lever, don't oversell it. And four: give
+newly-approved services a support pathway, not a compliance one — they
+just haven't had the years yet. A budget with a reason behind every
+line. Thank you."
 
 ---
 
 ## Delivery notes
 
-- ~1,320 spoken words. At 140–160 words/minute that's roughly 8:15–9:25
+- ~1,326 spoken words. At 140–160 words/minute that's roughly 8:15–9:30
   — comfortable margin under the 10-minute hard cap even at a
   deliberate, unhurried pace. Practice once to check your own rate.
 - **If you need to cut time**, in order: (1) the "Data & method" beat —
-  compress the Myanmar catch to one sentence, (2) Chart 8's own beat —
-  mention it in passing during Chart 9 instead, (3) Chart 11 — one
-  sentence instead of two. Never cut Chart 5 or the transport call-back
+  compress the Myanmar catch to one sentence, (2) Chart 9's own beat —
+  the "confirms Chart 8" line can be one sentence instead of two, (3)
+  Chart 11 — one sentence instead of two. Never cut Chart 5 or the transport call-back
   in Chart 13 — that "small effect, sized honestly against the bigger
   drivers" chain is your strongest evidence of analytical rigour for a
   policy audience, and it's what makes the closing recommendation
