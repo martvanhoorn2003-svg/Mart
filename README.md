@@ -1,17 +1,29 @@
-# ACECQA Education & Care Services — Service Quality Analysis
+# ACECQA Education & Care Services — Service Quality & Accessibility Analysis
 
 Python code for the ACECQA data analysis assignment. Analyses the national
 register of approved education and care services (17,663 rows, NQA ITS
-extract) enriched with spatial/transport-access fields, focused on the
-**Service Quality Analysis** stream:
+extract) enriched with spatial/transport-access fields, across two streams:
 
+**Service Quality**
 - How NQS ratings vary by state and by service type
 - Which of the seven Quality Areas is dragging each state's rating down
 - Whether proximity to public transport correlates with quality
 
+**Accessibility & Coverage**
+- How much worse transport access is for rural services vs urban ones
+- Whether the urban/rural split shows up in quality outcomes too
+- Where families are most underserved (furthest from an alternative service)
+
 ## Run in Google Colab
 
-Open a new Colab notebook and run:
+Open directly from GitHub (bookmark this — it always loads the current
+version, no upload needed):
+
+```
+https://colab.research.google.com/github/martvanhoorn2003-svg/Mart/blob/claude/acecqa-services-analysis-olfr4o/ACECQA_Service_Quality_Analysis.ipynb
+```
+
+Or manually: open a new Colab notebook, run
 
 ```python
 !git clone -b claude/acecqa-services-analysis-olfr4o https://github.com/martvanhoorn2003-svg/Mart.git
@@ -19,26 +31,26 @@ Open a new Colab notebook and run:
 !pip install -q geopandas scipy pyarrow
 ```
 
-Then upload/open `ACECQA_Service_Quality_Analysis.ipynb` (File → Upload
-notebook, or File → Open notebook → GitHub and paste the repo URL) and run
-it top to bottom — it's self-contained and produces all 5 figures inline.
+then upload/open `ACECQA_Service_Quality_Analysis.ipynb` and run top to
+bottom — it's self-contained and produces all 9 figures inline.
 
 ## Run locally
 
 ```bash
 pip install -r requirements.txt
 python src/quality_analysis.py
+python src/accessibility_analysis.py
 ```
 
-The raw dataset lives at `data/education_services.csv`. `src/clean.py` and
-`src/quality_analysis.py` are the source-of-truth scripts;
+The raw dataset lives at `data/education_services.csv`. `src/clean.py`,
+`src/urban_rural.py`, `src/quality_analysis.py` and
+`src/accessibility_analysis.py` are the source-of-truth scripts;
 `ACECQA_Service_Quality_Analysis.ipynb` is the same analysis as an
 annotated, Colab-ready notebook for presentation/walkthrough use.
 
-This loads and cleans the data (`src/clean.py`, cached to
-`data/education_services_clean.parquet`), writes 5 figures to
-`outputs/figures/`, and writes headline stats used in the presentation to
-`outputs/summary_stats.json`.
+`quality_analysis.py` writes figures 01-05 (Service Quality);
+`accessibility_analysis.py` writes figures 06-09 (Accessibility &
+Coverage) and appends to the same `outputs/summary_stats.json`.
 
 ## Data cleaning decisions
 
@@ -76,22 +88,44 @@ assigns each service exactly one label using a fixed priority order
 school-based > Outside School Hours Care > Other) so services aren't
 double-counted. This is stated explicitly here per the assignment brief.
 
+## Urban/rural classification
+
+Per the assignment brief, **Option A (spatial join)** is used:
+`src/urban_rural.py` matches each service's own lon/lat against the ABS
+**Section of State (SOS) 2021** boundary polygons via `geopandas.sjoin`.
+
+SOS was chosen over the coarser Remoteness Areas file because its
+population-based categories (Major Urban / Other Urban / Bounded
+Locality / Rural Balance) collapse naturally into an urban/rural binary,
+and a direct point-in-polygon join on coordinates the dataset already has
+avoids the many-to-many postcode-to-SA1 ambiguity that Option B (the
+allocation-file approach) would require.
+
+Non-spatial SOS categories in the source file (Migratory, No usual
+address — census-collection concepts that don't apply to a point
+location) are dropped before the join. A handful of coastal/island
+points fall just outside every polygon due to coastline generalisation
+in the boundary file; those get a nearest-polygon fallback rather than
+being left unclassified (only 1 of 17,653 services needed it — sanity
+checked against known cities and remote towns: Sydney/Melbourne/Perth
+CBDs → Major Urban, Fitzroy Crossing → Other Urban, Boigu Island (Torres
+Strait) → Bounded Locality).
+
 ## External data
 
-`data/external/au_states.geojson` — simplified Australian state boundary
-polygons, used only as basemap context for the spatial scatter map (not
-for any statistical join). Source: [rowanhogan/australian-states](https://github.com/rowanhogan/australian-states)
-(public GitHub repo, GeoJSON derived from ABS boundaries).
-
-Note: the ABS Remoteness Areas / Section of State boundary and allocation
-files (`abs.gov.au`) needed for a rigorous urban/rural classification were
-not reachable from this analysis environment's network, so that
-classification is **not** attempted here — it's flagged as follow-up work
-for the Accessibility & Coverage stream rather than approximated with a
-weaker proxy.
+- `data/external/au_states.geojson` — simplified Australian state
+  boundary polygons, used only as basemap context for the spatial
+  scatter maps (not for any statistical join). Source:
+  [rowanhogan/australian-states](https://github.com/rowanhogan/australian-states)
+  (public GitHub repo, GeoJSON derived from ABS boundaries).
+- `data/external/sos_2021/SOS_2021_AUST_GDA2020.*` — ABS Section of State
+  2021 digital boundary file (GDA2020), used for the urban/rural spatial
+  join above. Source: [ABS Digital Boundary Files](https://www.abs.gov.au/statistics/standards/australian-statistical-geography-standard-asgs-edition-3/jul2021-jun2026/access-and-downloads/digital-boundary-files),
+  © Australian Bureau of Statistics.
 
 ## Headline findings (see `outputs/summary_stats.json`)
 
+**Service Quality**
 - **State spread is large**: ACT has the highest share of services rated
   "Exceeding NQS" or above (44.1%), WA the lowest (4.3%) — a ~10x gap
   between neighbouring regulatory jurisdictions applying the same
@@ -105,13 +139,30 @@ weaker proxy.
   to 100km). This is a useful null result: ACECQA and transport agencies
   shouldn't treat transport access as a quality lever.
 
+**Accessibility & Coverage**
+- **Rural services sit ~8x further from a train station** than urban
+  ones (19.1km vs 2.3km median) and ~4x further from a bus stop — unlike
+  raw distance, the urban/rural *category* is a strong transport-access
+  signal.
+- **Rural services also skew slightly lower quality** (17.0% Exceeding+
+  vs 21.7% urban) — a real, if modest, quality gap tracking the
+  urban/rural divide.
+- **WA's and NT's Bounded Localities are the standout coverage gaps**:
+  median 41.0km and 30.5km respectively to the nearest other service —
+  an order of magnitude worse than any other state/category
+  combination, and a concrete target for "where should a new service go".
+
 ## Repo layout
 
 ```
-data/education_services.csv        raw dataset (as supplied)
-data/external/au_states.geojson    AU state boundaries (basemap only)
-src/clean.py                       loading + cleaning
-src/quality_analysis.py            5 visualisations + summary stats
-outputs/figures/                   generated PNGs
-outputs/summary_stats.json         headline numbers for slides
+data/education_services.csv                    raw dataset (as supplied)
+data/external/au_states.geojson                 AU state boundaries (basemap only)
+data/external/sos_2021/SOS_2021_AUST_GDA2020.*   ABS Section of State boundaries (urban/rural join)
+src/clean.py                                     loading + cleaning
+src/urban_rural.py                               ABS SOS spatial join
+src/quality_analysis.py                          figures 01-05 (Service Quality)
+src/accessibility_analysis.py                    figures 06-09 (Accessibility & Coverage)
+outputs/figures/                                 generated PNGs
+outputs/summary_stats.json                       headline numbers for slides
+ACECQA_Service_Quality_Analysis.ipynb            Colab-ready notebook, both streams
 ```
