@@ -161,14 +161,14 @@ categories were drawn: the transport gap is genuinely widespread."
 
 ---
 
-## Problem 3: Which operational factors actually push a service below the standard — and which just look like they do? (5:55–8:15)
+## Problem 3: Which operational factors actually push a service below the standard — and which just look like they do? (5:55–7:50)
 
 "Third problem, and it's a different kind of test. ACECQA could point to
-four operational levers — size, year-round operation, opening hours, how
-old a service is — and assume any of them explains non-compliance. I
-tested all four directly. Two matter. Two don't."
+three operational levers — size, opening hours, how old a service is —
+and assume any of them explains non-compliance. I tested all three
+directly. Two matter. One doesn't."
 
-### Chart 10 — Does size predict non-compliance? No. (5:58–6:18)
+### Chart 10 — Does size predict non-compliance? No. (5:58–6:20)
 
 [SHOW 10_capacity_by_type.png]
 
@@ -179,20 +179,9 @@ nine-point-three percent, the largest at eight-point-six — not even
 statistically significant. A bigger centre is no safer bet — a new
 rural service doesn't need city-sized capacity to meet the standard."
 
-### Chart 11 — Does year-round operation predict non-compliance? Not independently. (6:18–6:40)
+### Chart 11 — Does approval date predict non-compliance? Yes — the strongest signal here. (6:20–7:05)
 
-[SHOW 11_operating_pattern_by_type.png]
-
-"Nationally, year-round services run slightly higher non-compliance than
-term-time — nine-point-eight percent against seven-point-seven. But
-controlling for type, comparing year-round to term-time within Long Day
-Care only, the direction actually flips, and there aren't enough
-term-time services to draw a conclusion either way. This is mostly
-standing in for service type — not an independent driver."
-
-### Chart 12 — Does approval date predict non-compliance? Yes — the strongest signal here. (6:40–7:30)
-
-[SHOW 12_approval_trend.png]
+[SHOW 11_approval_trend.png]
 
 "A data trap first: approvals-per-year spikes in 2012 — over four
 thousand in one year. Read naively, that's explosive growth. It isn't —
@@ -205,21 +194,21 @@ pre-2012, long-established services. Newer services simply haven't had
 the years to embed practice yet. That's the strongest operational
 signal in this whole analysis."
 
-### Chart 13 — Does opening hours predict non-compliance? Yes, and it's the sharpest jump. (7:30–8:10)
+### Chart 12 — Does opening hours predict non-compliance? Yes, and it's the sharpest jump. (7:05–7:45)
 
-[SHOW 13_hours_vs_quality.png]
+[SHOW 12_hours_vs_quality.png]
 
-"Opening hours shows the clearest relationship of the four — seven
+"Opening hours shows the clearest relationship of the three — seven
 percent non-compliant under forty-five hours a week, rising to nineteen
 percent for the longest-opening services, more than double. And closing
 the loop on Problem 1: transport still doesn't move capacity or hours in
 any meaningful way — its small compliance effect from Chart 5 stands on
-its own. Two of four operational levers actually predict whether a
-service meets the standard; two are noise dressed up as insight."
+its own. Two of three operational levers actually predict whether a
+service meets the standard; one is noise dressed up as insight."
 
 ---
 
-### Close — the decision, not a recap (8:10–8:50)
+### Close — the decision, not a recap (7:50–8:30)
 
 [Face to camera, optional summary slide]
 
@@ -242,17 +231,17 @@ line. Thank you."
 
 ## Delivery notes
 
-- ~1,329 spoken words. At 140–160 words/minute that's roughly 8:20–9:30
+- ~1,271 spoken words. At 140–160 words/minute that's roughly 7:55–9:05
   — comfortable margin under the 10-minute hard cap even at a
   deliberate, unhurried pace. Practice once to check your own rate.
 - **If you need to cut time**, in order: (1) the "Data & method" beat —
   compress the Myanmar catch to one sentence, (2) Chart 9's own beat —
-  the "confirms Chart 8" line can be one sentence instead of two, (3)
-  Chart 11 — one sentence instead of two. Never cut Chart 5 or the transport call-back
-  in Chart 13 — that "small effect, sized honestly against the bigger
-  drivers" chain is your strongest evidence of analytical rigour for a
-  policy audience, and it's what makes the closing recommendation
-  credible rather than asserted.
+  the "confirms Chart 8" line can be one sentence instead of two. Never
+  cut Chart 5 or the transport call-back in Chart 12 — that "small
+  effect, sized honestly against the bigger drivers" chain is your
+  strongest evidence of analytical rigour for a policy audience, and
+  it's what makes the closing recommendation credible rather than
+  asserted.
 - If asked why urban/rural wasn't done with the postcode-allocation
   method: the direct spatial join avoids the many-to-many
   postcode-to-SA1 mapping problem, since the dataset already has

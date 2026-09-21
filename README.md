@@ -22,8 +22,6 @@ assignment's four requirements directly:
 **3. Operational Trends**
 - Whether service size (capacity) predicts whether a service meets the
   NQS standard
-- Whether operating pattern (year-round vs term-time) predicts
-  non-compliance, independent of service type
 - Whether the sector's approval trend reflects genuine growth or a
   regulatory artifact, and whether approval cohort predicts compliance
 - Whether opening hours — or transport accessibility — predict
@@ -47,7 +45,7 @@ Or manually: open a new Colab notebook, run
 ```
 
 then upload/open `ACECQA_Service_Quality_Analysis.ipynb` and run top to
-bottom — it's self-contained and produces all 13 figures inline.
+bottom — it's self-contained and produces all 12 figures inline.
 
 ## Run locally
 
@@ -67,7 +65,7 @@ presentation/walkthrough use.
 
 `quality_analysis.py` writes figures 01-05 (Service Quality);
 `accessibility_analysis.py` writes figures 06-09 (Accessibility &
-Coverage); `operational_analysis.py` writes figures 10-13 (Operational
+Coverage); `operational_analysis.py` writes figures 10-12 (Operational
 Trends). All three append to the same `outputs/summary_stats.json`.
 
 **Notebook design note:** every chart's headline stats are written into
@@ -229,13 +227,6 @@ Strait) → Bounded Locality).
   capacity quintile is 9.3% non-compliant, the largest 8.6%, essentially
   flat across a 5x range in size, despite capacity itself declining
   sharply from Major Urban (66 places median) to Bounded Locality (27).
-- **Operating pattern (year-round vs term-time) is mostly a proxy for
-  service type, not an independent non-compliance driver**: nationally,
-  year-round services run slightly higher non-compliance than term-time
-  (9.8% vs 7.7%), but controlling for type within Long Day Care (the
-  only type with enough services in both patterns to compare) the
-  direction reverses (9.6% vs 10.2%, n=59 term-time) — too noisy and
-  inconsistent to draw a reliable conclusion either way.
 - **Approval cohort is the strongest operational signal found**: services
   approved 2019 or later are **11.0% non-compliant**, against **8.4%**
   for pre-2012 established services — newer services haven't had time
@@ -255,12 +246,10 @@ Strait) → Bounded Locality).
   So while the Service Quality stream found a small direct effect of
   transport distance on compliance, that effect isn't operating through
   capacity or hours — it's a standalone, modest risk factor.
-- **Bottom line**: of four operational factors tested directly against
-  non-compliance (capacity, operating pattern, opening hours, approval
-  cohort), two show a real, actionable signal — opening hours, and
-  especially service age — and two don't: capacity and operating
-  pattern are confounded with service type and location rather than
-  independent compliance drivers.
+- **Bottom line**: of three operational factors tested directly against
+  non-compliance (capacity, opening hours, approval cohort), two show a
+  real, actionable signal — opening hours, and especially service age —
+  and one doesn't: capacity is not a meaningful compliance driver.
 
 ## Repo layout
 
@@ -272,7 +261,7 @@ src/clean.py                                    loading + cleaning
 src/urban_rural.py                              ABS SOS spatial join
 src/quality_analysis.py                         figures 01-05 (Service Quality)
 src/accessibility_analysis.py                   figures 06-09 (Accessibility & Coverage)
-src/operational_analysis.py                     figures 10-13 (Operational Trends)
+src/operational_analysis.py                     figures 10-12 (Operational Trends)
 outputs/figures/                                generated PNGs
 outputs/summary_stats.json                      headline numbers for slides
 ACECQA_Service_Quality_Analysis.ipynb           Colab-ready notebook, all three streams

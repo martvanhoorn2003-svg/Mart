@@ -4,12 +4,12 @@ services dataset.
 
 Business questions this answers for ACECQA:
   - How big are services, and does that vary by type or by urban/rural
-    location? (capacity planning)
-  - Which service types run year-round vs only during school terms?
+    location? Does size predict whether a service meets the standard?
   - Is the sector still growing, and is that growth genuine or an
-    artifact of the 2012 National Quality Framework rollout?
-  - Do longer opening hours or bigger centres associate with quality —
-    and does transport accessibility influence capacity or hours at all?
+    artifact of the 2012 National Quality Framework rollout? Does
+    approval cohort predict non-compliance?
+  - Do longer opening hours associate with non-compliance — and does
+    transport accessibility influence capacity or hours at all?
 
 Outputs PNGs to outputs/figures/ and appends to outputs/summary_stats.json.
 
@@ -65,10 +65,6 @@ def add_operational_fields(df: pd.DataFrame) -> pd.DataFrame:
     d["PrimaryServiceType"] = primary_service_type(d)
 
     has_annual = d["Annual Monday Start Time"].notna()
-    has_term = d["School Terms Only Session 1 Monday Start Time"].notna()
-    d["OperatingPattern"] = "Neither / other pattern"
-    d.loc[~has_annual & has_term, "OperatingPattern"] = "Term-time only"
-    d.loc[has_annual, "OperatingPattern"] = "Year-round"
 
     def to_hours(series):
         return pd.to_timedelta(series.astype(str), errors="coerce").dt.total_seconds() / 3600
@@ -148,69 +144,6 @@ def chart_capacity_by_type(df: pd.DataFrame, sos_medians: pd.Series) -> dict:
     return out
 
 
-def chart_operating_pattern(df: pd.DataFrame) -> dict:
-    d = df[df["PrimaryServiceType"] != "Other"].copy()
-    d = d[d["OverallRating"].notna()]
-    d["OverallRating"] = d["OverallRating"].astype(str)
-    d = d[d["OverallRating"] != NOT_YET_ASSESSED]
-    d["BelowStandard"] = d["OverallRating"].isin(
-        ["Working Towards NQS", "Significant Improvement Required"]
-    ).astype(int)
-
-    order = ["Year-round", "Term-time only", "Neither / other pattern"]
-    props = d.groupby("OperatingPattern")["BelowStandard"].mean().reindex(order)
-    counts = d["OperatingPattern"].value_counts().reindex(order)
-
-    # Does operating pattern predict non-compliance on its own, or is it
-    # just a proxy for service type (already covered in the Service
-    # Quality stream)? Controlled within Long Day Care - the only type
-    # with enough services in both patterns to compare meaningfully.
-    ldc = df[(df["PrimaryServiceType"] == "Long Day Care") & df["OverallRating"].notna()].copy()
-    ldc["OverallRating"] = ldc["OverallRating"].astype(str)
-    ldc = ldc[ldc["OverallRating"] != NOT_YET_ASSESSED]
-    ldc["BelowStandard"] = ldc["OverallRating"].isin(
-        ["Working Towards NQS", "Significant Improvement Required"]
-    ).astype(int)
-    ldc_noncompliance = ldc.groupby("OperatingPattern")["BelowStandard"].mean()
-    ldc_counts = ldc["OperatingPattern"].value_counts()
-
-    colors = {"Year-round": CAT["red"], "Term-time only": CAT["orange"], "Neither / other pattern": BASELINE}
-    ymax = max(props.max() * 1.75, 0.05)  # extra headroom so the annotation box clears every bar label
-    fig, ax = plt.subplots(figsize=(9, 5.8))
-    bars = ax.bar(order, props.values, color=[colors[c] for c in order], width=0.55)
-    for bar, cat in zip(bars, order):
-        v = props[cat]
-        ax.text(bar.get_x() + bar.get_width() / 2, v + 0.005, f"{v:.1%}", ha="center", fontsize=11, fontweight="bold")
-    ax.set_xticks(range(len(order)))
-    ax.set_xticklabels([f"{cat}\n(n={counts[cat]:,})" for cat in order], fontsize=9.5)
-    ax.set_ylim(0, ymax)
-    ax.set_ylabel("Share rated below the NQS standard")
-    ax.set_title("Does operating pattern predict non-compliance?", fontsize=13,
-                 fontweight="bold", color=INK_PRIMARY, loc="left", pad=14)
-    ax.text(0.99, 0.97,
-            "Controlling for type (Long Day Care only):\n"
-            f"{ldc_noncompliance.get('Year-round', float('nan')):.1%} non-compliant year-round "
-            f"(n={ldc_counts.get('Year-round', 0):,}) vs\n"
-            f"{ldc_noncompliance.get('Term-time only', float('nan')):.1%} term-time "
-            f"(n={ldc_counts.get('Term-time only', 0):,}) - too few term-time\n"
-            "LDC services to draw a reliable conclusion; this factor is\n"
-            "mostly a proxy for service type, not an independent driver.",
-            transform=ax.transAxes, ha="right", va="top", fontsize=8, color=INK_SECONDARY,
-            bbox=dict(boxstyle="round,pad=0.4", facecolor="#f9f9f7", edgecolor=GRIDLINE))
-    for spine in ["top", "right"]:
-        ax.spines[spine].set_visible(False)
-    ax.spines["left"].set_color(BASELINE); ax.spines["bottom"].set_color(BASELINE)
-    fig.tight_layout()
-    fig.savefig(FIG_DIR / "11_operating_pattern_by_type.png", dpi=200)
-    plt.close(fig)
-    return {
-        "noncompliance_pct_yearround": round(float(props.get("Year-round", float("nan"))) * 100, 1),
-        "noncompliance_pct_termtime": round(float(props.get("Term-time only", float("nan"))) * 100, 1),
-        "ldc_yearround_noncompliance_pct": round(float(ldc_noncompliance.get("Year-round", float("nan"))) * 100, 1),
-        "ldc_termtime_noncompliance_pct": round(float(ldc_noncompliance.get("Term-time only", float("nan"))) * 100, 1),
-    }
-
-
 def chart_approval_trend(df: pd.DataFrame) -> dict:
     d = df[df["ApprovalYear"].between(2006, 2024)]  # drop the handful of pre-2006 / 2025-partial-year points
     by_year = d.groupby("ApprovalYear").size()
@@ -267,7 +200,7 @@ def chart_approval_trend(df: pd.DataFrame) -> dict:
     fig.suptitle("Approval-date data quality trap, and the real compliance-relevant signal underneath it",
                  fontsize=12.5, fontweight="bold", color=INK_PRIMARY, x=0.02, ha="left")
     fig.tight_layout(rect=[0, 0, 1, 0.94])
-    fig.savefig(FIG_DIR / "12_approval_trend.png", dpi=200)
+    fig.savefig(FIG_DIR / "11_approval_trend.png", dpi=200)
     plt.close(fig)
 
     post_2013 = d[d["ApprovalYear"] >= 2013]
@@ -336,7 +269,7 @@ def chart_hours_vs_quality(df: pd.DataFrame) -> dict:
         ax.spines[spine].set_visible(False)
     ax.spines["left"].set_color(BASELINE); ax.spines["bottom"].set_color(BASELINE)
     fig.tight_layout()
-    fig.savefig(FIG_DIR / "13_hours_vs_quality.png", dpi=200)
+    fig.savefig(FIG_DIR / "12_hours_vs_quality.png", dpi=200)
     plt.close(fig)
     return {
         "hours_noncompliance_spearman_rho": round(float(rho), 4),
@@ -359,7 +292,6 @@ def main():
 
     sos_medians = df.groupby("SOS_Category")["NumberOfApprovedPlaces"].median()
     summary.update(chart_capacity_by_type(df, sos_medians))
-    summary.update(chart_operating_pattern(df))
     summary.update(chart_approval_trend(df))
     summary.update(chart_hours_vs_quality(df))
 
