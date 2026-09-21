@@ -1,0 +1,21 @@
+{
+  "n_services_total": 17653,
+  "best_state": "ACT",
+  "best_state_exceeding_pct": 44.1,
+  "worst_state": "WA",
+  "worst_state_exceeding_pct": 4.3,
+  "service_type_counts": {
+    "Long Day Care": 8636,
+    "Outside School Hours Care": 4446,
+    "Preschool (standalone)": 2232,
+    "Preschool (school-based)": 655,
+    "Family Day Care": 355
+  },
+  "weakest_quality_area_nationally": "QA2 Children's health & safety",
+  "strongest_quality_area_nationally": "QA6 Collaborative partnerships",
+  "n_mapped": 17653,
+  "n_excluded_suspect_geocode": 0,
+  "transport_quality_spearman_rho": -0.0206,
+  "transport_quality_spearman_p": 0.008964483943696974,
+  "n_excluded_remote_outliers": 296
+}

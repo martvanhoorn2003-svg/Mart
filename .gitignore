@@ -1,0 +1,4 @@
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+data/education_services_clean.parquet
