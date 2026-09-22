@@ -18,15 +18,14 @@ a problem, here's the proof" instead.
 [Face to camera, title slide]
 
 "Hi, I'm [YOUR NAME], and I work for government to improve education and
-care services across Australia. Here's the problem I'm solving: ACECQA
-and state governments have a limited budget for lifting service quality
-and funding new services, across seventeen thousand approved services
+care services across Australia. Here's the problem: ACECQA and state
+governments have a limited budget for lifting service quality and
+funding new services, across seventeen thousand approved services
 nationally. Spent well, that budget closes real gaps for families. Spent
-on the wrong thing, it doesn't move the needle. So today, three
-questions with data: where is quality actually failing and why, where
-are families genuinely cut off from services, and — just as important —
-what should we *stop* assuming matters, so we don't waste money chasing
-it."
+wrong, it doesn't move the needle. So today, three questions: where is
+quality actually failing and why, where are families genuinely cut off
+from services, and — just as important — what should we *stop* assuming
+matters, so we don't waste money chasing it."
 
 ### Data & method, briefly (0:45–1:10)
 
@@ -38,16 +37,28 @@ trusting it, I checked it — ten services had no address at all and had
 all been geocoded to the same point in Myanmar. I dropped those rather
 than guess. Everything else checked out."
 
+### Limitations — what this analysis can't tell you (1:10–1:35)
+
+[SHOW limitations slide]
+
+"Before the findings, a quick word on limitations. This is a single
+snapshot, not a longitudinal study — cohort comparisons are different
+services, not the same ones tracked over time. Ratings are each
+state's own administrative judgement, not an independent audit. Every
+relationship I test is correlational, not causal. And one comparison,
+rurality versus connectivity by state, has only eight data points —
+flagged as illustrative, not conclusive."
+
 ---
 
-## Problem 1: Is quality failing consistently, or is it a specific, fixable issue? (1:10–3:45)
+## Problem 1: Is quality failing consistently, or is it a specific, fixable issue? (1:35–4:10)
 
 "First problem: all eight states and territories apply the same National
 Law. If quality outcomes are wildly inconsistent anyway, that's either a
 resourcing gap or an enforcement gap — and knowing which one matters,
 because they need completely different fixes."
 
-### Chart 1 — Rating by state, ranked by non-compliance (1:20–1:55)
+### Chart 1 — Rating by state, ranked by non-compliance (1:45–2:20)
 
 [SHOW 01_rating_by_state.png]
 
@@ -58,7 +69,7 @@ or Significant Improvement Required. Victoria is best, at four percent.
 Same law, five-times difference. That's not noise — that's a finding
 that should already be uncomfortable for a national regulator."
 
-### Chart 2 — Rating by service type, ranked by non-compliance (1:55–2:15)
+### Chart 2 — Rating by service type, ranked by non-compliance (2:20–2:40)
 
 [SHOW 02_rating_by_service_type.png]
 
@@ -69,21 +80,20 @@ Hours Care, and miles behind standalone preschools at under two percent.
 Family Day Care is a small slice of the sector by numbers, but it's the
 single worst-performing service type in the country."
 
-### Chart 3 — Which Quality Area drags states down (2:15–2:50)
+### Chart 3 — Which Quality Area drags states down (2:40–3:15)
 
 [SHOW 03_quality_area_heatmap.png]
 
-"This chart zooms from the overall number into which specific component
-drives it. The Northern Territory and Tasmania still lead — but by this
-component-level measure, Western Australia and South Australia join
-them near the top, up to fourteen percent non-compliant in a single
-quality area, even though WA ranked only fourth on the overall measure
-in Chart 1. A state's overall rating isn't a simple average of its
-seven components, so a state can look mid-table overall while hiding a
-real problem in one specific area — concentrated here in Quality Area
-1, educational program, and Quality Area 7, governance."
+"This chart zooms into which specific component drives the number. The
+Northern Territory and Tasmania still lead — but Western Australia and
+South Australia join them here, up to fourteen percent non-compliant in
+a single quality area, even though WA ranked only fourth overall in
+Chart 1. A state's rating isn't a simple average of its seven
+components — a state can look mid-table while hiding a real problem in
+one area, concentrated in Quality Area 1, educational program, and
+Quality Area 7, governance."
 
-### Chart 4 — Spatial map of ratings (2:45–3:00)
+### Chart 4 — Spatial map of ratings (3:10–3:25)
 
 [SHOW 04_spatial_ratings_map.png]
 
@@ -92,7 +102,7 @@ underperforming services around Perth and Adelaide specifically, which
 means a support team could be deployed to a cluster, not spread across
 an entire state."
 
-### Chart 5 — Does distance from transport hurt quality? (3:00–3:45)
+### Chart 5 — Does distance from transport hurt quality? (3:25–4:10)
 
 [SHOW 05_transport_vs_quality.png]
 
@@ -107,13 +117,13 @@ drivers."
 
 ---
 
-## Problem 2: Are families structurally cut off from services, and where worst? (3:45–5:50)
+## Problem 2: Are families structurally cut off from services, and where worst? (4:10–6:15)
 
 "Second problem, and the assignment sets four specific questions here. I'm
 answering each one directly, with a chart built to prove a claim, not
 just describe a distribution."
 
-### Chart 6 — How concentrated is provision in cities versus the country? (3:45–4:10)
+### Chart 6 — How concentrated is provision in cities versus the country? (4:10–4:35)
 
 [SHOW 06_geographic_distribution.png]
 
@@ -124,7 +134,7 @@ more people' — it's an order of magnitude beyond any population ratio
 you could justify. Provision is structurally concentrated, not just
 naturally uneven."
 
-### Chart 7 — Where are additional services needed most? (4:10–4:35)
+### Chart 7 — Where are additional services needed most? (4:35–5:00)
 
 [SHOW 07_underserved_regions.png]
 
@@ -137,7 +147,7 @@ The Northern Territory's Bounded Localities are second, at thirty
 kilometres. These are the two places a new-service dollar should go
 first — not a general 'rural funding' line, a named list."
 
-### Chart 8 — Is a state's connectivity problem just how rural it is? (4:35–4:58)
+### Chart 8 — Is a state's connectivity problem just how rural it is? (5:00–5:23)
 
 [SHOW 08_state_connectivity_vs_rurality.png]
 
@@ -150,20 +160,20 @@ only four percent of its services are rural, so its statewide
 connectivity average is actually the best in the country. Same state,
 two different problems."
 
-### Chart 9 — Are services well-connected to public transport? (4:58–5:28)
+### Chart 9 — Are services well-connected to public transport? (5:23–5:53)
 
 [SHOW 09_transport_connectivity.png]
 
-"Third requirement: transport connectivity, using the actual
-distance-to-station and distance-to-bus-stop fields — with a
-deliberately generous bar, five kilometres to a train station or ten to
-a bus stop, a short drive, not a walk. Even so, eighty-three percent of
-services nationally clear it. But that collapses to twenty-one percent
-in small country towns and thirty-four in the most rural areas — a
-seventy-point gap against major cities, on a generous bar. A real rural
-transport gap, not a threshold artefact."
+"Third requirement: transport connectivity, using distance to the
+nearest station and bus stop, with a deliberately generous bar — five
+kilometres to a train station, ten to a bus stop, a short drive, not a
+walk. Even so, eighty-three percent of services nationally clear it.
+That collapses to twenty-one percent in small country towns and
+thirty-four in the most rural areas — a seventy-point gap against major
+cities, on a generous bar. A real rural transport gap, not a threshold
+artefact."
 
-### Chart 10 — Where do the transport gaps concentrate? (5:28–6:10)
+### Chart 10 — Where do the transport gaps concentrate? (5:53–6:35)
 
 [SHOW 10_spatial_connectivity.png]
 
@@ -177,14 +187,14 @@ rural access gap."
 
 ---
 
-## Problem 3: Which operational factors actually push a service below the standard — and which just look like they do? (6:10–8:05)
+## Problem 3: Which operational factors actually push a service below the standard — and which just look like they do? (6:35–8:30)
 
 "Third problem, and it's a different kind of test. ACECQA could point to
 three operational levers — size, opening hours, how old a service is —
 and assume any of them explains non-compliance. I tested all three
 directly. Two matter. One doesn't."
 
-### Chart 11 — Does size predict non-compliance? No. (6:13–6:35)
+### Chart 11 — Does size predict non-compliance? No. (6:38–7:00)
 
 [SHOW 11_capacity_by_type.png]
 
@@ -195,7 +205,7 @@ nine-point-three percent, the largest at eight-point-six — not even
 statistically significant. A bigger centre is no safer bet — a new
 rural service doesn't need city-sized capacity to meet the standard."
 
-### Chart 12 — Does approval date predict non-compliance? Yes — the strongest signal here. (6:35–7:20)
+### Chart 12 — Does approval date predict non-compliance? Yes — the strongest signal here. (7:00–7:45)
 
 [SHOW 12_approval_trend.png]
 
@@ -210,7 +220,7 @@ pre-2012, long-established services. Newer services simply haven't had
 the years to embed practice yet. That's the strongest operational
 signal in this whole analysis."
 
-### Chart 13 — Does opening hours predict non-compliance? Yes, and it's the sharpest jump. (7:20–8:00)
+### Chart 13 — Does opening hours predict non-compliance? Yes, and it's the sharpest jump. (7:45–8:25)
 
 [SHOW 13_hours_vs_quality.png]
 
@@ -224,34 +234,35 @@ service meets the standard; one is noise dressed up as insight."
 
 ---
 
-### Close — the decision, not a recap (8:00–8:40)
+### Close — the decision, not a recap (8:25–9:05)
 
 [Face to camera, optional summary slide]
 
-"Back to the budget question. One: the Northern Territory is the
-clearest case for urgent, statewide compliance intervention in
-educational program and governance — a legal-minimum problem, not a
-generic audit. Tasmania, South Australia and WA aren't far behind. Two:
-new-service funding has a named destination — WA's and the NT's Bounded
-Localities, forty-one and thirty kilometres from a family's nearest
-backup option. Three: transport connectivity is a rural investment
-priority, real but small as a quality lever — fund it for equity, don't
-oversell it. And four: give newly-approved services a support pathway,
-not a compliance one — they just haven't had the years yet. A budget
-with a reason behind every line. Thank you."
+"Back to the budget question. One: the Northern Territory needs urgent,
+statewide compliance intervention in educational program and
+governance — a legal-minimum problem, not a generic audit. Tasmania, SA
+and WA aren't far behind. Two: new-service funding has a named
+destination — WA's and the NT's Bounded Localities, forty-one and
+thirty kilometres from a family's nearest backup option. Three:
+transport connectivity is a rural investment priority, real but small
+as a quality lever — fund it for equity, don't oversell it. And four:
+give newly-approved services a support pathway, not a compliance one. A
+budget with a reason behind every line. Thank you."
 
 ---
 
 ## Delivery notes
 
-- ~1,346 spoken words. At 140–160 words/minute that's roughly 8:25–9:40
+- ~1,365 spoken words. At 140–160 words/minute that's roughly 8:32–9:45
   — comfortable margin under the 10-minute hard cap even at a
   deliberate, unhurried pace. Practice once to check your own rate.
 - **If you need to cut time**, in order: (1) the "Data & method" beat —
-  compress the Myanmar catch to one sentence, (2) Chart 10's own beat —
-  the "confirms Chart 9" line can be one sentence instead of two, (3)
-  Chart 8's bridge beat can be trimmed to the WA callout alone, dropping
-  the NT/Tasmania comparison sentence. Never cut Chart 5 or the
+  compress the Myanmar catch to one sentence, (2) the Limitations beat —
+  drop the "correlational, not causal" sentence, the other four points
+  still cover it, (3) Chart 10's own beat — the "confirms Chart 9" line
+  can be one sentence instead of two, (4) Chart 8's bridge beat can be
+  trimmed to the WA callout alone, dropping the NT/Tasmania comparison
+  sentence. Never cut Chart 5 or the
   transport call-back in Chart 13 — that "small effect, sized honestly
   against the bigger drivers" chain is your strongest evidence of
   analytical rigour for a policy audience, and it's what makes the
